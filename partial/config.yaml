@@ -1,0 +1,8 @@
+store:
+  _target_: store.store.Stores
+  project_name: "training"
+  logs_dir: "home/logs"
+  unique_id:
+    _partial_: true
+    _target_: utils.general_utils.generate_uuid4
+

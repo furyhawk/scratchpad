@@ -1,0 +1,16 @@
+autopep8
+ipykernel
+ipywidgets
+jupyterlab
+matplotlib
+numpy
+notebook
+pandas
+pydantic
+python-dotenv
+pymongo[srv]
+pytest
+seaborn
+scikit-learn
+scikit-optimize
+scipy

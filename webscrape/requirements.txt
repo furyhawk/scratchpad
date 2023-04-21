@@ -1,0 +1,15 @@
+ipykernel
+nbformat
+black
+pandas
+plotly
+requests
+numpy
+seaborn
+watermark
+matplotlib
+beautifulsoup4
+kaleido
+hydra-core
+lxml
+python-json-logger

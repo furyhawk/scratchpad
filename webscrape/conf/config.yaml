@@ -1,0 +1,8 @@
+defaults:
+  - base_config
+  - web: companiesmarketcap
+  # You typically want _self_ somewhere after the schema (base_config)
+  - _self_
+  - override hydra/job_logging: custom
+
+debug: true

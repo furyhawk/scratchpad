@@ -1,0 +1,501 @@
+Company,Symbol,Marketprice,previousClosePrice,changeInPrice,pe_ratio,eps_ratio,Volume,MarketCap
+Dish TV India Limited,DISHTV.NS,18.4,18.55,-0.15,0,-6.32,6362225,33.879B
+Mammoth Energy Services Inc.,TUSK,8.65,8.42,0.23,0,-0.79,461113,403.817M
+Lindblad Expeditions Holdings Inc.,LIND,7.7,7.34,0.36,0,-2.67,408079,386.542M
+Wemade Co.Ltd.,112040.KQ,31550.0,32800.0,-1250.0,0,0,1764989,517.404B
+Aldeyra Therapeutics Inc.,ALDX,6.96,7.09,-0.13,0,-1.11,261859,404.321M
+Grupo Supervielle S.A.,SUPV,2.16,2.16,0.0,5.27,0.41,401428,403.7M
+Icelandair Group hf.,ICEAIR.IC,1.612,1.56,0.05,0,-0.009,46717204,45.842B
+Carriage Services Inc.,CSV,27.54,27.63,-0.09,15.12,1.82,83467,458.602M
+CareMax Inc.,CMAX,3.65,3.49,0.16,0,-0.089,211493,317.82M
+Skeena Resources Limited,SKE,5.32,5.27,0.05,0,-1.64,59540,347.601M
+Marine Products Corporation,MPX,11.77,11.66,0.11,17.11,0.69,38684,400.087M
+Niu Technologies,NIU,5.23,5.21,0.02,15.8,0.33,525288,398.918M
+
+Atea Pharmaceuticals Inc.,AVIR,4.81,4.67,0.14,15.42,0.312,421992,399.724M
+CECO Environmental Corp.,CECO,11.68,11.59,0.09,0,0,105925,N/A
+Global Cord Blood Corporation,CO,2.9876,2.22,0.77,4.92,0.607,0,363.146M
+Beazer Homes USA Inc.,BZH,12.76,12.9,-0.14,5.08,2.51,134970,401.426M
+Priority Technology Holdings Inc.,PRTH,5.26,5.23,0.03,13.84,0.38,17666,403.101M
+Marathon Digital Holdings Inc.,MARA,3.42,3.41,0.01,0,-0.128,9614973,350.998M
+Gamania Digital Entertainment Co. Ltd.,6180.TWO,69.9,67.5,2.4,14.15,4.94,6892487,12.267B
+Smith & Wesson Brands Inc.,SWBI,8.68,8.78,-0.1,1.6,5.43,746286,419.198M
+PMV Pharmaceuticals Inc.,PMVP,8.7,8.66,0.04,0,-1.11,348459,394.809M
+Vesuvius India Limited,VESUVIUS.NS,1613.1,1583.25,29.85,64.81,24.89,6264,32.74B
+Newtek Business Services Corp.,NEWT,16.25,16.55,-0.3,10.22,1.59,250075,366.584M
+MOIL Limited,MOIL.NS,161.05,160.1,0.95,51.83,3.11,165044,38.222B
+Computer Programs and Systems Inc.,CPSI,27.22,27.04,0.18,27.78,0.98,47101,398.729M
+International General Insurance Holdings Ltd.,IGIC,8.0,8.15,-0.15,8.4,0.95,36552,391.083M
+Avon Protection plc,AVON.L,1075.0,1100.0,-25.0,2.44,441.3,36756,333.5M
+GAMCO Investors Inc.,GAMI,15.24,15.1,0.14,0,0,8223,N/A
+Great Lakes Dredge & Dock Corporation,GLDD,5.95,5.92,0.03,9.74,0.61,354671,391.132M
+Archosaur Games Inc.,9990.HK,3.83,3.78,0.05,0,0,5318000,3.112B
+PT Bank Mayapada Internasional Tbk,MAYA.JK,520.0,525.0,-5.0,147.77,3.52,749900,6.153T
+American National Bankshares Inc.,AMNB,36.93,36.82,0.11,12.35,2.99,14658,398.057M
+Orchid Island Capital Inc.,ORC,10.5,10.72,-0.22,11.89,0.88,842106,1.858B
+PREOS Global Office Real Estate & Technology AG,PAG.F,3.2,3.0,0.2,2.34,1.368,2644,383.267M
+TCNS Clothing Co. Limited,TCNSBRANDS.NS,524.4,515.05,9.35,0,-13.33,27729,32.291B
+Tarsus Pharmaceuticals Inc.,TARS,14.66,14.6,0.06,0,-0.53,41412,303.125M
+DZS Inc.,DZSI,12.68,12.92,-0.24,0,-1.67,115431,345.385M
+Newpark Resources Inc.,NR,4.15,4.11,0.04,0,-0.895,565765,382.868M
+MicroVision Inc.,MVIS,2.35,2.33,0.02,0,-0.102,1733179,385.644M
+
+Entravision Communications Corporation,EVC,4.8,4.77,0.03,0,-0.05,151088,410.047M
+Intrepid Potash Inc.,IPI,28.87,28.68,0.19,0,-1.34,226884,388.102M
+Huuuge Inc.,HUG.WA,21.8,22.14,-0.34,0,0,113212,N/A
+Inovio Pharmaceuticals Inc.,INO,1.56,1.53,0.03,0,-1.073,8177458,328.202M
+Tutor Perini Corporation,TPC,7.55,7.62,-0.07,3.56,2.12,320843,385.597M
+Ramaco Resources Inc.,METC,8.79,8.75,0.04,0,-0.12,345671,387.722M
+CapStar Financial Holdings Inc.,CSTR,17.66,17.56,0.1,10.83,1.63,61275,391.469M
+Hyzon Motors Inc.,HYZN,1.55,1.67,-0.12,0,-0.0,1462461,383.85M
+Eneti Inc.,NETI,10.05,10.01,0.04,0,-34.7,160907,392.364M
+Nano-X Imaging Ltd.,NNOX,7.38,7.03,0.35,0,-1.25,628376,353.337M
+Karyopharm Therapeutics Inc.,KPTI,3.4,3.15,0.25,0,-2.722,2605887,256.862M
+Trinity Capital Inc.,TRIN,10.93,10.94,-0.01,0,-0.34,332383,297.71M
+Reservoir Media Inc.,RSVR,5.97,5.94,0.03,5.05,1.18,34105,382.494M
+Kewal Kiran Clothing Limited,KKCL.NS,514.85,526.45,-11.6,23.58,21.84,89124,31.948B
+Professional Holding Corp.,PFHD,27.74,28.05,-0.31,41.4,0.67,43796,372.44M
+Adicet Bio Inc.,ACET,8.94,8.55,0.39,0,-5.01,446605,349.94M
+GreenTree Hospitality Group Ltd.,GHG,3.71,3.82,-0.11,9.46,0.392,30988,382.315M
+Ottakringer Getränke AG,OTS.VI,160.0,160.0,0.0,152.53,1.05,4,358.23M
+Strides Pharma Science Limited,STAR.NS,349.85,353.65,-3.8,170.33,2.05,159460,31.41B
+Transcontinental Realty Investors Inc.,TCI,44.18,43.88,0.3,57.23,0.77,2176,381.685M
+Eagle Pharmaceuticals Inc.,EGRX,29.23,28.98,0.25,33.6,0.87,101318,377.473M
+Pharvaris N.V.,PHVS,11.25,11.18,0.07,0,-4.11,84641,372.697M
+Turning Point Brands Inc.,TPB,21.63,20.5,1.13,10.63,2.04,341164,408.227M
+DMC Global Inc.,BOOM,19.44,20.07,-0.63,0,-0.34,140350,374.725M
+Marimekko Oyj,MEKKO.HE,8.76,8.83,-0.07,14.6,0.6,63883,355.405M
+Atlanticus Holdings Corporation,ATLC,26.2,26.31,-0.11,3.77,6.95,17437,378.467M
+Bahnhof AB (publ),3B7.F,3.26,3.27,-0.01,23.29,0.14,800,354.639M
+Aura Biosciences Inc.,AURA,10.5,10.36,0.14,0,-4.11,43236,378.364M
+Sanara MedTech Inc.,SMTI,45.5,44.7,0.8,0,-1.31,15410,377.82M
+Macatawa Bank Corporation,MCBC,11.03,10.89,0.14,13.13,0.84,90228,377.737M
+HomeTrust Bancshares Inc.,HTBI,24.17,24.15,0.02,11.09,2.18,25033,377.729M
+Latham Group Inc.,SWIM,3.22,3.26,-0.04,46.0,0.07,344065,377.13M
+Webzen Inc.,069080.KQ,15250.0,14850.0,400.0,0,0,230596,477.525B
+PDS Biotechnology Corporation,PDSB,13.2,12.92,0.28,0,-0.89,1326563,375.38M
+Hawesko Holding AG,HAW.DE,39.2,39.8,-0.6,14.78,2.65,1423,352.149M
+PennantPark Investment Corporation,PNNT,5.75,5.72,0.03,10.73,0.54,244446,385.509M
+Kodiak Sciences Inc.,KOD,7.16,6.87,0.29,0,-2.91,328395,370.296M
+Olympic Steel Inc.,ZEUS,33.58,33.78,-0.2,0,-0.49,93165,371.976M
+Financial Institutions Inc.,FISI,24.36,24.28,0.08,6.92,3.52,22355,385.806M
+Luxfer Holdings PLC,LXFR,13.72,13.51,0.21,13.61,1.01,51989,380.111M
+Loop Media Inc.,LPTV,6.62,6.15,0.47,0,-0.17,39260,845.242M
+CS Disco Inc.,LAW,6.32,6.31,0.01,0,-0.83,317520,364.189M
+PetMed Express Inc.,PETS,17.7,17.59,0.11,11.64,1.52,207905,370.689M
+Cerberus Cyber Sentinel Corporation,CISO,2.55,2.64,-0.09,0,-0.061,48612,300.364M
+Zur Rose Group AG,ROSE.SW,25.56,26.52,-0.96,0,-14.95,97331,261.734M
+ESS Tech Inc.,GWH,2.43,2.27,0.16,0,-39.485,2167173,351.563M
+Chennai Petroleum Corporation Limited,CHENNPETRO.NS,206.8,204.35,2.45,11.97,17.28,403480,30.855B
+BRT Apartments Corp.,BRT,19.64,19.67,-0.03,0,-1.16,80928,358.163M
+NanoString Technologies Inc.,NSTG,7.97,7.9,0.07,0,-2.82,448150,363.842M
+Telesat Corporation,TSAT,7.5,7.27,0.23,3.63,2.07,70590,89.304M
+Peoples Financial Services Corp.,PFIS,51.84,51.89,-0.05,11.26,4.6,2973,371.834M
+Digimarc Corporation,DMRC,18.49,18.27,0.22,0,-3.1,54099,313.065M
+TuSimple Holdings Inc.,TSP,1.64,1.71,-0.07,0,-5.111,2683802,349.364M
+Hathway Cable and Datacom Limited,HATHWAY.NS,17.3,17.2,0.1,12.1,1.43,2065243,30.623B
+Farmers & Merchants Bancorp Inc.,FMAO,27.18,27.67,-0.49,14.52,1.87,13211,355.139M
+Tata Steel Long Products Limited,TATASTLLP.NS,677.35,667.5,9.85,5.34,126.83,57906,30.548B
+Regal Hotels International Holdings Limited,0078.HK,3.2,3.2,0.0,8.42,0.38,2072400,2.876B
+El Pollo Loco Holdings Inc.,LOCO,9.96,10.19,-0.23,14.65,0.68,151080,364.148M
+
+Hindustan Construction Company Limited,HCC.NS,20.1,19.6,0.5,0,-3.0,39486983,30.412B
+TerrAscend Corp.,TRSSF,1.13,1.08,0.05,0,-0.844,543736,209.501M
+The Aaron's Company Inc.,AAN,11.95,11.8,0.15,4.33,2.76,305832,376.224M
+India Tourism Development Corporation Limited,ITDC.NS,354.8,350.3,4.5,0,-1.52,28085,30.444B
+Tucows Inc.,TCX,33.92,33.75,0.17,62.81,0.54,29967,362.93M
+Southern First Bancshares Inc.,SFST,45.75,46.15,-0.4,13.88,3.3,9364,362.037M
+Sun Corporation,6736.T,2076.0,2051.0,25.0,0,-43.04,26600,49.7B
+AO World plc,AO.L,52.0,52.7,-0.7,10.83,4.8,473557,249.352M
+SciPlay Corporation,SCPL,16.08,15.8,0.28,18.7,0.86,206544,394.55M
+Hong Kong Ferry (Holdings) Company Limited,0050.HK,7.98,7.87,0.11,21.0,0.38,65000,2.843B
+Arbutus Biopharma Corporation,ABUS,2.33,2.32,0.01,0,-1.0,1924628,315.177M
+Johnson Controls-Hitachi Air Conditioning India Limited,JCHAC.NS,1103.15,1107.85,-4.7,0,-1.54,13543,30.05B
+Inox Wind Limited,INOXWIND.NS,108.55,109.6,-1.05,0,-17.78,1134111,24.089B
+Stoke Therapeutics Inc.,STOK,9.23,9.04,0.19,0,-2.09,138735,339.581M
+Seer Inc.,SEER,5.8,5.68,0.12,0,-1.25,223109,357.909M
+Akoya Biosciences Inc.,AKYA,9.57,9.5,0.07,0,-1.86,121726,356.079M
+GasLog Partners LP,GLOP,6.66,6.58,0.08,12.71,0.52,248270,358.806M
+374Water Inc.,SCWO,2.86,2.96,-0.1,0,0,8706,351.259M
+Xperi Inc.,XPER,8.61,8.72,-0.11,4.92,1.75,179996,900.003M
+Automotive Axles Limited,AUTOAXLES.NS,1978.8,1978.45,0.35,1556.88,1.27,3903,29.904B
+Allbirds Inc.,BIRD,2.42,2.37,0.05,0,-0.818,1218522,355.367M
+Lexicon Pharmaceuticals Inc.,LXRX,1.91,1.93,-0.02,0,-0.53,422740,284.391M
+ContextLogic Inc.,WISH,0.4877,0.4733,0.01,0,-5.866,23953053,313.591M
+Mirza International Limited,MIRZAINT.NS,247.4,244.35,3.05,471.24,0.52,307157,29.764B
+FutureFuel Corp.,FF,8.13,8.21,-0.08,7.67,1.06,232858,355.795M
+IRadimed Corporation,IRMD,28.29,28.81,-0.52,349.26,0.08,20712,349.15M
+Belpointe PREP LLC,OZ,100.0,99.89,0.11,0,0,48554,N/A
+Grindrod Shipping Holdings Ltd.,GRIN,18.71,18.83,-0.12,0,-2.05,83409,348.184M
+2seventy bio Inc.,TSVT,9.37,8.96,0.41,0,-13.18,501667,218.968M
+Sportsman's Warehouse Holdings Inc.,SPWH,9.41,9.09,0.32,4.57,2.06,431640,412.911M
+Gran Tierra Energy Inc.,GTE,0.99,0.9775,0.01,0,-2.12,2457646,363.474M
+Citizens & Northern Corporation,CZNC,22.86,22.95,-0.09,14.76,1.55,19988,360.068M
+HBL Power Systems Limited,HBLPOWER.NS,105.7,103.55,2.15,234.37,0.45,2678690,29.3B
+Canaan Inc.,CAN,2.06,2.05,0.01,0,-0.212,1051006,353.578M
+Hersha Hospitality Trust,HT,8.52,8.49,0.03,0,-4.09,238545,335M
+North American Construction Group Ltd.,NOA,13.37,13.06,0.31,10.69,1.25,47580,380.247M
+Aviat Networks Inc.,AVNW,31.19,31.13,0.06,24.12,1.29,34498,348.754M
+New Pacific Metals Corp.,NEWP,2.25,2.25,0.0,0,-0.044,257782,350.01M
+Power Mech Projects Limited,POWERMECH.NS,1981.05,2008.5,-27.45,0,-33.94,30771,29.143B
+Organogenesis Holdings Inc.,ORGO,2.69,2.62,0.07,16.81,0.16,557182,346.052M
+Build-A-Bear Workshop Inc.,BBW,23.84,23.08,0.76,0,-1.54,230764,389.255M
+NexPoint Real Estate Finance Inc.,NREF,15.89,16.18,-0.29,5.18,3.07,43630,145.586M
+RxSight Inc.,RXST,12.67,12.15,0.52,0,-2.23,63969,346.574M
+
+Giordano International Limited,0709.HK,1.73,1.73,0.0,11.85,0.146,1156808,2.73B
+LexinFintech Holdings Ltd.,LX,1.9,1.92,-0.02,3.93,0.483,486161,347.554M
+SoundHound AI Inc.,SOUN,1.77,1.03,0.74,0,0,6790444,N/A
+OraSure Technologies Inc.,OSUR,4.82,4.8,0.02,0,-0.221,312801,347.225M
+McPhy Energy S.A.,MCPHY.PA,12.21,12.7,-0.49,0,-0.43,64092,340.211M
+Tredegar Corporation,TG,10.22,10.05,0.17,0,-2.27,160265,344.846M
+I-Mab,IMAB,4.18,3.63,0.55,0,-0.052,2645640,326.239M
+Sichuan Xunyou Network Technology Co. Ltd.,300467.SZ,11.91,11.69,0.22,79.4,0.15,7493800,2.42B
+HCI Group Inc.,HCI,39.59,41.22,-1.63,11.35,3.49,84847,405.825M
+Unisys Corporation,UIS,5.11,5.19,-0.08,0.43,11.93,386246,343.148M
+Shore Bancshares Inc.,SHBI,17.43,17.48,-0.05,12.81,1.36,35559,345.215M
+Civista Bancshares Inc.,CIVB,22.01,22.22,-0.21,10.01,2.2,26604,333.203M
+Safe Bulkers Inc.,SB,2.91,2.91,0.0,0,-0.247,750869,353.975M
+5E Advanced Materials Inc.,FEAM,7.88,7.6,0.28,0,0,162931,N/A
+Traeger Inc.,COOK,2.82,2.83,-0.01,0,-0.497,889079,331.485M
+Daily Journal Corporation,DJCO,250.51,267.2,-16.69,7.04,35.56,11368,345.892M
+Cyxtera Technologies Inc.,CYXT,1.92,1.84,0.08,0,-1.002,436276,318.68M
+Stitch Fix Inc.,SFIX,3.11,3.11,0.0,0,-0.871,2705649,338.368M
+Largo Inc.,LGO,5.38,5.24,0.14,12.6,0.43,94108,348.226M
+Blue Bird Corporation,BLBD,10.71,9.49,1.22,26.31,0.41,172335,342.376M
+Blend Labs Inc.,BLND,1.44,1.24,0.2,0,-1.341,2223979,331.065M
+Telos Corporation,TLS,5.09,5.04,0.05,0,-0.56,687546,339.784M
+COMPASS Pathways plc,CMPS,8.03,8.18,-0.15,0,-3.55,362101,335.102M
+Devolver Digital Inc.,DEVO.L,63.5,65.0,-1.5,0,0,356720,280.833M
+Gladstone Capital Corporation,GLAD,9.62,9.63,-0.01,31.03,0.31,132933,330.008M
+CarParts.com Inc.,PRTS,6.26,5.94,0.32,0,-0.04,706591,312.312M
+Digital Bros S.p.A.,DIB.MI,22.42,22.82,-0.4,11.53,1.94,63742,319.727M
+Nilkamal Limited,NILKAMAL.NS,1886.9,1846.05,40.85,26.41,71.45,2702,28.283B
+Global Indemnity Group LLC,GBLI,23.31,23.11,0.2,0,-1.48,8608,337.564M
+LSI Industries Inc.,LYTS,12.24,12.39,-0.15,46.9,0.26,370194,329.503M
+fuboTV Inc.,FUBO,1.74,1.7,0.04,0,-3.735,9696224,278.424M
+Despegar.com Corp.,DESP,5.13,4.98,0.15,0,-2.06,256106,359.609M
+Bushiroad Inc.,7803.T,670.0,673.0,-3.0,134.92,4.97,218700,21.143B
+Postal Realty Trust Inc.,PSTL,14.53,14.65,-0.12,0,-0.1,74960,270.209M
+Voltamp Transformers Limited,VOLTAMP.NS,2772.5,2692.6,79.9,30.26,91.62,16089,28.05B
+ACNB Corporation,ACNB,39.81,40.5,-0.69,12.78,3.12,6326,346.151M
+Corby Spirit and Wine Limited,CSW-A.TO,16.37,16.41,-0.04,15.03,1.09,3130,466.733M
+Village Super Market Inc.,VLGEA,23.29,23.59,-0.3,12.0,1.94,15991,338.886M
+Amplify Energy Corp.,AMPY,8.79,8.55,0.24,0,-12.34,784532,334.224M
+Happinet Corporation,7552.T,2053.0,1993.0,60.0,20.38,100.76,180900,45.001B
+Ooma Inc.,OOMA,13.62,13.58,0.04,0,-0.11,47533,324.156M
+Alpine Immune Sciences Inc.,ALPN,7.35,6.7,0.65,0,-1.34,211090,214.768M
+Comtech Telecommunications Corp.,CMTL,12.14,12.14,0.0,0,-3.36,79179,319.856M
+Rimini Street Inc.,RMNI,3.81,3.87,-0.06,0,-0.194,163542,331.23M
+Diana Shipping Inc.,DSX,3.9,3.89,0.01,0,-1.625,520607,356.986M
+Gold Royalty Corp.,GROY,2.33,2.27,0.06,0,0,459603,312.052M
+Northwest Pipe Company,NWPX,33.7,34.24,-0.54,16.16,2.09,33710,332.638M
+The Lovesac Company,LOVE,22.01,21.37,0.64,22.93,0.96,343995,N/A
+Velo3D Inc.,VLD,1.79,1.68,0.11,0,-4.066,1576008,327.864M
+BRC Inc.,BRCC,6.11,6.21,-0.1,0,0,488845,N/A
+City Office REIT Inc.,CIO,8.38,8.61,-0.23,0,-0.06,473497,364.986M
+NL Industries Inc.,NL,6.81,6.77,0.04,22.7,0.3,18134,332.346M
+Kaveri Seed Company Limited,KSCL.NS,516.75,517.7,-0.95,9.12,56.68,69573,30.194B
+Astronics Corporation,ATRO,10.3,10.01,0.29,0,-3.76,85696,321.133M
+Quotient Technology Inc.,QUOT,3.43,3.11,0.32,0,-0.723,1047358,323.866M
+Home Bancorp Inc.,HBCP,40.03,40.67,-0.64,10.02,4.0,8103,341.196M
+The First Bancorp Inc.,FNLC,29.94,30.28,-0.34,11.13,2.69,7115,329.229M
+Vasta Platform Limited,VSTA,4.0,4.0,0.0,0,-0.246,48481,333.395M
+Hallador Energy Company,HNRG,9.99,10.03,-0.04,0,-0.12,774984,305.82M
+Autolus Therapeutics plc,AUTL,1.9,1.81,0.09,0,-1.4,447411,138.546M
+Gilat Satellite Networks Ltd.,GILT,5.8,5.87,-0.07,9.22,0.63,234085,327.927M
+Braemar Hotels & Resorts Inc.,BHR,4.11,4.1,0.01,0,-3.391,522840,265.107M
+Inspired Entertainment Inc.,INSE,12.67,12.63,0.04,0,-1.01,106384,316.38M
+
+Sudarshan Chemical Industries Limited,SUDARSCHEM.NS,389.7,383.55,6.15,23.38,16.67,78923,26.978B
+The Pennant Group Inc.,PNTG,10.98,10.92,0.06,37.73,0.29,130095,312.679M
+Pizza Pizza Royalty Corp.,PZA.TO,13.64,13.7,-0.06,17.92,0.76,30969,438.898M
+Columbia Care Inc.,CCHWF,0.75,0.817,-0.07,0,-0.393,783324,274.066M
+Gabriel India Limited,GABRIEL.NS,185.85,182.55,3.3,46.01,4.04,542327,26.906B
+The Manitowoc Company Inc.,MTW,9.16,9.31,-0.15,0,-0.55,158115,320.979M
+Surya Roshni Limited,SURYAROSNI.NS,490.1,498.35,-8.25,20.58,23.82,94524,26.715B
+Argonaut Gold Inc.,AR.TO,0.52,0.52,0.0,6.93,0.075,1996387,161.819M
+Arctic Paper S.A.,ARP.ST,47.45,47.0,0.45,336.52,0.14,34302,3.355B
+Jumia Technologies AG,JMIA,3.21,3.34,-0.13,0,-2.415,2672585,316.482M
+Sierra Bancorp,BSRR,21.24,21.3,-0.06,8.39,2.53,25090,327.325M
+AFC Gamma Inc.,AFCG,15.73,15.75,-0.02,8.65,1.82,108717,258.645M
+11 bit studios S.A.,11B.WA,590.0,590.0,0.0,37.72,15.64,3243,1.394B
+Summit Financial Group Inc.,SMMF,24.89,24.99,-0.1,8.7,2.86,12645,323.647M
+Precigen Inc.,PGEN,1.52,1.41,0.11,0,-0.565,854320,314.242M
+MeiraGTx Holdings plc,MGTX,6.52,6.47,0.05,0,-1.54,112057,289.805M
+PepGen Inc.,PEPG,13.37,14.59,-1.22,0,0,218108,N/A
+Pulmonx Corporation,LUNG,8.43,8.21,0.22,0,-2.0,270576,310.55M
+SeaSpine Holdings Corporation,SPNE,8.35,7.92,0.43,0,-1.57,381301,304.289M
+Soft-World International Corporation,5478.TWO,79.8,79.0,0.8,10.34,7.72,211708,9.683B
+Hippo Holdings Inc.,HIPO,13.6,12.51,1.09,0,-4.57,193344,7.652B
+Remedy Entertainment Oyj,REMEDY.HE,21.85,21.4,0.45,25.53,0.86,21403,290.57M
+Northeast Bank,NBN,42.1,42.3,-0.2,12.38,3.4,76416,345.65M
+Aadi Bioscience Inc.,AADI,12.83,12.58,0.25,0,-8.9,52936,268.07M
+NVE Corporation,NVEC,64.75,64.81,-0.06,26.26,2.47,15285,312.952M
+T'Way Air Co. Ltd.,091810.KS,2475.0,2590.0,-115.0,0,0,1679323,272.559B
+NeoGames S.A.,NGMS,12.19,12.2,-0.01,29.88,0.41,138320,311.097M
+NextNav Inc.,NN,2.93,2.88,0.05,0,-13.212,277568,279.743M
+Baozun Inc.,BZUN,5.3,5.14,0.16,5.13,1.03,2093406,392.009M
+Atara Biotherapeutics Inc.,ATRA,3.28,3.14,0.14,0,-4.145,1564446,294.929M
+Arlo Technologies Inc.,ARLO,3.51,3.46,0.05,0,-1.3,1018081,295.891M
+Marathon Gold Corporation,MOZ.TO,1.06,1.05,0.01,0,-0.04,601629,268.799M
+BioAtla Inc.,BCAB,8.25,8.35,-0.1,0,-2.16,293891,303.895M
+Northrim BanCorp Inc.,NRIM,54.57,54.44,0.13,7.89,6.92,6961,335.033M
+Sterling Bancorp Inc. (Southfield MI),SBT,6.09,6.17,-0.08,0,-0.13,12244,307.235M
+Cue Health Inc.,HLTH,2.07,2.08,-0.01,0,-0.513,493167,302.971M
+Marvelous Inc.,7844.T,684.0,680.0,4.0,13.79,49.62,94600,41.286B
+QIWI plc,QIWI.ME,316.0,299.0,17.0,2.23,141.66,278058,19.728B
+First Business Financial Services Inc.,FBIZ,36.55,36.66,-0.11,13.47,2.71,62962,306.665M
+Transphorm Inc.,TGAN,5.44,5.54,-0.1,0,-0.44,35799,279.582M
+SkyWater Technology Inc.,SKYT,7.11,7.26,-0.15,0,-0.93,191632,277.714M
+Trean Insurance Group Inc.,TIG,6.0,6.0,0.0,10.83,0.55,318057,307.049M
+Torrid Holdings Inc.,CURV,2.96,3.03,-0.07,0,-0.147,226413,325.872M
+Shriram Pistons & Rings Limited,SHRIPISTON.NS,1151.1,1098.75,52.35,53.0,21.72,4597,25.756B
+Codexis Inc.,CDXS,4.66,4.68,-0.02,0,-0.404,595252,337.283M
+Kyokuyo Co. Ltd.,1301.T,3800.0,3800.0,0.0,11.61,327.27,10500,40.879B
+Orient Cement Limited,ORIENTCEM.NS,123.05,122.9,0.15,15.94,7.72,232006,25.224B
+Miller Industries Inc.,MLR,26.66,26.59,0.07,10.19,2.62,22726,304.209M
+Ashoka Buildcon Limited,ASHOKA.NS,89.65,89.5,0.15,9.41,9.52,1267766,25.167B
+BCB Bancorp Inc.,BCBP,17.99,18.05,-0.06,12.71,1.41,124668,306.425M
+ReneSola Ltd,SOL,4.52,4.52,0.0,68.48,0.066,493325,315.263M
+Saratoga Investment Corp.,SAR,25.49,25.42,0.07,8.83,2.89,30435,289.689M
+WhiteHorse Finance Inc.,WHF,13.05,12.92,0.13,8.46,1.54,88272,302.089M
+Focus Entertainment Société anonyme,ALFOC.PA,45.6,46.0,-0.4,19.42,2.35,3045,283.058M
+Aeroporto Guglielmo Marconi di Bologna S.p.A.,ADB.MI,7.8,7.8,0.0,0,-0.38,482,281.78M
+Bakhu Holdings Corp.,BKUH,1.0,1.0,0.0,0,-0.01,3500,300.67M
+Green Plains Partners LP,GPP,12.96,12.53,0.43,7.44,1.74,41010,301.031M
+Aurora Cannabis Inc.,ACB,0.9226,0.9022,0.02,0,-15.749,4556448,182.928M
+Weave Communications Inc.,WEAV,4.58,4.61,-0.03,0,-3.824,80084,294.219M
+Oyster Point Pharma Inc.,OYST,11.17,11.15,0.02,0,-3.11,1881725,292.251M
+Rani Therapeutics Holdings Inc.,RANI,5.9,5.88,0.02,0,-1.01,56376,116.3M
+Innate Pharma S.A.,IPHA,3.73,3.59,0.14,0,-1.107,56750,300.268M
+Astra Microwave Products Limited,ASTRAMICRO.NS,285.7,261.6,24.1,205.98,1.39,2789605,24.766B
+eMudhra Limited,EMUDHRA.NS,316.35,319.55,-3.2,0,0,94365,N/A
+Forge Global Holdings Inc.,FRGE,1.73,1.55,0.18,0,0,580995,N/A
+Siyaram Silk Mills Limited,SIYSIL.NS,526.15,526.55,-0.4,0,-6.72,56587,24.697B
+ADC Therapeutics SA,ADCT,3.84,3.79,0.05,0,-3.278,599913,294.611M
+Heron Therapeutics Inc.,HRTX,2.5,2.47,0.03,0,-2.504,2138756,254.838M
+LiveVox Holdings Inc.,LVOX,2.97,2.71,0.26,0,-1.012,88056,291.775M
+Jaiprakash Associates Limited,JPASSOCIAT.NS,10.0,10.0,0.0,1.22,8.19,7261120,24.688B
+Gannett Co. Inc.,GCI,2.03,2.0,0.03,0,-5.09,1033718,288.926M
+Aeva Technologies Inc.,AEVA,1.36,1.34,0.02,0,-1.607,1496183,291.051M
+Richardson Electronics Ltd.,RELL,21.33,21.54,-0.21,0,-0.12,126672,284.493M
+Tidewater Renewables Ltd.,LCFS.TO,11.51,11.15,0.36,0,0,2685,398.649M
+Bed Bath & Beyond Inc.,BBBY,2.51,2.52,-0.01,0,-1.241,6549520,253.661M
+Centessa Pharmaceuticals plc,CNTA,3.1,3.23,-0.13,0,-3.691,511965,278.693M
+Media and Games Invest SE,M8G.DE,1.725,1.7315,-0.01,40.12,0.043,33116,258.198M
+Nkarta Inc.,NKTX,5.99,5.63,0.36,0,-2.47,747484,197.367M
+PCSB Financial Corporation,PCSB,19.04,19.26,-0.22,23.92,0.8,124818,295.543M
+PTC India Limited,PTC.NS,81.2,78.95,2.25,5.65,14.38,507200,24.036B
+Clarus Corporation,CLAR,7.84,7.88,-0.04,43.56,0.18,557226,289.983M
+Luna Innovations Incorporated,LUNA,8.79,9.13,-0.34,82.92,0.11,104600,280.996M
+MBM Resources Bhd,5983.KL,3.28,3.28,0.0,19.07,0,45700,1.282B
+The Restaurant Group plc,RTN.L,31.24,31.22,0.02,0,-21.3,816581,239.001M
+Prelude Therapeutics Incorporated,PRLD,6.04,5.56,0.48,0,-2.18,211988,285.181M
+C4 Therapeutics Inc.,CCCC,5.9,5.76,0.14,0,-1.81,497556,286.891M
+eGain Corporation,EGAN,9.03,8.88,0.15,37.62,0.24,52481,283.436M
+Unity Bancorp Inc.,UNTY,27.33,27.29,0.04,10.94,2.5,8274,289.135M
+Gritstone bio Inc.,GRTS,3.45,3.27,0.18,0,-2.787,1000944,234.558M
+DBV Technologies S.A.,DBVT,1.53,1.58,-0.05,0,-1.475,236545,172.869M
+Viemed Healthcare Inc.,VMD,7.56,7.62,-0.06,31.37,0.24,51514,300.173M
+India Glycols Limited,INDIAGLYCO.NS,767.6,763.75,3.85,30.27,25.36,21510,23.766B
+Ethos Limited,ETHOSLTD.NS,1018.25,1014.85,3.4,0,0,28153,N/A
+Rubicon Technologies Inc.,RBT,1.78,1.6,0.18,0,0,38717,N/A
+Karat Packaging Inc.,KRT,14.37,14.28,0.09,15.54,0.93,5055,284.517M
+LumiraDx Limited,LMDX,0.9,0.92,-0.02,0,-2.222,167805,227.43M
+Ocugen Inc.,OCGN,1.3,1.26,0.04,0,-0.253,4399450,258.942M
+Greenlight Capital Re Ltd.,GLRE,8.15,8.14,0.01,76.17,0.11,44424,275.832M
+Marksans Pharma Limited,MARKSANS.NS,58.25,58.35,-0.1,11.73,4.97,1180158,23.843B
+Gatos Silver Inc.,GATO,4.09,4.14,-0.05,0,-0.207,89555,282.76M
+Arvind Limited,ARVIND.NS,89.65,87.95,1.7,0,-3.17,1038138,23.362B
+SpiceJet Limited,SPICEJET.NS,38.75,38.0,0.75,0,-26.45,4357476,23.304B
+Franklin Street Properties Corp.,FSP,2.73,2.76,-0.03,8.98,0.304,509847,288.378M
+Timberland Bancorp Inc.,TSBK,34.13,33.68,0.45,10.56,3.23,6011,285.147M
+Granite Point Mortgage Trust Inc.,GPMT,5.36,5.34,0.02,0,-0.74,811789,288.312M
+Silicom Ltd.,SILC,42.15,42.6,-0.45,43.5,0.97,13931,290.061M
+NI Holdings Inc.,NODK,13.27,13.68,-0.41,7.21,1.84,3850,281.762M
+Gravity Co. Ltd.,GRVY,40.32,40.82,-0.5,5.0,8.07,16715,280.18M
+Concert Pharmaceuticals Inc.,CNCE,5.84,5.41,0.43,0,-2.38,707799,202.413M
+Investors Title Company,ITIC,147.55,148.0,-0.45,7.09,20.8,1738,279.477M
+SRA Holdings Inc.,3817.T,3030.0,3020.0,10.0,14.16,213.93,12700,37.381B
+Focus Universal Inc.,FCUV,6.41,6.42,-0.01,0,-0.06,49762,277.295M
+NACCO Industries Inc.,NC,38.0,37.77,0.23,18.1,2.1,70135,272.604M
+The Honest Company Inc. Common Stock,HNST,3.01,3.03,-0.02,0,-0.599,605021,273.996M
+McEwen Mining Inc.,MUX,5.86,5.83,0.03,0,-0.38,309100,2.691B
+MVB Financial Corp.,MVBF,22.02,22.13,-0.11,6.03,3.65,11481,265.861M
+F45 Training Holdings Inc.,FXLV,2.85,2.8,0.05,0,-5.297,332950,258.081M
+Azure Power Global Limited,AZRE,4.31,4.37,-0.06,0,-0.504,143430,208.314M
+PetIQ Inc.,PETQ,9.22,9.17,0.05,0,-3.15,197719,268.626M
+Electrosteel Castings Limited,ELECTCAST.NS,38.45,38.5,-0.05,0,-3.48,1189053,16.67B
+ASA Gold and Precious Metals Limited,ASA,14.31,14.4,-0.09,1.77,8.08,68535,276.038M
+Fire Rock Holdings Limited,1909.HK,0.56,0.51,0.05,0,0,40152000,2.15B
+G1 Therapeutics Inc.,GTHX,5.43,5.46,-0.03,0,-2.62,989044,230.895M
+Park Aerospace Corp.,PKE,13.41,12.88,0.53,44.4,0.3,164572,274.344M
+Omega Therapeutics Inc.,OMGA,5.71,5.75,-0.04,0,-5.03,34966,272.795M
+Ranger Energy Services Inc.,RNGR,11.01,11.12,-0.11,0,-1.21,23073,274.944M
+LendingTree Inc.,TREE,21.33,20.59,0.74,0,-3.35,316435,284.446M
+Honda India Power Products Limited,HONDAPOWER.NS,2224.6,2245.4,-20.8,59.02,37.69,17077,22.575B
+WW International Inc.,WW,3.86,3.85,0.01,3.61,1.07,991178,270.281M
+Satellogic Inc.,SATL,3.05,3.1,-0.05,0,0,13704,N/A
+Actinium Pharmaceuticals Inc.,ATNM,10.65,10.44,0.21,0,-1.83,286858,234.628M
+Clipper Realty Inc.,CLPR,6.4,6.31,0.09,0,-0.31,150109,102.804M
+Sonder Holdings Inc.,SOND,1.24,1.14,0.1,0,0,829524,N/A
+Rupa & Company Limited,RUPA.NS,281.3,279.55,1.75,21.29,13.21,129949,22.391B
+Tilly's Inc.,TLYS,9.05,9.1,-0.05,0,-0.04,215477,280.239M
+Western Copper and Gold Corporation,WRN,1.78,1.81,-0.03,0,-0.014,104297,274.707M
+Lesaka Technologies Inc.,LSAK,4.55,4.34,0.21,0,0,348506,N/A
+Kinnate Biopharma Inc.,KNTE,6.1,5.77,0.33,0,-2.11,64840,266.546M
+Regional Management Corp.,RM,28.08,27.93,0.15,5.32,5.28,18915,278.323M
+PolyMet Mining Corp.,PLM,2.65,2.6,0.05,0,-0.207,50226,269.404M
+FriendTimes Inc.,6820.HK,0.96,0.96,0.0,0,0,88000,2.094B
+Prime Focus Limited,PFOCUS.NS,74.1,76.9,-2.8,0,-0.28,38116,22.236B
+Performant Financial Corporation,PFMT,3.61,3.45,0.16,0,-0.26,345667,249.611M
+Confidence Petroleum India Limited,CONFIPET.NS,78.1,77.7,0.4,80.1,0.98,941564,22.181B
+Genie Energy Ltd.,GNE,10.34,10.88,-0.54,23.5,0.44,86091,271.016M
+First Western Financial Inc.,MYFW,28.15,27.99,0.16,7.73,3.64,24946,263.773M
+Foghorn Therapeutics Inc.,FHTX,6.38,6.45,-0.07,0,-2.69,78069,262.173M
+Addiko Bank AG,ZYE1.F,12.5,12.45,0.05,178.57,0.07,94,250.972M
+PCF Group Spólka Akcyjna,PCF.WA,39.2,39.0,0.2,44.04,0.89,1408,1.174B
+Chicago Atlantic Real Estate Finance Inc.,REFI,15.07,15.0,0.07,0,0,53260,263.026M
+Sequent Scientific Limited,SEQUENT.NS,87.6,86.1,1.5,22.47,3.9,641799,21.777B
+Puravankara Limited,PURVA.NS,91.85,87.25,4.6,79.18,1.16,677142,21.782B
+ProQR Therapeutics N.V.,PRQR,3.7,3.37,0.33,0,-0.96,2391860,264.308M
+BARK Inc.,BARK,1.49,1.48,0.01,0,-0.437,608420,264.079M
+Zevia PBC,ZVIA,4.09,4.13,-0.04,0,-1.321,91194,263.928M
+American Battery Technology Company,ABML,0.4069,0.4124,-0.01,0,-0.054,2520546,263.896M
+tinyBuild Inc.,8Z3.F,1.21,1.22,-0.01,20.17,0.06,500,251.431M
+Accelya Solutions India Limited,ACCELYA.NS,1455.65,1470.65,-15.0,22.86,63.69,13582,21.727B
+Lordstown Motors Corp.,RIDE,1.14,1.11,0.03,0,-2.012,4878239,262.079M
+Groupon Inc.,GRPN,8.58,7.57,1.01,4.19,2.05,3226356,261.153M
+Aenza S.A.A.,AENZ,3.25,3.1,0.15,0,-0.215,12504,259.346M
+
+Rigel Pharmaceuticals Inc.,RIGL,1.5,1.36,0.14,0,-0.176,3283367,256.509M
+Stellus Capital Investment Corporation,SCM,13.26,13.21,0.05,12.79,1.04,48445,258.384M
+Full House Resorts Inc.,FLL,7.52,7.61,-0.09,1504.0,0.0,79058,257.391M
+Neuland Laboratories Limited,NEULANDLAB.NS,1666.95,1688.75,-21.8,39.58,42.12,16995,21.418B
+Casa Systems Inc.,CASA,2.73,2.66,0.07,8.05,0.339,281118,234.797M
+Blade Air Mobility Inc.,BLDE,3.58,3.69,-0.11,0,-0.934,549496,252.579M
+RattanIndia Power Limited,RTNPOWER.NS,3.95,3.95,0.0,0,-3.083,4903494,21.182B
+Quantum-Si incorporated,QSI,1.83,1.82,0.01,0,-0.55,1000087,251.471M
+OrganiGram Holdings Inc.,OGI,0.8,0.7517,0.05,0,-0.929,1241731,250.467M
+Daseke Inc.,DSKE,5.69,5.74,-0.05,284.5,0.02,328658,355.564M
+Wheels Up Experience Inc.,UP,1.03,1.02,0.01,0,-0.624,4330607,253.112M
+Asiasoft Corporation Public Company Limited,AS.BK,17.4,16.8,0.6,23.51,0.74,8621205,7.941B
+DHI Group Inc.,DHX,5.29,5.27,0.02,0,-0.62,392798,262.078M
+Noodles & Company,NDLS,5.49,5.5,-0.01,0,-0.44,88957,250.835M
+Sundaram Finance Holdings Limited,SUNDARMHLD.NS,94.1,92.75,1.35,21.94,4.29,56919,15.998B
+Southern States Bancshares Inc.,SSBK,28.95,27.96,0.99,12.9,2.24,1980,260.922M
+Gulf Oil Lubricants India Limited,GULFOILLUB.NS,423.3,424.8,-1.5,12.1,34.99,14858,21.353B
+J.Jill Inc.,JILL,24.8,23.88,0.92,0,-15.22,127832,247.703M
+Pure Cycle Corporation,PCYO,10.48,10.49,-0.01,13.27,0.79,56033,250.669M
+First Guaranty Bancshares Inc.,FGBI,23.45,24.1,-0.65,10.62,2.21,2362,251.276M
+Alpine Income Property Trust Inc.,PINE,19.08,18.8,0.28,103.14,0.19,134576,215.663M
+Holley Inc.,HLLY,2.12,2.03,0.09,0,-0.062,629415,245.509M
+NACL Industries Limited,NACLIND.NS,104.5,102.25,2.25,50.95,2.05,3323351,21.205B
+Lands' End Inc.,LE,7.59,6.91,0.68,23.0,0.33,532083,250.343M
+MSTC Limited,MSTCLTD.NS,294.35,289.45,4.9,49.56,5.94,177819,20.722B
+Air Busan Co. Ltd.,298690.KS,2725.0,2875.0,-150.0,0,0,4581566,528.138B
+Workhorse Group Inc.,WKHS,1.52,1.5,0.02,2.17,0.7,4834088,237.099M
+Third Coast Bancshares Inc.,TCBX,18.43,18.64,-0.21,9.4,1.96,22230,246.053M
+Hovnanian Enterprises Inc.,HOV,42.08,43.0,-0.92,3.83,11.0,88980,263.208M
+
+Central Valley Community Bancorp,CVCY,21.18,21.1,0.08,12.47,1.7,18558,253.906M
+Jain Irrigation Systems Limited,JISLDVREQS.NS,19.15,18.9,0.25,0,-14.92,18513,16.109B
+Orrstown Financial Services Inc.,ORRF,23.16,23.24,-0.08,8.1,2.86,36765,259.543M
+Parke Bancorp Inc.,PKBK,20.74,20.68,0.06,8.12,2.55,12659,246.684M
+Vicarious Surgical Inc.,RBOT,2.02,2.0,0.02,0,-5.161,389720,239.62M
+Nacon S.A.,NACON.PA,2.6,2.63,-0.03,12.32,0.211,39181,224.191M
+Filatex India Limited,FILATEX.NS,46.0,44.1,1.9,6.16,7.47,407251,10.373B
+BayCom Corp,BCML,18.98,19.03,-0.05,14.39,1.32,9738,202.811M
+Eurobio Scientific Société anonyme,ALERS.PA,20.36,20.72,-0.36,2.85,7.15,15995,230.948M
+VA Tech Wabag Limited,WABAG.NS,327.65,327.4,0.25,19.66,16.67,138526,20.383B
+Annexon Inc.,ANNX,5.17,4.97,0.2,0,-3.04,162928,198.398M
+Apollo Pipes Limited,APOLLOPIPE.NS,517.6,510.25,7.35,15.25,33.93,55252,20.398B
+Radiant Logistics Inc.,RLGT,5.09,5.22,-0.13,21.75,0.23,60119,253.102M
+Time Technoplast Limited,TIMETECHNO.NS,89.9,91.85,-1.95,22.83,3.94,796547,20.357B
+SEACOR Marine Holdings Inc.,SMHI,9.16,8.89,0.27,0,-3.18,24814,223.28M
+Overseas Shipholding Group Inc.,OSG,2.89,2.89,0.0,8.76,0.33,297553,251.923M
+Outlook Therapeutics Inc.,OTLK,1.08,1.07,0.01,0,-0.47,472451,242.202M
+
+Somany Ceramics Limited,SOMANYCERA.NS,474.95,468.7,6.25,115.73,4.1,14614,20.139B
+Rallybio Corporation,RLYB,6.57,6.25,0.32,0,-5.11,69172,211.094M
+ZimVie Inc.,ZIMV,9.34,9.23,0.11,0,0,388927,N/A
+908 Devices Inc.,MASS,7.62,7.46,0.16,0,-1.3,256724,236.6M
+Eastman Kodak Company,KODK,3.05,3.05,0.0,0,-9.774,971411,239.889M
+Fabasoft AG,FAA.DE,20.5,20.55,-0.05,20.96,0.98,1578,225.5M
+Qudian Inc.,QD,0.953,0.9697,-0.02,1.72,0.554,982505,241.193M
+Acrivon Therapeutics Inc.,ACRV,11.52,12.0,-0.48,0,0,9439,N/A
+Oil-Dri Corporation of America,ODC,33.54,33.33,0.21,13.6,2.47,2763,248.683M
+M M Forgings Limited,MMFL.NS,821.4,831.4,-10.0,172.02,4.78,9839,19.829B
+Betterware de México S.A.P.I. de C.V.,BWMX,6.42,6.42,0.0,2.93,2.19,43447,234.876M
+OneConnect Financial Technology Co. Ltd.,OCFT,5.31,5.42,-0.11,0,-0.55,26517,2.071B
+Emerald Holding Inc.,EEX,3.54,3.45,0.09,0,-1.397,11733,248.273M
+Adaptimmune Therapeutics plc,ADAP,1.46,1.36,0.1,0,-0.913,303723,228.058M
+Enad Global 7 AB (publ),EG7.ST,28.0,27.92,0.08,0,-1.8,194837,2.439B
+GrowGeneration Corp.,GRWG,3.92,4.13,-0.21,35.64,0.11,1844217,234.447M
+Eargo Inc.,EAR,0.575,0.5983,-0.02,0,-1.651,481420,22.576M
+Burning Rock Biotech Limited,BNR,2.25,2.17,0.08,0,-1.059,86436,235.233M
+Kimball International Inc.,KBAL,6.5,6.46,0.04,10.38,0.63,132765,237.678M
+Prenetics Global Limited,PRE,2.0,1.98,0.02,0,0,74207,N/A
+Cian PLC,CIAN,3.4,3.31,0.09,0,-0.416,0,234.744M
+Willdan Group Inc.,WLDN,17.85,17.83,0.02,0,-1.23,16986,228.334M
+Molecular Partners AG,MOLN,6.55,6.59,-0.04,0,-2.43,11341,215.162M
+HIL Limited,HIL.NS,2598.1,2562.35,35.75,8.82,294.68,5837,19.522B
+Solo Brands Inc.,DTC,3.72,3.59,0.13,0,-0.006,236711,235.839M
+Subros Limited,SUBROS.NS,299.25,306.95,-7.7,51.71,5.79,48988,19.522B
+Voyager Therapeutics Inc.,VYGR,6.1,5.65,0.45,6.22,0.98,124360,231.54M
+Cantabil Retail India Limited,CANTABIL.NS,1193.3,1199.0,-5.7,280.64,4.25,15906,19.496B
+Ten Square Games S.A.,1HQ.F,25.54,24.86,0.68,0,0,100,185.607M
+Homeland Interactive Technology Ltd.,3798.HK,1.42,1.4,0.02,0,0,14000,1.822B
+Generation Bio Co.,GBIO,3.93,3.81,0.12,0,-2.098,198836,223.656M
+Bank7 Corp.,BSVN,25.6,25.5,0.1,12.19,2.1,4341,232.228M
+ORIC Pharmaceuticals Inc.,ORIC,5.89,5.28,0.61,0,-2.31,714836,231.959M
+Jagran Prakashan Limited,JAGRAN.NS,73.15,72.3,0.85,33.07,2.21,166503,19.317B
+American Public Education Inc.,APEI,12.29,12.7,-0.41,9.83,1.25,65338,229.936M
+Ocwen Financial Corporation,OCN,30.58,30.81,-0.23,0,-4.59,17460,281.359M
+Vuzix Corporation,VUZI,3.64,3.6,0.04,0,-0.525,772190,231.619M
+GigaCloud Technology Inc.,GCT,5.69,5.6,0.09,0,0,49967,N/A
+Tactile Systems Technology Inc.,TCMD,11.48,11.68,-0.2,0,-0.08,136679,227.568M
+V.S.T. Tillers Tractors Limited,VSTTILLERS.NS,2202.25,2182.3,19.95,25.55,86.19,3097,19.026B
+Ponce Financial Group Inc.,PDLB,9.32,9.2,0.12,20.67,0.45,56998,156.915M
+Motorcar Parts of America Inc.,MPAA,11.86,11.84,0.02,18.25,0.65,77275,227.767M
+Kaltura Inc.,KLTR,1.72,1.69,0.03,0,-2.023,105383,218.223M
+Vadilal Industries Limited,VADILALIND.NS,2629.9,2635.15,-5.25,0,-36.1,7175,18.971B
+Innovid Corp.,CTV,1.71,1.61,0.1,0,-4.27,204896,203.391M
+CompX International Inc.,CIX,18.48,18.61,-0.13,22.29,0.83,1273,232.979M
+Codorus Valley Bancorp Inc.,CVLY,23.8,23.5,0.3,15.22,1.56,9191,226.924M
+Commercial Vehicle Group Inc.,CVGI,6.81,6.87,-0.06,0,-1.2,20356,224.583M
+Immersion Corporation,IMMR,7.03,6.95,0.08,37.0,0.19,153792,232.171M
+Bankwell Financial Group Inc.,BWFG,29.43,29.41,0.02,22.76,1.29,8673,230.814M
+Gati Limited,GATI.NS,144.25,147.7,-3.45,0,-10.41,436094,17.738B
+Upland Software Inc.,UPLD,7.13,7.03,0.1,0,-1.92,237501,217.655M
+Consolidated Water Co. Ltd.,CWCO,14.8,15.18,-0.38,62.18,0.24,40937,225.118M
+Absa Bank Limited,ABSP.JO,86499.0,86190.0,309.0,32977.12,2.62,1,387.776B
+Semler Scientific Inc.,SMLR,33.0,33.14,-0.14,16.41,2.01,26965,223.004M
+The Community Financial Corporation,TCFC,39.9,39.58,0.32,11.95,3.34,1888,228.435M
+Markforged Holding Corporation,MKFG,1.16,1.17,-0.01,0,-0.049,764727,215.587M
+Terran Orbital Corporation,LLAP,1.58,1.43,0.15,0,0,925727,N/A
+gumi Inc.,3903.T,1029.0,960.0,69.0,10.8,95.29,14607500,30.013B
+Nautilus Biotechnology Inc.,NAUT,1.8,1.73,0.07,0,-0.971,92713,223.501M
+First Internet Bancorp,INBK,24.28,24.34,-0.06,7.1,3.42,25016,239.259M
+Akatsuki Inc.,3932.T,2212.0,2185.0,27.0,5.06,436.8,53600,29.943B
+Dakota Gold Corp.,DC,3.05,3.27,-0.22,0,0,166840,N/A
+TROOPS Inc.,TROO,2.1842,2.06,0.12,0,-0.664,20272,221.91M
+Zengame Technology Holding Limited,2660.HK,1.68,1.69,-0.01,0,0,1226000,1.709B
+Force Motors Limited,FORCEMOT.NS,1386.0,1389.4,-3.4,0,-48.5,16104,18.262B
+TrueCar Inc.,TRUE,2.51,2.45,0.06,3.49,0.72,195226,240.764M
+
+Portman Ridge Finance Corporation,PTMN,23.0,21.88,1.12,36.51,0.63,60110,222.643M
+Acumen Pharmaceuticals Inc.,ABOS,5.4,5.37,0.03,0,-9.31,42105,218.54M
+Alembic Limited,ALEMBICLTD.NS,71.2,71.25,-0.05,4.73,15.05,140799,18.283B
+Information Services Group Inc.,III,4.6,4.66,-0.06,17.69,0.26,115444,225.368M
+Texmaco Rail & Engineering Limited,TEXRAIL.NS,56.7,57.1,-0.4,0,-4.8,1416529,18.25B
+TELA Bio Inc.,TELA,11.5,11.08,0.42,0,-2.23,37978,166.791M
+Brightcove Inc.,BCOV,5.23,5.27,-0.04,29.89,0.17,86090,214.905M
+Hindustan Oil Exploration Company Limited,HINDOILEXP.NS,137.35,135.7,1.65,41.21,3.33,165444,18.164B
+Alpha Tau Medical Ltd.,DRTS,3.18,3.215,-0.03,0,0,34110,N/A
+HireQuest Inc.,HQI,15.81,15.09,0.72,19.84,0.8,47436,217.152M
+Territorial Bancorp Inc.,TBNK,24.01,23.86,0.15,11.54,2.08,5979,223.871M
+Geox S.p.A.,GEO.MI,0.803,0.805,-0.0,0,-0.502,123209,204.934M
+Maruzen Co. Ltd.,5982.T,1805.0,1815.0,-10.0,11.66,154.77,800,29.21B
+The Container Store Group Inc.,TCS,4.31,4.3,0.01,5.89,0.732,442807,218.285M

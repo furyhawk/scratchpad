@@ -1,0 +1,11 @@
+Company,Symbol,Marketprice,previousClosePrice,changeInPrice,pe_ratio,eps_ratio,Volume,MarketCap
+Apple Inc.,AAPL,129.93,129.61,0.32,21.27,6.11,76874922,2.067T
+Saudi Arabian Oil Company,2222.SR,32.1,32.2,-0.1,17.83,1.8,5222570,7.059T
+Microsoft Corporation,MSFT,239.82,241.01,-1.19,25.81,9.29,21938472,1.788T
+Alphabet Inc.,GOOG,88.73,88.95,-0.22,17.16,5.17,19169187,1.145T
+Amazon.com Inc.,AMZN,84.0,84.18,-0.18,74.34,1.13,62401194,856.943B
+Berkshire Hathaway Inc.,BRK-B,308.9,309.06,-0.16,59.29,5.21,3181447,681.776B
+UnitedHealth Group Incorporated,UNH,530.18,529.88,0.3,25.98,20.41,1660343,495.373B
+Johnson & Johnson,JNJ,176.65,177.56,-0.91,24.6,7.18,4187659,461.848B
+Exxon Mobil Corporation,XOM,110.3,109.2,1.1,9.0,12.25,11328805,454.247B
+Visa Inc.,V,207.76,208.06,-0.3,29.68,7.0,3926535,439.957B
