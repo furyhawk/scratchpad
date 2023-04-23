@@ -125,3 +125,5 @@ assignment5/checker.pyx
 
 # Model artefacts
 *.h5
+notebooks/training_checkpoints/
+notebooks/*.png
