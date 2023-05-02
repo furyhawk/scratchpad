@@ -1,0 +1,33 @@
+version: '3.9'
+
+services:
+  mongo:
+    image: mongodb/mongodb-community-server
+    restart: unless-stopped
+    environment:
+      - MONGODB_INITDB_ROOT_USERNAME=${MONGO_ROOT_USER}
+      - MONGODB_INITDB_ROOT_PASSWORD=${MONGO_ROOT_PASSWORD}
+      - MONGO_INITDB_DATABASE=${MONGODB_DATABASE}
+    ports:
+      - 0.0.0.0:${MONGODB_LOCAL_PORT}:${MONGODB_DOCKER_PORT}
+    volumes:
+      - ./config:/etc/mongo
+      - db:/data/db
+    command: ["mongod", "--config", "/etc/mongo/mongod.conf"]
+  mongo-express:
+    image: mongo-express
+    restart: unless-stopped
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mongo
+      - ME_CONFIG_MONGODB_PORT=${MONGODB_LOCAL_PORT}
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=${MONGO_ROOT_USER}
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=${MONGO_ROOT_PASSWORD}
+      - ME_CONFIG_BASICAUTH_USERNAME=${MONGOEXPRESS_LOGIN}
+      - ME_CONFIG_BASICAUTH_PASSWORD=${MONGOEXPRESS_PASSWORD}
+    depends_on:
+      - mongo
+    ports:
+      - 0.0.0.0:${MONGOEXPRESS_LOCAL_PORT}:${MONGOEXPRESS_DOCKER_PORT}
+
+volumes:
+  db:
