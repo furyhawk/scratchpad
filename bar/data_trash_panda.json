@@ -5,6 +5,1000 @@
                 "AIs": [],
                 "Players": [
                     {
+                        "name": "MomsBoyToy"
+                    },
+                    {
+                        "name": "Skibat"
+                    },
+                    {
+                        "name": "Rangoran"
+                    },
+                    {
+                        "name": "Litschi"
+                    },
+                    {
+                        "name": "EmperorGlass"
+                    },
+                    {
+                        "name": "TAG_ZLO"
+                    },
+                    {
+                        "name": "Flash"
+                    },
+                    {
+                        "name": "spoderfriend"
+                    }
+                ],
+                "winningTeam": false
+            },
+            {
+                "AIs": [],
+                "Players": [
+                    {
+                        "name": "Nezah"
+                    },
+                    {
+                        "name": "Emre"
+                    },
+                    {
+                        "name": "trash_panda"
+                    },
+                    {
+                        "name": "Karunel"
+                    },
+                    {
+                        "name": "Sanguinius40k"
+                    },
+                    {
+                        "name": "Raikoh"
+                    },
+                    {
+                        "name": "[TZN]Clyret"
+                    },
+                    {
+                        "name": "RiseHeaven"
+                    }
+                ],
+                "winningTeam": true
+            }
+        ],
+        "Map": {
+            "fileName": "ice_scream_v2.5",
+            "scriptName": "Ice Scream v2.5"
+        },
+        "durationMs": 773200,
+        "id": "c4fba1640df15ffb2dcea5093ec548e0",
+        "startTime": "2023-07-02T22:35:48.000Z"
+    },
+    {
+        "AllyTeams": [
+            {
+                "AIs": [],
+                "Players": [
+                    {
+                        "name": "[TZN]Clyret"
+                    },
+                    {
+                        "name": "MrFox"
+                    },
+                    {
+                        "name": "Skibat"
+                    },
+                    {
+                        "name": "Nezah"
+                    },
+                    {
+                        "name": "RiseHeaven"
+                    },
+                    {
+                        "name": "Emre"
+                    },
+                    {
+                        "name": "Raikoh"
+                    },
+                    {
+                        "name": "spoderfriend"
+                    }
+                ],
+                "winningTeam": true
+            },
+            {
+                "AIs": [],
+                "Players": [
+                    {
+                        "name": "Litschi"
+                    },
+                    {
+                        "name": "TAG_ZLO"
+                    },
+                    {
+                        "name": "trash_panda"
+                    },
+                    {
+                        "name": "Karunel"
+                    },
+                    {
+                        "name": "Rangoran"
+                    },
+                    {
+                        "name": "Flash"
+                    },
+                    {
+                        "name": "[8D]"
+                    },
+                    {
+                        "name": "Screwish"
+                    }
+                ],
+                "winningTeam": false
+            }
+        ],
+        "Map": {
+            "fileName": "forge_v1.4",
+            "scriptName": "Forge v1.4"
+        },
+        "durationMs": 1384900,
+        "id": "4df4a16411d11504ad0aacf70ece06d0",
+        "startTime": "2023-07-02T22:03:57.000Z"
+    },
+    {
+        "AllyTeams": [
+            {
+                "AIs": [],
+                "Players": [
+                    {
+                        "name": "RiseHeaven"
+                    },
+                    {
+                        "name": "Raikoh"
+                    },
+                    {
+                        "name": "trash_panda"
+                    },
+                    {
+                        "name": "BasiC"
+                    },
+                    {
+                        "name": "Skibat"
+                    },
+                    {
+                        "name": "AvriBBZ"
+                    },
+                    {
+                        "name": "Flash"
+                    },
+                    {
+                        "name": "MrFox"
+                    }
+                ],
+                "winningTeam": false
+            },
+            {
+                "AIs": [],
+                "Players": [
+                    {
+                        "name": "[8D]"
+                    },
+                    {
+                        "name": "Rangoran"
+                    },
+                    {
+                        "name": "HotshotGG"
+                    },
+                    {
+                        "name": "Screwish"
+                    },
+                    {
+                        "name": "TAG_ZLO"
+                    },
+                    {
+                        "name": "Nezah"
+                    },
+                    {
+                        "name": "Emre"
+                    },
+                    {
+                        "name": "spoderfriend"
+                    }
+                ],
+                "winningTeam": true
+            }
+        ],
+        "Map": {
+            "fileName": "hades_ponds_0.7",
+            "scriptName": "Hades Ponds 0.7"
+        },
+        "durationMs": 1184267,
+        "id": "2beea1640ca3b602a92ff80fe15ab8ed",
+        "startTime": "2023-07-02T21:37:47.000Z"
+    },
+    {
+        "AllyTeams": [
+            {
+                "AIs": [],
+                "Players": [
+                    {
+                        "name": "TAG_ZLO"
+                    },
+                    {
+                        "name": "Rangoran"
+                    },
+                    {
+                        "name": "HotshotGG"
+                    },
+                    {
+                        "name": "RiseHeaven"
+                    },
+                    {
+                        "name": "Skibat"
+                    },
+                    {
+                        "name": "TheBorg"
+                    },
+                    {
+                        "name": "Emre"
+                    },
+                    {
+                        "name": "BasiC"
+                    }
+                ],
+                "winningTeam": false
+            },
+            {
+                "AIs": [],
+                "Players": [
+                    {
+                        "name": "Screwish"
+                    },
+                    {
+                        "name": "spoderfriend"
+                    },
+                    {
+                        "name": "Nezah"
+                    },
+                    {
+                        "name": "AvriBBZ"
+                    },
+                    {
+                        "name": "Maven"
+                    },
+                    {
+                        "name": "trash_panda"
+                    },
+                    {
+                        "name": "Flash"
+                    },
+                    {
+                        "name": "MrFox"
+                    }
+                ],
+                "winningTeam": true
+            }
+        ],
+        "Map": {
+            "fileName": "bismuth_valley_v2.2",
+            "scriptName": "Bismuth Valley v2.2"
+        },
+        "durationMs": 926467,
+        "id": "bfe8a1642d20f9626bc14c3a2cd393f2",
+        "startTime": "2023-07-02T21:14:39.000Z"
+    },
+    {
+        "AllyTeams": [
+            {
+                "AIs": [],
+                "Players": [
+                    {
+                        "name": "RiseHeaven"
+                    },
+                    {
+                        "name": "TheBorg"
+                    },
+                    {
+                        "name": "BasiC"
+                    },
+                    {
+                        "name": "Forever"
+                    },
+                    {
+                        "name": "AvriBBZ"
+                    },
+                    {
+                        "name": "HotshotGG"
+                    },
+                    {
+                        "name": "Flash"
+                    },
+                    {
+                        "name": "MrFox"
+                    }
+                ],
+                "winningTeam": false
+            },
+            {
+                "AIs": [],
+                "Players": [
+                    {
+                        "name": "[LOB]Choice"
+                    },
+                    {
+                        "name": "Skibat"
+                    },
+                    {
+                        "name": "Maven"
+                    },
+                    {
+                        "name": "Screwish"
+                    },
+                    {
+                        "name": "Emre"
+                    },
+                    {
+                        "name": "Nezah"
+                    },
+                    {
+                        "name": "trash_panda"
+                    },
+                    {
+                        "name": "spoderfriend"
+                    }
+                ],
+                "winningTeam": true
+            }
+        ],
+        "Map": {
+            "fileName": "koom_valley_3_3.1",
+            "scriptName": "Koom Valley 3 3.1"
+        },
+        "durationMs": 1164867,
+        "id": "f7e1a1644759a2a4966e9f88a39bd2e3",
+        "startTime": "2023-07-02T20:45:43.000Z"
+    },
+    {
+        "AllyTeams": [
+            {
+                "AIs": [],
+                "Players": [
+                    {
+                        "name": "manatee"
+                    },
+                    {
+                        "name": "[LOB]Choice"
+                    },
+                    {
+                        "name": "yotoniko0"
+                    },
+                    {
+                        "name": "Litschi"
+                    },
+                    {
+                        "name": "Screwish"
+                    },
+                    {
+                        "name": "MrFox"
+                    },
+                    {
+                        "name": "[teh]Teddy"
+                    },
+                    {
+                        "name": "RiseHeaven"
+                    }
+                ],
+                "winningTeam": true
+            },
+            {
+                "AIs": [],
+                "Players": [
+                    {
+                        "name": "[TZN]Clyret"
+                    },
+                    {
+                        "name": "Skibat"
+                    },
+                    {
+                        "name": "Maven"
+                    },
+                    {
+                        "name": "BARacus"
+                    },
+                    {
+                        "name": "Emre"
+                    },
+                    {
+                        "name": "Nezah"
+                    },
+                    {
+                        "name": "trash_panda"
+                    },
+                    {
+                        "name": "Forever"
+                    }
+                ],
+                "winningTeam": false
+            }
+        ],
+        "Map": {
+            "fileName": "white_fire_remake_1.3",
+            "scriptName": "White Fire Remake 1.3"
+        },
+        "durationMs": 1284767,
+        "id": "b8d9a164f6942def11574ea3566afb5f",
+        "startTime": "2023-07-02T20:10:32.000Z"
+    },
+    {
+        "AllyTeams": [
+            {
+                "AIs": [],
+                "Players": [
+                    {
+                        "name": "BARacus"
+                    },
+                    {
+                        "name": "[8D]"
+                    },
+                    {
+                        "name": "trash_panda"
+                    },
+                    {
+                        "name": "Nezah"
+                    },
+                    {
+                        "name": "Fire[Z]torm_"
+                    },
+                    {
+                        "name": "Maven"
+                    },
+                    {
+                        "name": "[TZN]Clyret"
+                    },
+                    {
+                        "name": "Screwish"
+                    }
+                ],
+                "winningTeam": true
+            },
+            {
+                "AIs": [],
+                "Players": [
+                    {
+                        "name": "[teh]Teddy"
+                    },
+                    {
+                        "name": "Skibat"
+                    },
+                    {
+                        "name": "MrFox"
+                    },
+                    {
+                        "name": "RiseHeaven"
+                    },
+                    {
+                        "name": "Emre"
+                    },
+                    {
+                        "name": "manatee"
+                    },
+                    {
+                        "name": "yotoniko0"
+                    },
+                    {
+                        "name": "Forever"
+                    }
+                ],
+                "winningTeam": false
+            }
+        ],
+        "Map": {
+            "fileName": "dsdr_4.1",
+            "scriptName": "DSDR 4.1"
+        },
+        "durationMs": 666600,
+        "id": "31d5a1649f1e20217b4353f69df755e6",
+        "startTime": "2023-07-02T19:51:13.000Z"
+    },
+    {
+        "AllyTeams": [
+            {
+                "AIs": [],
+                "Players": [
+                    {
+                        "name": "MrFox"
+                    },
+                    {
+                        "name": "trash_panda"
+                    },
+                    {
+                        "name": "detective"
+                    },
+                    {
+                        "name": "RiseHeaven"
+                    },
+                    {
+                        "name": "Rathim"
+                    },
+                    {
+                        "name": "Maven"
+                    },
+                    {
+                        "name": "[TZN]Clyret"
+                    },
+                    {
+                        "name": "Rangoran"
+                    }
+                ],
+                "winningTeam": false
+            },
+            {
+                "AIs": [],
+                "Players": [
+                    {
+                        "name": "[teh]Teddy"
+                    },
+                    {
+                        "name": "BARacus"
+                    },
+                    {
+                        "name": "Fire[Z]torm_"
+                    },
+                    {
+                        "name": "Skibat"
+                    },
+                    {
+                        "name": "yotoniko0"
+                    },
+                    {
+                        "name": "w0mble"
+                    },
+                    {
+                        "name": "Forever"
+                    },
+                    {
+                        "name": "m0rli"
+                    }
+                ],
+                "winningTeam": true
+            }
+        ],
+        "Map": {
+            "fileName": "ascendancy_v2.0",
+            "scriptName": "Ascendancy v2.0"
+        },
+        "durationMs": 2275033,
+        "id": "71caa1640fa2931a5c545fd60378db8b",
+        "startTime": "2023-07-02T19:05:21.000Z"
+    },
+    {
+        "AllyTeams": [
+            {
+                "AIs": [],
+                "Players": [
+                    {
+                        "name": "Flash"
+                    },
+                    {
+                        "name": "Skibat"
+                    },
+                    {
+                        "name": "Rangoran"
+                    },
+                    {
+                        "name": "detective"
+                    },
+                    {
+                        "name": "RiseHeaven"
+                    },
+                    {
+                        "name": "Litschi"
+                    },
+                    {
+                        "name": "Raikoh"
+                    },
+                    {
+                        "name": "Forever"
+                    }
+                ],
+                "winningTeam": true
+            },
+            {
+                "AIs": [],
+                "Players": [
+                    {
+                        "name": "MrFox"
+                    },
+                    {
+                        "name": "spoderfriend"
+                    },
+                    {
+                        "name": "Popops"
+                    },
+                    {
+                        "name": "Rathim"
+                    },
+                    {
+                        "name": "Fire[Z]torm_"
+                    },
+                    {
+                        "name": "trash_panda"
+                    },
+                    {
+                        "name": "[TZN]Clyret"
+                    },
+                    {
+                        "name": "BARacus"
+                    }
+                ],
+                "winningTeam": false
+            }
+        ],
+        "Map": {
+            "fileName": "Rosetta1.4",
+            "scriptName": "Rosetta 1.4"
+        },
+        "durationMs": 2825267,
+        "id": "0fbca164bc08f64ca0aa67d41f2cb5f6",
+        "startTime": "2023-07-02T18:03:59.000Z"
+    },
+    {
+        "AllyTeams": [
+            {
+                "AIs": [],
+                "Players": [
+                    {
+                        "name": "Raikoh"
+                    },
+                    {
+                        "name": "Forever"
+                    },
+                    {
+                        "name": "MrFox"
+                    },
+                    {
+                        "name": "trash_panda"
+                    },
+                    {
+                        "name": "Litschi"
+                    },
+                    {
+                        "name": "[LOB]Choice"
+                    },
+                    {
+                        "name": "SadPanda"
+                    },
+                    {
+                        "name": "sneyed"
+                    }
+                ],
+                "winningTeam": true
+            },
+            {
+                "AIs": [],
+                "Players": [
+                    {
+                        "name": "Caliburn"
+                    },
+                    {
+                        "name": "yotoniko0"
+                    },
+                    {
+                        "name": "Karolson"
+                    },
+                    {
+                        "name": "ArBaron"
+                    },
+                    {
+                        "name": "[teh]Nikuksis"
+                    },
+                    {
+                        "name": "[DE]LSR"
+                    },
+                    {
+                        "name": "[8D]"
+                    },
+                    {
+                        "name": "Delfeacy"
+                    }
+                ],
+                "winningTeam": false
+            }
+        ],
+        "Map": {
+            "fileName": "carrot_mountains_v1.0",
+            "scriptName": "Carrot Mountains v1.0"
+        },
+        "durationMs": 2537667,
+        "id": "c485a16417be1a4e50c9a3b1b4609765",
+        "startTime": "2023-07-02T14:12:20.000Z"
+    },
+    {
+        "AllyTeams": [
+            {
+                "AIs": [],
+                "Players": [
+                    {
+                        "name": "[DE]LSR"
+                    },
+                    {
+                        "name": "MrFox"
+                    },
+                    {
+                        "name": "Gregg"
+                    },
+                    {
+                        "name": "Forever"
+                    },
+                    {
+                        "name": "detective"
+                    },
+                    {
+                        "name": "Karolson"
+                    },
+                    {
+                        "name": "yotoniko0"
+                    },
+                    {
+                        "name": "SnidelyWhiplash"
+                    }
+                ],
+                "winningTeam": true
+            },
+            {
+                "AIs": [],
+                "Players": [
+                    {
+                        "name": "ArBaron"
+                    },
+                    {
+                        "name": "trash_panda"
+                    },
+                    {
+                        "name": "Litschi"
+                    },
+                    {
+                        "name": "[teh]Nikuksis"
+                    },
+                    {
+                        "name": "[SPM]pretorek"
+                    },
+                    {
+                        "name": "sneyed"
+                    },
+                    {
+                        "name": "Raikoh"
+                    },
+                    {
+                        "name": "Steel_Blue"
+                    }
+                ],
+                "winningTeam": false
+            }
+        ],
+        "Map": {
+            "fileName": "Twin Lakes Park Redux 1.2",
+            "scriptName": "Twin Lakes Park Redux 1.2"
+        },
+        "durationMs": 1086767,
+        "id": "3e7fa164033fda08c4593852ebec7d80",
+        "startTime": "2023-07-02T13:44:30.000Z"
+    },
+    {
+        "AllyTeams": [
+            {
+                "AIs": [],
+                "Players": [
+                    {
+                        "name": "HellsHound"
+                    },
+                    {
+                        "name": "[teh]Nikuksis"
+                    },
+                    {
+                        "name": "[SPM]pretorek"
+                    },
+                    {
+                        "name": "Forever"
+                    },
+                    {
+                        "name": "MrFox"
+                    },
+                    {
+                        "name": "Karolson"
+                    },
+                    {
+                        "name": "yotoniko0"
+                    },
+                    {
+                        "name": "SnidelyWhiplash"
+                    }
+                ],
+                "winningTeam": false
+            },
+            {
+                "AIs": [],
+                "Players": [
+                    {
+                        "name": "Litschi"
+                    },
+                    {
+                        "name": "sneyed"
+                    },
+                    {
+                        "name": "trash_panda"
+                    },
+                    {
+                        "name": "Steel_Blue"
+                    },
+                    {
+                        "name": "Gregg"
+                    },
+                    {
+                        "name": "deyv1d"
+                    },
+                    {
+                        "name": "Raikoh"
+                    },
+                    {
+                        "name": "ArBaron"
+                    }
+                ],
+                "winningTeam": true
+            }
+        ],
+        "Map": {
+            "fileName": "Rosetta1.4",
+            "scriptName": "Rosetta 1.4"
+        },
+        "durationMs": 1379567,
+        "id": "7a78a164304cb0b510669e40bdb467ee",
+        "startTime": "2023-07-02T13:15:38.000Z"
+    },
+    {
+        "AllyTeams": [
+            {
+                "AIs": [],
+                "Players": [
+                    {
+                        "name": "Raikoh"
+                    },
+                    {
+                        "name": "Gregg"
+                    },
+                    {
+                        "name": "[SPM]pretorek"
+                    },
+                    {
+                        "name": "Popops"
+                    },
+                    {
+                        "name": "ArBaron"
+                    },
+                    {
+                        "name": "sneyed"
+                    },
+                    {
+                        "name": "yotoniko0"
+                    },
+                    {
+                        "name": "Caliburn"
+                    }
+                ],
+                "winningTeam": false
+            },
+            {
+                "AIs": [],
+                "Players": [
+                    {
+                        "name": "YesThisIsDog"
+                    },
+                    {
+                        "name": "Karolson"
+                    },
+                    {
+                        "name": "trash_panda"
+                    },
+                    {
+                        "name": "Steel_Blue"
+                    },
+                    {
+                        "name": "niilzon"
+                    },
+                    {
+                        "name": "eL_bArTo"
+                    },
+                    {
+                        "name": "deyv1d"
+                    },
+                    {
+                        "name": "EmperorGlass"
+                    }
+                ],
+                "winningTeam": true
+            }
+        ],
+        "Map": {
+            "fileName": "NuclearWinterR",
+            "scriptName": "Nuclear Winter Bar 1.4"
+        },
+        "durationMs": 841400,
+        "id": "b272a16408ba4df09d3c6494310516ef",
+        "startTime": "2023-07-02T12:50:58.000Z"
+    },
+    {
+        "AllyTeams": [
+            {
+                "AIs": [],
+                "Players": [
+                    {
+                        "name": "HellsHound"
+                    },
+                    {
+                        "name": "[SPM]pretorek"
+                    },
+                    {
+                        "name": "Object416"
+                    },
+                    {
+                        "name": "ArBaron"
+                    },
+                    {
+                        "name": "Steel_Blue"
+                    },
+                    {
+                        "name": "YesThisIsDog"
+                    },
+                    {
+                        "name": "trash_panda"
+                    },
+                    {
+                        "name": "Popops"
+                    }
+                ],
+                "winningTeam": true
+            },
+            {
+                "AIs": [],
+                "Players": [
+                    {
+                        "name": "EmperorGlass"
+                    },
+                    {
+                        "name": "Caliburn"
+                    },
+                    {
+                        "name": "Anyway"
+                    },
+                    {
+                        "name": "niilzon"
+                    },
+                    {
+                        "name": "Hans2"
+                    },
+                    {
+                        "name": "sneyed"
+                    },
+                    {
+                        "name": "yotoniko0"
+                    },
+                    {
+                        "name": "Gregg"
+                    }
+                ],
+                "winningTeam": false
+            }
+        ],
+        "Map": {
+            "fileName": "eight_horses_1.2",
+            "scriptName": "Eight Horses 1.2"
+        },
+        "durationMs": 1102467,
+        "id": "fd6ba16486c8e8b7a61c856f41e3763d",
+        "startTime": "2023-07-02T12:22:21.000Z"
+    },
+    {
+        "AllyTeams": [
+            {
+                "AIs": [],
+                "Players": [
+                    {
                         "name": "[TZN]Clyret"
                     },
                     {
