@@ -127,3 +127,4 @@ assignment5/checker.pyx
 *.h5
 notebooks/training_checkpoints/
 notebooks/*.png
+notebooks/VOCdevkit/
