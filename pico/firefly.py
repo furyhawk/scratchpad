@@ -1,5 +1,6 @@
-from picozero import pico_led, LED, Switch
+# from picozero import pico_led, LED, Switch
 from time import sleep
+from machine import Pin, Timer, Switch
 
 """     ---usb---
 GP0  1  |o     o| -1  VBUS
@@ -24,25 +25,37 @@ GP14 19 |o     o| -19 GP17
 GP15 20 |o     o| -20 GP16
         ---------"""
 
-try:
-    pico_led.on()
-    sleep(1)
-    pico_led.off()
+led = Pin(13, Pin.OUT)
+timer = Timer()
 
-    firefly = LED(13)  # Use GP13
 
-    switch = Switch(18)  # Use GP18
+def blink(timer):
+    led.toggle()
 
-    while True:
-        if switch.is_closed:  # Wires are connected
-            firefly.on()
-            sleep(0.5)  # Stay on for half a second
-            firefly.off()
-            sleep(2.5)  # Stay off for 2.5 seconds
-        else:  # Wires are not connected
-            firefly.off()
-            sleep(0.1)  # Small delay
 
-except KeyboardInterrupt:
-    firefly.close()
-    print("finished")
+timer.init(freq=10, mode=Timer.PERIODIC, callback=blink)
+
+# try:
+#     led = Pin(13, Pin.OUT)
+#     timer = Timer()
+#     pico_led.on()
+#     sleep(1)
+#     pico_led.off()
+
+#     firefly = LED(13)  # Use GP13
+
+#     switch = Pin(18, Pin.IN)  # Use GP18
+
+#     while True:
+#         if switch.is_closed:  # Wires are connected
+#             firefly.on()
+#             sleep(0.5)  # Stay on for half a second
+#             firefly.off()
+#             sleep(2.5)  # Stay off for 2.5 seconds
+#         else:  # Wires are not connected
+#             firefly.off()
+#             sleep(0.1)  # Small delay
+
+# except KeyboardInterrupt:
+#     firefly.close()
+#     print("finished")
