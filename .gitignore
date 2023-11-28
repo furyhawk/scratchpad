@@ -28,6 +28,7 @@ wheels/
 .installed.cfg
 *.egg
 MANIFEST
+*.pkl
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -128,3 +129,5 @@ assignment5/checker.pyx
 notebooks/training_checkpoints/
 notebooks/*.png
 notebooks/VOCdevkit/
+
+node_modules/
