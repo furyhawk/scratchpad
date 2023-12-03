@@ -33,7 +33,7 @@ def blink(timer) -> None:
     led.toggle()
 
 
-timer.init(freq=10, mode=Timer.PERIODIC, callback=blink)
+timer.init(freq=1, mode=Timer.PERIODIC, callback=blink)
 
 # try:
 #     led = Pin(13, Pin.OUT)
