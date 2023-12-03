@@ -1,6 +1,6 @@
 # from picozero import pico_led, LED, Switch
 from time import sleep
-from machine import Pin, Timer, Switch
+from machine import Pin, Timer
 
 """     ---usb---
 GP0  1  |o     o| -1  VBUS
@@ -29,7 +29,7 @@ led = Pin(13, Pin.OUT)
 timer = Timer()
 
 
-def blink(timer):
+def blink(timer) -> None:
     led.toggle()
 
 
