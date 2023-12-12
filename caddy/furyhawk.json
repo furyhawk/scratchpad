@@ -1,0 +1,20 @@
+{
+	"apps": {
+		"http": {
+			"servers": {
+				"furyhawk.synology.me": {
+					"listen": [":443"],
+					"routes": [
+						{
+							"match": [{"host": ["furyhawk.synology.me"]}],
+							"handle": [{
+								"handler": "file_server",
+								"root": "public_html"
+							}]
+						}
+					]
+				}
+			}
+		}
+	}
+}
