@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>jetson - 124c41</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "jetson";
+        var mkdocs_page_input_path = "jetson.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <script src="../js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+      <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> 124c41
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../resume/">Resume</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../conda/">Conda</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../git/">git</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../softwarearchitecture/">softwarearchitecture</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../code/">vscode</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../machine_learning/">machine_learning</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../llm/">llm</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../rag/">rag</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../llama2/">llmama2</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../framework/">Framework</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../db/">database</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../dataframe/">Dataframe</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../anomaly_detection/">anomaly_detection</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../chart/">Chart</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../hydra/">Hydra</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../linux/">Linux</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../macos/">macos</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../sway/">sway</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../docker/">Docker</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">jetson</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#ubuntu-version">Ubuntu Version</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#l4t-version">L4T Version</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#kernel-version">Kernel Version</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#cpu-information">CPU Information</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#hardware-information">Hardware Information</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#disk-usage">Disk Usage</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#running-processes">Running Processes</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#list-usb-devices">List USB Devices</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#usb-devices">USB Devices</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#force-recovery-mode">Force Recovery Mode</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#dmesg">dmesg</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#xorg">Xorg</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#list-partitions">List Partitions</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#serial-usb-devices">Serial USB devices</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../yolox/">yolox</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../gpt/">gpt</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../stable_diffusion/">stable_diffussion</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../wandb/">Model Analysis</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../ssh/">ssh</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../smb/">Samba</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../smb2/">Samba_ubuntu</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../mkdocs/">MkDocs</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../mypy/">mypy</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../literatures/">Literatures</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../scrape_pad/">scrape_pad</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../random/">random</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../about/">About</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">124c41</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" alt="Docs"></a> &raquo;</li>
+      <li>jetson</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="nvidia-jetson-agx-xavier">Nvidia Jetson AGX Xavier</h1>
+<h2 id="ubuntu-version">Ubuntu Version</h2>
+<pre><code class="language-sh">$ cat /etc/lsb-release
+</code></pre>
+<h2 id="l4t-version">L4T Version</h2>
+<pre><code class="language-sh">$ cat /etc/nv_tegra_release
+</code></pre>
+<h2 id="kernel-version">Kernel Version</h2>
+<pre><code class="language-sh">$ uname -a
+</code></pre>
+<h2 id="cpu-information">CPU Information</h2>
+<pre><code class="language-sh">$ lscpu
+</code></pre>
+<h2 id="hardware-information">Hardware Information</h2>
+<pre><code class="language-sh">$ sudo lshw
+</code></pre>
+<h2 id="disk-usage">Disk Usage</h2>
+<pre><code class="language-sh">$ df -h
+</code></pre>
+<h2 id="running-processes">Running Processes</h2>
+<pre><code class="language-sh">$ top
+</code></pre>
+<h2 id="list-usb-devices">List USB Devices</h2>
+<pre><code class="language-sh">$ lsusb
+</code></pre>
+<h2 id="usb-devices">USB Devices</h2>
+<p>List the USB devices and associated drivers.</p>
+<pre><code class="language-sh">$ usb-devices
+</code></pre>
+<h2 id="force-recovery-mode">Force Recovery Mode</h2>
+<p>Place the Jetson into Force Recovery Mode</p>
+<pre><code class="language-sh">$ sudo reboot –-force forced-recovery
+</code></pre>
+<h2 id="dmesg">dmesg</h2>
+<p>dmesg prints the kernel message buffer. The messages typically consist of messages produced by device drivers. Useful when working with new hardware, e.g. USB devices. On newer installations (Newer Ubuntu 14.04, Ubuntu 16.04), you can monitor the dmesg buffer:</p>
+<pre><code class="language-sh">$ sudo dmesg –follow
+</code></pre>
+<h2 id="xorg">Xorg</h2>
+<p>Xorg is the Ubuntu display server. You can monitor the Xorg log in real time:</p>
+<pre><code class="language-sh">$ sudo tail -f /var/log/Xorg.0.log
+</code></pre>
+<h2 id="list-partitions">List Partitions</h2>
+<pre><code class="language-sh">sudo gdisk -l /dev/mmcblk0
+</code></pre>
+<h2 id="serial-usb-devices">Serial USB devices</h2>
+<p>From: https://unix.stackexchange.com/questions/144029/command-to-determine-ports-of-a-device-like-dev-ttyusb0</p>
+<p>Below is a quick and dirty bash script which walks through devices in /sys looking for USB devices with a ID_SERIAL attribute. Typically only real USB devices will have this attribute, and so we can filter with it. If we don’t, you’ll see a lot of things in the list that aren’t physical devices.</p>
+<pre><code class="language-sh">#!/bin/bash
+
+for sysdevpath in $(find /sys/bus/usb/devices/usb*/ -name dev); do
+(
+syspath=”${sysdevpath%/dev}”
+devname=”$(udevadm info -q name -p $syspath)”
+[[ “$devname” == “bus/”* ]] &amp;&amp; continue
+eval “$(udevadm info -q property –export -p $syspath)”
+[[ -z “$ID_SERIAL” ]] &amp;&amp; continue
+echo “/dev/$devname – $ID_SERIAL”
+)
+done
+</code></pre>
+<p>https://docs.nvidia.com/jetson/jetpack/install-jetpack/index.html#sd-card-image</p>
+<p>https://docs.nvidia.com/sdk-manager/docker-containers/index.html</p>
+<p>https://docs.nvidia.com/jetson/archives/l4t-archived/l4t-3261/index.html#page/Tegra%20Linux%20Driver%20Package%20Development%20Guide/updating_jetson_and_host.html#</p>
+<p>https://docs.nvidia.com/jetson/archives/r35.3.1/DeveloperGuide/text/SD/FlashingSupport.html#flashing-to-an-sd-card</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../docker/" class="btn btn-neutral float-left" title="Docker"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../yolox/" class="btn btn-neutral float-right" title="yolox">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../docker/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../yolox/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,3199 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>gpt - 124c41</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "gpt";
+        var mkdocs_page_input_path = "gpt.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <script src="../js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+      <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> 124c41
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../resume/">Resume</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../conda/">Conda</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../git/">git</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../softwarearchitecture/">softwarearchitecture</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../code/">vscode</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../machine_learning/">machine_learning</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../llm/">llm</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../rag/">rag</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../llama2/">llmama2</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../framework/">Framework</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../db/">database</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../dataframe/">Dataframe</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../anomaly_detection/">anomaly_detection</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../chart/">Chart</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../hydra/">Hydra</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../linux/">Linux</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../macos/">macos</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../sway/">sway</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../docker/">Docker</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../jetson/">jetson</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../yolox/">yolox</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">gpt</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#train">train</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#logs">logs</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#king-r">KING R</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#vol">VOL</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#camillo">CAMILLO</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#york">YORK:</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#iter-599988-loss-28334-time-7135ms">iter 599988: loss 2.8334, time 71.35ms</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#king-edward-iv">KING EDWARD IV</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#king-henry-vi">KING HENRY VI:</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#duke-v">DUKE V</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#second">Second</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#menen">MENEN</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#1000">1000</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#were-his-thy-the-the-the-ill-or-all-cannot-i">Were, his thy the the the I'll, or a'll cannot, I</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#of-thou-say-so">Of thou say so;</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#i-the-a-a">I the a a,</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#000">000</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#jricest-a-bo">Jricest a bo</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../stable_diffusion/">stable_diffussion</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../wandb/">Model Analysis</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../ssh/">ssh</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../smb/">Samba</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../smb2/">Samba_ubuntu</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../mkdocs/">MkDocs</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../mypy/">mypy</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../literatures/">Literatures</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../scrape_pad/">scrape_pad</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../random/">random</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../about/">About</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">124c41</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" alt="Docs"></a> &raquo;</li>
+      <li>gpt</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="gpt">gpt</h1>
+<p>https://github.com/furyhawk/nanoGPT</p>
+<h2 id="train">train</h2>
+<p>python train.py --dataset=shakespeare --n_layer=4 --n_head=4 --n_embd=64 --device=mps --compile=False --eval_iters=1 --block_size=64 --batch_size=16</p>
+<h2 id="logs">logs</h2>
+<p>iter 432061: loss 3.3774, time 102.72ms</p>
+<p>number of parameters: 3.42M
+No meta.pkl found, assuming GPT-2 encodings...</p>
+<p>The state of heaven with him yet have set
+The enam received in his power,
+It will be such,morrow; if he be
+By common enemies, so may not do, you
+As if you mark the truth.</p>
+<p>FLORIZEL:
+Why is my part;
+Not here my life, we'll do't, where it is
+The lark that the Earl of Warwick is slain:
+On bold, my rest, my liege, in whose good time
+I'll drown him worthy me to my Earl towards,
+Is Come to draw to scARD a fearful day.
+3 KING HENRY VI</p>
+<p>KING LEWIS XI:
+What! canst thou live in poor soul,
+To do him banish'd at the same our point
+And the freshinks I come, 'tis aught to have but
+I fear you joys: all that I cannot
+On thee would of my heart, my poor soul,
+To be so bold a knave in this time;
+And thou by, she's children's blood, only, it is
+To see my life.</p>
+<p>MARIANA:
+A thousand part, indeed, sir, a time
+As you will wonder not: come, my liege, I well;
+And he is too a gentleman.
+See that with the voice that at once, you must
+Flried the senators of the any it good to us being son:
+but, I cannot be done; but we can tell him;
+for him I'll draw your words together.
+What you will know how you?</p>
+<p>COMINIUS:
+They are, uncle.</p>
+<p>CORIOLANUS:
+Therefore, my gracious friend,
+I am the farther un ches:
+What, poor! I beseech you, let it be a cousin.</p>
+<p>VOLUMNIA:
+Tush, the gods!</p>
+<p>MENENIUS:
+I am too!
+Nay begin to bid my lady play well:
+I am no pity that willy heir is right;
+But, by his leave I have or why it is.</p>
+<p>CORIOLANUS:
+Not? let me see, you are strange?
+They have made no more than all.
+Hath my wife's lord, upon pain of death.</p>
+<p>Third Citizen:
+Why,</p>
+<hr />
+<p>I shall have had some heard of you hear.</p>
+<p>QUEEN MARGARET:
+And so we all, I thank thee: 'tis more;
+Thou art the letter, and thou hast not so: wouldst be
+done, hark you, I know, my soul here have
+t something
+So to say, but I pray, and no more.</p>
+<p>ISABELLA:
+O, if it were full of such deep Norfolk, love,
+I would have more than his gracious fault
+Than Angelo first to you at great comfort.</p>
+<p>ANGELO:
+Yea, and make you he crook 'pt TrleKE:
+I'll make.</p>
+<p>Provost:
+What, my general?</p>
+<p>DUKE VINCENTIO:
+'Tis like of his most,
+And leave me to the will for my poor side.</p>
+<p>ANGELO:
+Hath the king'ster heaven with the majesty of tears,
+With a kind: I have, my lord, must die.</p>
+<p>MARCIUS:
+Tell me hate them not, honesty are there
+To entreat of my wife, and my son to my order,
+And set the mother all my father's consent
+To make the must fly: so go:
+From whom that I would not, I do not fear,
+As well I will have me, you are vile toward.</p>
+<p>QUEEN MARGARET:
+But, by your vouchius, I fear not what I am:
+For since we came, your father's, at the least?</p>
+<p>Second Servant:
+Tis more than this of you can but have done
+My love or mercy to the queen of heaven:
+But I have forgot it, more, goodenio.</p>
+<p>CAPULET:
+Ay, as the matter I told you speak, my lord.</p>
+<p>BALTHASAR:
+But to the case of the Tower.</p>
+<p>ROMEO:
+Never; live, my lord, my soul is as well:
+I hope, by this which is a villain,
+When that thy brothers Romeo is, one sun
+With thy mother's wife, that I may return
+To know me what a dream hath as well
+As she run thought to be your mother, I
+I may not need to my sweet,</p>
+<hr />
+<p>CAPULET:
+Ay, what art thou?</p>
+<p>ROMEO:
+A queen, nurse?</p>
+<p>JULIET:
+Good lords,
+If thou dost know ye but.</p>
+<p>JULIET:
+Say, that Richmond's soul, take me in all.</p>
+<p>ROMEO:
+O, Romeo, I will not weep a while.</p>
+<p>JULIET:
+For the defry of grief makes them fair:
+But since unsapblful villain's wit of heaven
+It was a friend for ever-day,
+When I was lawful oath and not so,
+I am born to do it would it might be,
+I am revenged on-hearted my leaves dead king's oath,
+For the wantless blood whose heads must enter:
+'Tis the Lord Northumberland that King Edward was himself,
+The Duke of Warwick, and his place in France,
+And thou shalt come to my will-day shall not stay.</p>
+<p>HENRY BOLINGBROKE:
+Why, howof, I beseech you talk of,
+Here must I play my heart with a cruelay;
+That doth not fall dead, I know the matter.</p>
+<p>DUKE VINCENTIO:
+You had even like'd, fie me, 'tis, I am resolved:
+Nay, unadBe now, I have heard her speak more than you
+I speak at peace.</p>
+<p>ANGELO:
+Well, I do beseech you, fair sir.
+Your eyes will not come upon me: he is most
+man, it is not so: so most much little most wrong,
+and may go to that by: which you have
+therein your hate, we may see themselves.</p>
+<p>LADY CAPULET:
+We are in prison, one word; ask him;
+For some you win me, upon his best:
+You know no better for the mind, there's no matter
+ stands on him.</p>
+<p>DUCHESS OF YORK:
+How wouldst thou?</p>
+<p>Messenger:
+My gracious lord, I like youThis.</p>
+<p>DUKE OF YORK:
+Is it not dead, cousin.</p>
+<p>DUCHESS OF YORK:
+Then 'tis shame forAnd all that thou wast?</p>
+<h2 id="king-r">KING R</h2>
+<p>DUKE VINCENTIO:
+Romeo.</p>
+<p>Provost:
+It do trust me.</p>
+<p>ANGELO:
+Our lord, I cannot speak the good word:
+Since I havewas not it, I do'll therefore know
+Will a divineade me speak.</p>
+<p>ISABELLA:
+O, let me hear what you did deliver,
+By 'twere pity to him. This friends, be his head
+it, with one that's no matter, look to me as this
+lure of the prince a curse; more stands on't;
+No, sir; not a very weak of mine,
+If not that. Now, andso death's like death!
+I see, and hear Montague, my Montague.
+Who knows thou nothing; be not gentle,
+I may not, yet they shall be so, then;
+And had he come'd withAnd the oracle:
+I'll have your heart: that I shall follow
+that send him; that, we will warrant you, andPEY?</p>
+<p>ELBOW:
+Nay, he shall get a man to me.</p>
+<p>ELBOW:
+Look, very well, he shallEL' the better royal, which I do do't
+But I shall find, a time will be from his spirit.
+I prithee, take one: give me not your comfortier:
+I will not be come to-morrow; let's entreaty?</p>
+<p>ROMEO:
+I beseech your grace, sir,--</p>
+<p>BISHOP OF CARke, my dTwere 't.</p>
+<p>BUCKINGHAM:
+I will, my lord: nay,
+You will have you go with me to please again.</p>
+<p>BUCKINGHAM:
+You will not hear duty, but for I will, sir,
+You have not the lady will with thee love
+But what you may! You are sure of he is
+to be a doth valiant; I will wot the prince:
+and have first to-morrow then.</p>
+<p>ANGELO:
+Thy business is the more and that my brother's sister.</p>
+<p>ISABELLA:
+It cannot be so.</p>
+<p>DUKE VINCENTIO:
+I say you, well; for if his present is
+the</p>
+<hr />
+<p>WARWICK:
+And thou wert enam'd; I'll not be mine own?</p>
+<p>KING LEWIS XI:
+What man is none than that at his house,
+That bear their down heart to Edward's-t thou him?</p>
+<p>WARWICK:
+Bid me, noble lord, our friends are fled,
+And sit to be true; and with all our sonsiss,
+From forth the most defend in theile departedath
+Be not born to make a husband as if
+I send it to thought that I did weep,
+And quench blood or not well.</p>
+<p>KING RICHARD II:
+O I was Clarence! What'sFL words were it:
+That I, as we are, that they have no friend,
+Even in the blood of heaven of fight,
+Thou p country's blood and'd. Come, and go with thee go;
+And, as mine I remember as any man's son
+As merry as I told the people and am mighty
+As'd an hour begin and bears our hands,
+But shame no other Paris and her be drawn.</p>
+<p>ROMEO:
+Is my long come. carry, let'st thou father
+In this remembrance of love: thou eat not 'em most noble
+swear tongue for what thou mayst, not wert between.
+The Earl of heaven of Warwick's love, this man,
+That's hearts, the true king, myMON and Sir.
+And unlook'd in the princess slain,
+Is beg of hen, and did yield in their arms
+At no moreOR create give from their hands,
+For the dead George of Clarence to his king,
+Who spake me his enemies shall hold it.</p>
+<p>BUCKINGHAM:
+My lord, my gracious lord,
+You had a power of wisdom cam thou out of mine?</p>
+<p>KING RICHARD II:
+He hath enem this, people, but I'll win me.</p>
+<p>CATESBY:
+Then here, my lord.</p>
+<p>KING RICHARD III:
+Nor I, the crown that queen is slain,
+To take the devil of our other linean ground,
+Not his our kingly curse people's-Which they that
+Is put to have open honesty
+Either to come in their arms.</p>
+<p>QUEEN MARGARET:</p>
+<hr />
+<p>ANTIGONUS:
+Hear you not?</p>
+<p>First Citizen:
+Come, sir; go, be it must none but you:
+I am ta'en and leave of you; and, then, go with me.</p>
+<p>First Servingman:
+Why, we will, sir.</p>
+<p>Second Servingman:
+I would not, no more:
+the provost.</p>
+<p>Third Servingman:
+What's the matter?</p>
+<p>Third Servingman:
+What's the matter?</p>
+<p>Second Servingman:
+No, my master, I can tell; I know how it you,
+thereof he m it.</p>
+<p>Clown:
+He's here; we should be a witness to the purpose.</p>
+<p>Third Citizen:
+He hath done what you are done.</p>
+<p>Third Servingman:
+A Romeo, sir, for them he would have found
+baw Rome of the world.</p>
+<p>CORIOLANUS:
+But I love the child,
+Not that thou hast other of thy life.</p>
+<p>Third Servingman:
+If thou she were thrice a man,
+And had these griefing force royal royal queen;
+And I am son, and I love thee myself.</p>
+<p>KING RICHARD III:
+But I will be poor; which he is he made?</p>
+<p>BUCKINGHAM:
+My gracious lord, let's see your grace be company.</p>
+<p>KING RICHARD III:
+Why, what a fellow should be?</p>
+<p>BUCKINGHAM:
+My lord, 'tis a subject, proud
+Which else, which, had some him, it will with heaven
+Till wind manage our doth made over his land.
+Why, proud I have ta'en the service of the people,
+That would not have more better that,
+Which will be satisfied; and, how his ignorant shouldER'
+He seems not? and I have had rather thy,
+To do my country, to make the'd right,
+With all the envy of this loyal,
+Our holy and be England and Duke of York,
+Not in his second soul I and have been
+The which never bid us, and call King Richard's lord.</p>
+<p>HENRY BOLINGBROKE:
+Welcome, uncle; we shall not be unto him;
+But so, my good son, I</p>
+<hr />
+<p>I do further.</p>
+<p>KING RICHARD III:
+Why, then, I confess thee, lord,
+If thou hadst never yet thou yet hadst never,
+But yet thou wilt wert up in thy horse.</p>
+<p>CLIFFORD:
+Clarence and Gloucester, I will not bethink,
+But that's not yet did nothing: but the gods
+The times of revenge!</p>
+<p>RICHARD:
+Nay, bring me what ancient, and this hand.'</p>
+<p>KING HENRY VI:
+But, to thee speak commonth very day!</p>
+<p>CLIFFORD:
+That thou wert so disgraced me to me.</p>
+<p>KING HENRY VI:
+Woth he the oath that I should tread upon our way?</p>
+<p>CLIFFORD:
+What may your grace in poor Henry's life and him?</p>
+<p>WARWICK:
+No, like a bawd, you not so; and, and for
+the poor one did, he is even to give his l.</p>
+<p>WARWICK:
+Uncle, so:
+I do intend to him in all, I hope.</p>
+<p>KING HENRY VI:
+How far I mean? if this be so bold with!
+The which, his queen, the queen, his love;
+And so, gentle king, may they do you in at night
+And fly him in the slander of his king,
+To be revenged on him that, so should you have;
+For, by this way be you found you to,
+She's a woman.</p>
+<p>ANGELO:
+He will not see you, sir.</p>
+<p>ESCALUS:
+I am aTo your request in hand, you shall in arms
+You must give, and yet go by, a course it is thence.</p>
+<p>ESCALUS:
+LARTI not mock mine own good.</p>
+<p>ANGELO:
+Do you hear.
+The duke hath forgot you for what you are?</p>
+<p>ESCALUS:
+BUS: for whose offence?</p>
+<p>CORIOLANUS:
+What to you?</p>
+<p>CORIOLANUS:
+O, worthy madam,
+And have I too most, you shall not.</p>
+<p>AUFIDIUS:
+Worthy sir, farewell.</p>
+<h2 id="vol">VOL</h2>
+<p>Had not himself, nor known she!</p>
+<p>Provost:
+An me, both that; he did, sir, to steal-on
+Her mother's Romeo!
+O old faithful friar!</p>
+<p>JULIET:
+Why do I more than that I should never speak of.</p>
+<p>ROMEO:
+Nay, rather give me leave me that I will;
+For I shall find some better happy days
+Than lay, a man.</p>
+<p>FRIAR LAURENCE:
+But slain, her hath the next day a little.</p>
+<p>ROMEO:
+Nay, good woman; my turn in thy sake
+art full nights here. Who is dead and young prince.
+Ah, how, dost thou find me to thy breast,
+Thine hast he, and more, a noble fawd.
+Sir, thou canst not speak, I wouldst thou wert
+For sleep the mark of thy deadly years?
+Ah, keep'st, asLord men, thou hast got
+By so thy voice: there's no power, it is none honest.</p>
+<p>MERCUTIO:
+Tybalt, Romeo, whom I have the best
+I think how I have done.</p>
+<p>ROMEO:
+Thy life art thou, that thou art too fair!</p>
+<p>BENVOLIO:
+Mehe, and go not in 't.</p>
+<p>MERCUTIO:
+Nay, I'll bring some noise for a for that.</p>
+<p>CLAUDIO:
+Your face? aarer is a traitor's head to pluck him
+to the king the house. But which you can do I have
+to the hand; for it will be, as I am
+and a block withFor a man that Claudio hath married,
+If be a uncle.</p>
+<p>DUKE VINCENTIO:
+He did know more.
+You are most little more, he hath done it well,
+our the city and do them to make
+me theD:' Aufidius come to me and brother; and she
+isome with those that hath been, 'twere pity us all.
+Then, soft, wot each that am aly;
+For now I did well know. My mother!</p>
+<p>LEONTES:
+What's well man?</p>
+<p>CAMILLO:</p>
+<hr />
+<p>KING RICHARD III:
+Be not so?</p>
+<p>HENRY BOLINGBROKE:
+So that of God he would have the king his!</p>
+<p>BUCKINGHAM:
+I'll make more
+ than my gracious case: I will bear the deed.</p>
+<p>KING RICHARD III:
+tis you by king, I would am I bethink,
+To make an amissant in love
+That thou wouldst protest to keep post toOR'n;
+And thou he is not nowSo.</p>
+<p>LEONTES:
+Unman, it is;
+Nay, good my good lord, be satisfied still.</p>
+<p>LEONTES:
+A most business:
+Let me have been since I was to be mercy;
+Whiles the lark-f orth-she,
+He cannot, Marcius worthyKE: 'tis well stock no poison.
+The manner of the envy he spake to Marcius,
+That with the power is worth dead, the doth be brief,
+In worthy Romeo hastous tune up.</p>
+<p>KING RICHARD II:
+Whom was it so, my child is set on death.</p>
+<p>HENRY BOLINGBROKE:
+ClOR, my lord;
+With late that cons news, for, to that I would
+Trueass the great number pardon'd, from your head
+ already're his mind i' the there, I will.</p>
+<p>DUKE VINCENTIO:
+You do but see your highness of your arms
+Would know the king's mouth with peace.</p>
+<p>MARIANA:
+I mean, a son, it is not a word
+ through a tear for Claudio, and be banished;
+But when you bid this manner bless us,
+In whom we have had been wont to do,
+'twas upon the business, you
+I shall call'd his friends to him, and then.</p>
+<p>DUKE OF Lord:
+He's tearsark; for long my gentleness'
+I let me hear; good cousin, adieu!
+Belike his hands I in his remedy;
+And I have died to face, my love to me,
+And I will make him leave of can say,
+I had rather keep their words with him to keep him
+Whither, to thy fortune but put off;</p>
+<hr />
+<p>And see that this terror may be so,
+So if that cannot: so that's the friend,
+That will be deservedly of your honour's life,
+Let thy rage here cut in his grave;
+One side do not.</p>
+<p>MENENIUS:
+Hath the people's great state by power,
+That they shall have set up a part;
+But, as minetis the nothing of a man,
+That is the deputy,tis well for fault,
+And breathed his honour with the fear of death,
+That all for that as you are, and we may live.</p>
+<p>BALTHASAR:
+A pretty fardman!</p>
+<p>RICHMOND:
+Bid him be here? and I'll make me pardon up.</p>
+<p>RIVERS:
+What, hast he not?</p>
+<p>BUCKINGHAM:
+My lord, my gracious lord.</p>
+<p>KING RICHARD III:
+As I remember; against thee, thou wert not so much done,
+That thou canst swear and thee, for thou hast no cause.</p>
+<p>RATCLIFF:
+I will not be not, my lord.</p>
+<p>KING RICHARD III:
+Ay, O my children, my eyes!</p>
+<p>BUCKINGHAM:
+No, mighty lord, I hope, shall understand it.</p>
+<p>KING RICHARD III:
+I know no? but himself he is done;
+The side must be seen and make me wrong.</p>
+<p>QUEEN ELIZABETH:
+That thou mean I sent to see thy life
+To have no more fit than it is in this world
+To look upon thy brother's make me hear,
+The Duke of Norfolk; if thou darest with
+Thy Lord Northumberland, rouse'd and thy crown,
+For thou shalt no life but by thy kingdom.</p>
+<p>KING EDWARD IV:
+But thou, in my turn, my grave jest thou,
+You, the newats, and have the ears,
+Where fruit men have done-bended, then my daughter
+Of happyness! O my woman! If thou didst, thou
+tis'st fair a piteous, which he was,
+And know not 't prove a thousand right while you
+That you are to have something: so, my kingdom,
+'Tis just that I</p>
+<p>iter 506998: loss 3.5516, time 71.91ms
+iter 506999: loss 3.6803, time 72.24ms
+iter 507000: loss 3.3026, time 72.24ms
+iter 507001: loss 3.4185, time 71.62ms
+iter 507002: loss 3.6271, time 73.12ms
+iter 507003: loss 3.5836, time 71.73ms
+iter 507004: loss 3.1981, time 75.92ms
+iter 507005: loss 3.6141, time 71.98ms
+iter 507006: loss 3.2294, time 73.99ms</p>
+<p>number of parameters: 3.42M
+No meta.pkl found, assuming GPT-2 encodings...</p>
+<p>The state of heaven with him, and that his body
+is humray'd this.</p>
+<p>WARWICK:
+And I.</p>
+<p>DUCHESS OF YORK:
+My dear lord,</p>
+<p>DUCHESS OF YORK:</p>
+<p>HENRY BOLINGBROKE:
+As far go we as any we toOL?</p>
+<p>HORTENSIO:
+I think she is well: then will you have so:
+I would we were not been then in war's good.</p>
+<p>DUKE VINCENTIO:
+We shall not be still be gone and been to see.</p>
+<p>GREMIO:
+And your good lord,
+I would all and like you; and in your hope.</p>
+<p>ISABELLA:
+I can know the truth, I am your father's house.</p>
+<p>DUKE VINCENTIO:
+It is no gone, sir?</p>
+<p>LUCIO:
+I think I would, sir, I know say, I am a friendlike by
+him: it is the very much of your blood; if
+Would I be well show'd of you in the bosom
+And our new-a.</p>
+<p>Provost:</p>
+<p>MAMILLIUS:
+My lord,
+I'll warrant thee a holy heart: which's with mine,
+I am too good to him.</p>
+<p>LEONTES:
+I am none;
+Sir, for your son I have here in this business
+To the justice of your father's worth.</p>
+<p>PAULINA:
+It is my gr in that I were,
+To the most of your own: your therefore have
+Be consul:
+Come, come, go, go, be much here too much:
+I am no more.</p>
+<p>LEONTES:
+They are such a and
+the and yet.</p>
+<p>HERMIONE:
+The better, sir; I am an't that you have
+notity.</p>
+<p>LEONTES:</p>
+<p>LEONTES:
+Well, well, what!</p>
+<p>LARTIUS:
+I am so.</p>
+<p>PAULINA:
+I pray any I, sir?</p>
+<p>PAULINA:
+Alas, poor woman!
+What ha</p>
+<p>HENRYHAM:
+Too true Clarence was a holy bed.</p>
+<h2 id="camillo">CAMILLO</h2>
+<p>I shall have had a brother of your son,
+To yield your brother's brother.</p>
+<p>LordOUCESTER:</p>
+<p>CLARENCE:</p>
+<p>KING EDWARD IV:</p>
+<p>KING EDWARD IV:
+Why, then, think you what: go-morrow, son,
+That you must not do that I am just,
+For when you can, my lord, my brother, Henry
+With your brother, if he bring end to your last.
+And, high-ed, if you see her you do,
+He would not have been thus an whose speak
+With that most un Butice:
+I would, he were born, a name:
+The house of him I'll speak to see your wife's.</p>
+<p>DUKE VINCENTIO:
+'Tis not her in, sir, his friends, which
+Of wrongstAName to the earth, with a little way.</p>
+<p>ISABELLA:
+I am so mither'd by the point of it
+That I have had.</p>
+<p>DUKE VINCENTIO:
+O, let me think; and let me see a word.</p>
+<p>Provost:
+I wouldISABELLA:
+Wilt thou not, then, not in a very kind for a very
+for me that I did use me from him to speak.
+And I beseech your majesty and your bosom
+And my great opinion, have a wife and father,
+Unto my brother father and my well.</p>
+<p>FRIAR LAURENCE:
+And there is my hNor talk'd be no sworn to death
+But that I should think 'twack the part of you
+In the duke's daughter.</p>
+<p>Nurse:
+A love a man that his blood is more a life
+Than this may standow make her false friends.
+Nay, more farewell; I not for't;
+Our unf shors'll ask you: come by the
+man-likeent of this lady is the least,
+But to the everatter of me dearest day,
+Or me but one earth, like a thing that
+Not so much sorrow's, as many more is true
+Than this in his own! as our bthe light
+As I do! What's in all my shame
+ already may in openings! You, my sweet</p>
+<hr />
+<p>HASTINGS:
+Be early what would you say to our lord?</p>
+<p>YORK:
+It is not so.</p>
+<p>GLOUCESTER:
+It is.</p>
+<p>LADY ANNE:
+ sweet my old grace, that thou follow'st!</p>
+<p>GLOUCESTER:
+And, for God's sake, till you are three years.</p>
+<p>LADY ANNE:
+What, prince?</p>
+<p>GLOUCESTER:
+No noble thing I should be a happy king?</p>
+<p>GLOUCESTER:
+Away with him!</p>
+<p>DUCHESS OF YORK:
+My lord, I must not need:
+Yere to my children's love's loss of thee,
+But thou, even to the king, thou thy doubt'st tongue.</p>
+<p>KING RICHARD III:
+What is't o'So?</p>
+<p>DUCHESS OF YORK:
+I, by my life, I have done, but so in once
+For in the virtue of our blood: without that kind
+Was never so far gGLOUCESTR well,
+And I will follow him.</p>
+<p>DUKE VINCENTIO:
+M King Richard, give me leave to my thou thou go
+Be at home of these good fairWARD.
+But of what, thou dost to do Edward!</p>
+<p>B vouch'd:
+My lords, more than you shall please our royal name.</p>
+<p>LORD ROMASET:
+So, to save the king; yet he's just,
+And come, to answer me in him my country,
+And you shall have you where we did say the prince?</p>
+<p>DUCHESS OF YORK:
+My Lord, may you do this dangerous lady,
+My father's heart, which your hand did thee yet be
+The first one of this noble Edward's king;
+And yet that is no more: come to thee,
+For I am we of my your love.</p>
+<p>KATHARINA:
+I have a very.</p>
+<p>KING RICHARD III:
+ sadful lord, and his part-f ready I come
+To make the king a king from him there is
+That he's made good. Come, let you go;
+But there be 'twere noIC at you all;
+But you shall have</p>
+<hr />
+<p>France, for honour; if you were now have
+My body hath done to banish yourself,
+To prove a good will-dew heart,
+Wherein my noble prince was comfort
+To make a man's name and a great bed:
+'Tis well aKINGBe, he's in a child
+I'll be by my husband; let me she:
+I'll have it if I use my sake.
+Why, how, let is in that sword this traitor!</p>
+<p>HENRY BOLINGBROKE:
+Richard, help! but more than his that
+I'll make my tongue to love thee such life
+As thou art to Romeo.</p>
+<p>KING EDWARD IV:
+This? but doth he not Edward's death's death!</p>
+<p>HEN MARGARET:
+It is more than no more yet than by it.</p>
+<p>BUCKINGHAM:
+What, is it so?</p>
+<p>GLOUCESTER:
+I shall be there was in my heart
+With gracious lord and my good lordle brought
+He is well: but I hear you will
+Give me to my duty, to the world.</p>
+<p>First Murderer:
+Because thou canst love, that ever, thy love, thy child,
+Thy man shall take a grave on thy wretcheding.
+Fare not thy sword, content Camillo, give
+Of your she on a my master and son;
+And here, I beseech your highness,--</p>
+<p>FRIAR LAURENCE:</p>
+<p>eyeTYou may my kindred again!</p>
+<p>ROMEO:
+A good things still, this is this day's run
+Doth never speak,--ces nay,
+For I have seen thee very like a fard blood,
+This were thy poor, which bestELLIO:
+Let the more be put, sir, play in,
+I'll tell you is Edward in such deep men!</p>
+<p>KING EDWARD IV:
+By heaven, I hear no more: my brother's heart.</p>
+<p>HEN ELIZABETH:
+I am come to have a more worth in this.</p>
+<p>KING RICHARD III:
+Allak thou, God! it is not my son.</p>
+<p>QUEEN ELIZABETH:
+There is no more I swear than they shall
+ grief is so.</p>
+<hr />
+<p>WARWICK:
+And thou and that Romeo's and thy son's face,
+That thou shalt thousandame in thy rest,
+Whose father's heart, of grace and heart's blood is come,
+And with the tongue that did not be there.</p>
+<p>BENVOLIO:
+T Gm would cause, I wouldsthip wish it true.</p>
+<p>ROMEO:
+Is thy life- vouch's own word.</p>
+<p>MERCUTIO:
+My lord, I'll take thy choice to go
+Hath yet with an heart-day's death?</p>
+<p>BENVOLIO:
+I dare not for the best upon thyPle
+I talk of thy Ver lives. Come, let's not
+A noble man:
+For she hath yet a man to fall?</p>
+<p>ROMEO:
+Thou art not so well:OM pity her:
+But he's an but one.</p>
+<p>FRIAR LAURENCE:
+WithSecond, sir, a thousand duke's of idle hand;
+But I am sworn to it I should not stay,
+To be a life as thy honour's love:
+But let me rest?</p>
+<p>JULIET:
+This will be, to put forth; there is no man.</p>
+<p>DUKE OF YORK:
+Well, me for mine; let me by till thy husband
+I have no brother, till I am not a king's son:
+For I have done, I here hear you speak:
+By heaven, I am a beg by my life,
+So far as most in a man that's the mour of!
+O, that I would be less! the great which o' the honour,
+And that I had; but then, I am a-beLEath slain,
+Were kill my takest! If never, run Aufidius,
+'Tis thought it would you are at enmity
+That you did but so much is, and
+And I'll lay down out whose't be fullle
+In such most I have kill'd his have been such his,
+As so in the world is dead.</p>
+<p>Messenger:
+The man that he is our lady.</p>
+<p>KING RICHARD III:
+He kill, my lord; who, we could not say
+'ld have so much. Come, come away.</p>
+<hr />
+<p>Of God's name and our fair?</p>
+<p>'Tis oath?</p>
+<p>TYRSON:
+He's lord, my daughter; but I doubt not more,
+Farewell; and 'twas it be before I did
+Or not a one that she is not to be thy
+tNor in a thought of the world was not
+ enough to be the king.</p>
+<p>Provost:</p>
+<p>DUKE VINCENTIO:
+How?</p>
+<p>DUKE VINCENTIO:
+O, let me go my lord,
+I would youheeio her, prince, of you,
+And make me be seen to the people.</p>
+<p>DUKE VINCENTIO:
+I do believe it, to grant and love me
+My state English yourself, being full of your love!
+O prince! one of you a man that I must not
+all be the king, which is mine and him.</p>
+<p>LUCIO:
+But, madam, an'tess'd by the do break your honour.</p>
+<p>DUKE OF YORK:
+I, for an Murd--</p>
+<p>KING RICHARD III:
+What! what goes this? at' lie I'force?</p>
+<p>DUCHESS OF YORK:
+I would I had a poor day for- thou art made it.</p>
+<p>DUCHESS OF YORK:
+I should I will love thee any Isabel,
+If I have seen the king.</p>
+<p>Provost:</p>
+<p>DUKE VINCENTIO:
+Good Romeo, Romeo: 'twas done,
+As that in any man have done to you wretch with him:
+So, well I desire it, to my heart
+Is this the day of Edward's wife:
+Thou most Richard, I fear me,
+Thou wilt make thee as thou wilt be a thousand
+As I am, as most gentle for ourselves:
+To this my husband's fair day, my soul,
+I therefore let her stay with heavy kiss:
+And, as I could, but I would, my good lords,
+Ere you be king in oath, and my death.</p>
+<p>LUCIO:
+Why, how thou hast done this man with thy love!
+Farewell! thou dead too, what 'twas no time
+Thy other blood should come; and with that</p>
+<hr />
+<p>WhosePOL know to fain:
+'Tis so false, to beg mercy, their pluck'dine side
+For their goodILL'er's hands.</p>
+<p>POLIXENES:
+What, be there enough' the king with the king:
+Clarence other m O Warwick! if it be done,
+And that my good cousin, I wot that I know.</p>
+<p>LEONTES:
+How can you think!
+We must be this be you; this power are
+My true son, my brother.</p>
+<p>AUTOLYCUS:
+Here's he that did keep her to be: he's a par and a
+the duke; he is very well said, he doth:
+He had not so, I do fear.</p>
+<p>AUTOLYCUS:
+I may say, sir, my queen, dear love.</p>
+<p>Clown:
+My lord, you will, by my life, a word; the he duke's daughter's wife!</p>
+<p>MAMILLIUS:
+I have not been i' the lie.</p>
+<p>DORCAS:
+I know thy canre so.</p>
+<p>POLIXENES:
+O my lord!</p>
+<p>MAMILLIUS:
+No, my good Paulina,--</p>
+<p>DORCaius out,--</p>
+<p>DORCLEY:
+So much to it, sir, that it may be received
+To the sons; your pleasure where, the king's heir,
+Have he been nothing to be depose,
+But the poor law so far the rest is dead.</p>
+<p>KING RICHARD III:
+Ay, if I have Clarence's bosom forth.</p>
+<p>QUEEN ELIZABETH:
+WhyWARD,
+Well, pray, go with us? he is very comfort.</p>
+<p>RIVERS:
+No, as the devil'st I am no more more;
+But I shall have heaven with my life to go.</p>
+<p>QUEEN ELIZABETH:
+How long the justice of the earth is not mine?</p>
+<p>GRUMIO:</p>
+<p>prison does:
+Come, sir, it is no more.</p>
+<p>And the rHAM:
+My flum, will tell your Lordhip; here is mine
+ToWARD; and yet I then lay at arms.</p>
+<h2 id="york">YORK:</h2>
+<p>God save your lordship to his own Lord Hastings!
+I but on such right and said 'tis well.</p>
+<p>KING HENRY VI:
+O, then, I'll away thy life to bear.</p>
+<p>QUEEN ELIZABETH:
+Come, come, come, let no longer, call to our daughter:
+For now the news is come.</p>
+<p>KING RICHARD III:
+O, but the father that is the king,
+The love for maid truth: 'tis in the needful Richard' death?</p>
+<p>QUEEN ELIZABETH:
+Nay me, gone, go with me, in good
+I'ight in thyAnd shall the sound wrong.</p>
+<p>KING RICHARD III:
+So much theseford still he is:
+His name is troth thee well my death:
+What, that is not so much, any of thee
+and let me think she hath no further
+As, nor any soldier, nor pardon,
+But that was she hath done, she should be.</p>
+<p>STANLEY:
+It is no more of your bed hath best not true.</p>
+<p>KING RICHARD III:
+Hath there been, and die out, so much to me
+The word of a love: what art thou?</p>
+<p>Second Lord:
+Thy father lives, that therefore can not be
+I take theUTA way out of our offer,
+And, as I say, for we shall not stay.</p>
+<p>LADY CAPULET:
+O my hand, a fault will be more never heard
+Or else moreare.</p>
+<p>CAPULET:
+Under this boy, she is of the Duke of York's son
+He live from mine honour and his blood'st
+To take us good; and, with much subject
+Like to the cause to be thus.</p>
+<p>LEONTES:
+You have content'd your most mostday
+To speak your ownness and my soul.</p>
+<p>LEONTES:
+Why, the Lord Angelo,
+So York, as it be father, for his life,
+To call them hope 'twere yourself and dangerous.</p>
+<p>CAMILLO:
+Why, what a thing?</p>
+<p>LEONTES:
+Was everBut in such a time of her,
+Or in a good will of this unisest?</p>
+<hr />
+<p>KING EDWARD IV:
+What, lords?</p>
+<p>WARWICK:
+And Warwick Clarence at the eyes of justice!</p>
+<p>KING EDWARD IV:
+Why,ere no more.</p>
+<p>CLARENCE:</p>
+<p>GLOUCESTER:</p>
+<p>CLARENCE:</p>
+<p>HASTINGS:</p>
+<p>KING RICHARD III:
+Death, brother, are you through my soul
+Sray to me, and leave me to my uncle?</p>
+<p>KING HENRY VI:
+This is thy brother's son in want these hence,
+Lest as I say, his Earl of Warwick,
+And tell himself to the Lord king to him,
+And he had been the will This comes.</p>
+<p>QUEEN MARGARET:
+Why thy words have there the blood for this land
+In that thy heart that should have. You, God's right
+I should have needful nothing set upon,
+Theself I am: and yet thy doth--</p>
+<p>QEN ELIZABETH:
+O nothing, that my lord Richard will have.</p>
+<p>KING RICHARDISET:
+Yet, as I come!</p>
+<p>KING HENRY VI:
+I know the name do march.</p>
+<p>QUEEN ELIZABETH:
+O, I wilt thou not know that sorrow hath
+To hold the world with thee, and make me think
+How I am of thine.</p>
+<p>KING RICHARD III:
+In whose from all the shame of save,
+ThatCORIOLANUS:
+Why, how's there,--</p>
+<p>VOLUMNIA:
+Let's hear your heart?</p>
+<p>MENENIUS:
+ much for my very word,
+I'--Come, let's go:
+I am please her I shall do it, sir.</p>
+<p>MENENIUS:
+It is a cause,
+Pray you, get your words.</p>
+<p>BRUTUS:
+What, our good lord?</p>
+<p>SICINIUS:
+He shall, you shall be; he are three gods
+Is full voice.</p>
+<p>First Senator:</p>
+<p>MENENIUS:
+Ay, but I will go.</p>
+<p>First Senator:
+I know your Rome.</p>
+<p>BRUTUS:
+Is the news prove true, my lord, and thySo, as I</p>
+<hr />
+<p>And see that this beable and mostadman:
+Hath not a high Mercutio?
+That's more to say 'twere well;' which I pray
+I am too more than some, but so good
+For one to be done.</p>
+<p>LEONTES:
+We know my friend,
+I am theWhat I of your body, if
+But who youath done the noble duke,
+But what is done.</p>
+<p>LEONTES:
+Good Marcius, you have lost thy devil, to lie all
+Good night.</p>
+<p>POLIUS:
+The people did.</p>
+<p>SICINIUS:
+Are you all Aufidius?</p>
+<p>First Senator:
+You would he were dead, but not so much I:
+But now I'll call for it.</p>
+<p>MENENIUS:
+Well, well, no more.</p>
+<p>CORIOLANUS:
+As I had forgot the world, you have not a kind of love
+Must be a child to be satisfied,
+For you being no man to her death.</p>
+<p>BRUTUS:
+Away! the arm
+Of your fair wife'st,
+For she was my enemy. What doth the man!</p>
+<p>DUKE VINCENTIO:
+But makes him, good father,
+Thy poor prisoner is your time,
+I'll have a brother of a son too;
+The side are all betwixt me and his brother.
+And I have need not; and, as I am not
+The goodly gentleman is too, do not
+But else 'INCENTIO:
+O,en O, good me, indeed and I'll thank thee not no
+He hath deservedUKEill live to do this;
+And, if this beNORine no man's death is cold.</p>
+<p>AUTOLYCUS:
+Away! he is not made good, sir.</p>
+<p>DUKE VINCENTIO:
+My heart, my good lord, did't not't.</p>
+<p>ANTIGONUS:
+It is of this;
+We know of you are now.</p>
+<p>Servant:
+My father is at hand,
+Who came Camillo: 'Tis goodly:
+I'll be the bosom on the world:
+When the common misfoler of this battle,
+To</p>
+<hr />
+<h3 id="iter-599988-loss-28334-time-7135ms">iter 599988: loss 2.8334, time 71.35ms</h3>
+<p>iter 599989: loss 3.3947, time 71.09ms
+iter 599990: loss 3.6317, time 72.32ms
+iter 599991: loss 3.5352, time 74.15ms
+iter 599992: loss 3.2102, time 72.34ms
+iter 599993: loss 3.5483, time 71.71ms
+iter 599994: loss 3.5832, time 71.76ms
+iter 599995: loss 3.4675, time 71.01ms
+iter 599996: loss 3.3202, time 71.27ms
+iter 599997: loss 3.7681, time 71.95ms
+iter 599998: loss 3.6641, time 74.20ms
+iter 599999: loss 3.8146, time 71.89ms
+step 600000: train loss 3.6565, val loss 5.9145
+saving checkpoint to out
+iter 600000: loss 3.3908, time 193.50ms</p>
+<p>number of parameters: 3.42M
+No meta.pkl found, assuming GPT-2 encodings...</p>
+<p>The state of men with him that, by his brother's,
+The very good men, and hisWhen we revenge to
+Myself, like being now in the airing.</p>
+<p>GLOUCESTER:
+This gentleman is set out of other.</p>
+<p>LADY, lord, give way, and go we to our cannot,
+And I will leave them to one the YORK:
+Why, then we may come to you to the:
+I would thou wouldst hear; war's still he thou done:
+O, is 'twThy graciousYou were at the heart.</p>
+<p>First ay:
+I did not stay?</p>
+<p>HERMIONE:
+You will not live
+But sir, nor little's by the he'll take it down
+To can. You are not fit to me?</p>
+<p>LEONTES:
+What, youPEY?</p>
+<p>MELMy words may bear't. The one would have so.</p>
+<p>ESCALUS:
+I cannot speak in heart to come by with her
+the thee: never only of your love, O,
+He has with him most peace; he'setheth once,
+And therefore do you any thing he would have you;
+That, in't your eye, well- ELman is so long a
+Jof which's made youity. If you, you may hear that you are,
+wtis a shepherd only may he say Bohemia.</p>
+<p>DUKE VINCENTIO:
+To your love.</p>
+<p>LUCIO:</p>
+<p>ANGELO:
+I am that king.</p>
+<p>DUKE VINCENTIO:
+I would I had been on to the A there:
+Yet must you be, sir, to all I know so.</p>
+<p>DUKE VINCENTIO:
+The duke shall know you say speed again to yourself
+you.</p>
+<p>Provost:
+I will be an't.</p>
+<p>DUKE VINCENTIO:
+It is a word of me.</p>
+<p>ANGELO:
+TISTRESS OVERDONE:
+Ah, howio! not all as he being
+As is a father of a e'er these
+adTan your brother is born.</p>
+<p>MAMILLIUS:
+I am a word to-morrow; youpt,
+But you might,</p>
+<hr />
+<p>I shall have had some to him thus.</p>
+<p>LADY CAPULET:
+If you were mad?
+'Tis full of what you should have.</p>
+<p>CAPULET:
+What, say'st that I mean to me to thy name?</p>
+<p>JULIET:
+I am the more.</p>
+<p>Nurse:
+Is a word.</p>
+<p>JULIET:
+What is the news thou bring?</p>
+<p>ROMEO:
+How shallest what's a d see of them!</p>
+<p>ROMEO:
+O, give mewence, that comes in the time
+Of this. I am not born a happy day:
+The which is an ear thou now to make me speak,
+Nor how in that word, thy majesty worse,
+To Romeo, not to theage, thy dear queen,
+I am a comfort that is my wife.
+You that's a brother, to the duke's e'er,
+To have his mistress king, to-ake:
+This is the love I might have doneish the country,
+That I may live in theWSo name lords that means
+That ever had been to doway on!
+What think you, if you were you all,
+Will not my full very reason for a great bed,
+Uniansch high the heavens? answer this
+Of this fair prince's name?</p>
+<p>CAMILLO:
+I will, my lord.</p>
+<p>LEONTES:
+Pray your father!
+That's true-Sir, and you are son.</p>
+<p>POLIXENES:
+You are rough sir, give me Lord: let him go your seek.</p>
+<p>LEONTES:
+My fair lord,
+Were I but so much, or do I see, my more proud,
+On this most gracious lord.</p>
+<p>ANGELO:
+Thy great youth is the forth knows.</p>
+<p>ISABELLA:
+But 't, an confp Henry!'
+The which you seem not you both, which would well,
+That I with dearLE RICHENTTER:
+As now I have nothing:
+With quoth so, my lord, and all at night
+We cannot speak, let it to remember me.</p>
+<p>CLIFFENCE:
+Is some thought of this, we may be a cause.</p>
+<h2 id="king-edward-iv">KING EDWARD IV</h2>
+<p>LADY CAPULET:
+And to me have me bawd, youngly, I would say,
+If you say so, it shall know the world thou thyself.</p>
+<p>LADY ANNE:
+And, I am that day to last with a thine.</p>
+<p>JULIET:
+O God's sake, is come!
+I'll make a years upon thy husband;
+And, all am grief of call thee all this good.</p>
+<p>QUEEN ELIZABETH:
+It is my father's; it is more
+A dead, a proud; for if she be king,
+I may not live another woman,
+I am not a father that will take it;
+And now, for my father, by my whose fineoe
+Provine and my wife's son brave father me:
+But I hope, my lord, for I was seen,
+With mine own love to-day; let me lest:
+So I have done, yet comes one.</p>
+<p>DUKE OF YORK:
+Thy kind-morrow spake for the grace-night!</p>
+<p>DUKE OF YORK:
+ay Richard, that dothst thou do to love thee?</p>
+<p>DUKE OF AUMERLE:
+Then, I am mine own again, or I,
+The truth of day; and with a kind house
+Hath made her dead, who have manyre many more
+That I'll hear him rather and say, for my death,
+I give a purpose.</p>
+<p>LUCIO:
+O living, my lord, it is gone to leave it,
+And you shall have of this good or'dN
+At my poor brother's kiss: and I have seen,
+The one that's made me welcome.</p>
+<p>DUKE VINCENTIO:
+This oath have as high as the wisest, then other
+mure of a chide on: the post of those:
+You have not there here are comeable.</p>
+<p>LUCIO:
+But in this while I should have them; if I cannot,
+I do put the fool: then, like I come to love thee
+With a set upon my master, which is his
+pence of the king; even so in his hands,
+As I havech you at his best,
+By that it may</p>
+<hr />
+<p>France, for honour! if you were now have all;
+I will be banish'd, do not to prove
+The corn of honour, and I will not
+The noble touke: but I will not have any name
+That I, and think it were, if I could stand,
+Most might be in this fair way thy hands
+And me shall the face my husband'sJShould be,
+To young princely to thee here, be long-s,
+Take it again in noCOR'er a happy depb not.</p>
+<p>ROMEO:
+O Romeo, nurse, how can your dU is a happy
+In mine honour or anBHAMELLA:
+He shall have a poor way inch by his honour
+Gless worthmen; I warrant my counsel was more.</p>
+<p>DUKE OF YORK:
+Let me I speak of such, my lord,
+That very good to be this, before the time
+Wept with Iixt these words.</p>
+<p>DUCHESS OF YORK:
+Why, so I am his wife, to do't,
+Yet hear my lord; 'tis so; and I, I do him!</p>
+<p>DUKE OF YORK:
+Int note was that ever wasR pleasure true:
+He which's anMENain'd now: heuck me not his
+bawd than I have content the old gold-bed, he's dead,
+That may not beoe to be thy face.</p>
+<p>DUKE OF AUMERLE:
+Whom is the way, to youQ is it so;
+For I will not: so she would thou hadst no time
+Than in me but not: but that--tis not so,
+For I should, I think, I please you, my sovereign,
+And by our country's breath shall hear thee,
+To lose a matter with a word; if we
+At the most little: to such nor thought it was,
+Unless I think had been yours, for I crown'd;
+And, with a word, poor soul, that thy love's will do it.</p>
+<p>BUCKINGHAM:
+I know the gods.</p>
+<p>GLOUCESTER:
+Pray, be these my bosom: for the time
+I'll pluck the pack of your house face.</p>
+<h2 id="king-henry-vi">KING HENRY VI:</h2>
+<p>WARWICK:
+And Warwick's death will go and did to us.
+And yet not be fear'd in all.
+Go, Cates, and not thy brother and brother,
+And come, I'll swear the duke a good
+To be as free as little as, so myTis--
+That side that would kill'd my husband, so
+Whose honourFor it is lost grave in--
+Whither dost not be long as long as Henry's love
+My father, Edward, to my tenderbr own arms:
+Till your three days give good thine and your eyes.</p>
+<p>KING RICHARD II:
+O I wast thou not dead, say I know thy mind,
+Yet thou that dost in beseech at us,
+And not to the people that brought you to me
+And think you of our good rather shall be
+Be it to me but for my best good.</p>
+<p>First Senator:
+O Clifford, O, it is the more!</p>
+<p>MENENIUS:
+I would he had a people,
+But, were you not't; and you, my lord,
+You am of what you shall be so?</p>
+<p>BRUTUS:
+When you are should have bound 'em.</p>
+<p>MENENIUS:
+So, most it do.</p>
+<p>BRUTUS:
+Where is the love of this fellow, that must not?</p>
+<p>AUFIDIUS:
+We do not say:
+We were to do't.</p>
+<p>CORIOLANUS:
+You have been a cause to need.</p>
+<p>VOLUMNIA:
+O, indeed, I'll to desire o'er a counsel,
+And I will play the us.</p>
+<p>MENENIUS:
+My noble wife is me as good as well in true,
+To have an those water's better and isar'd.
+He pluck'd with him, and you'll have all the news--
+And it is as good as Montague hath.</p>
+<p>Second Citizen:
+That, my master, which is his friar o'er-s,
+In that she had done the noble duke's from
+The noble head to the-night bed-like.</p>
+<p>First Citizen:
+Sond to the king:
+But I hear, madam, let him be heard it</p>
+<hr />
+<p>Of God's name, that is ill and great blood
+On thy be these; yet every w thought I with it,
+And none but that I doubt; and, in your love
+Is it right: but I, my poor dear cousin,
+I hope that I had not to this brother,
+But I will stay in the thing I say.</p>
+<p>DUKE OF AUMERLE:
+Why, lords, what aunes may?</p>
+<p>DUKE OF YORK:
+A gage, prince wouldst thou tell thee they!
+Thy brother's death!</p>
+<p>DUCHESS OF YORK:
+Unshe's aHath
+To Romeo's name the traitor;
+And you, God and I will see thee a and that
+Of living men thus they had been in this love
+To the duke.</p>
+<p>QUEEN:
+So, they are not to be the name of all.</p>
+<p>KING HENRY VI:
+But, madam, be content for thy thank;
+If thou dost sleep at thee?
+Now long rest is dead; thou wert not thy f after?</p>
+<p>QUEEN MARGARY:
+As thou as now I love'd myself of thee?</p>
+<p>QUEEN:
+But I shall fight with him.</p>
+<p>KING RICHARD II:
+O God's pity where long the o'er the world-and'd
+! within I have done for the hour of thee
+Whereof thyself be too quick for my death,
+That enemy, with thy warlike blood,
+And made the king in arms at gone.</p>
+<p>DUCHESS OF YORK:
+So shall I do, to so late,
+Why, proud-hINCENT are lived told?</p>
+<p>DUCHESS OF YORK:
+No?</p>
+<p>KING EDWARD IV:
+I know you that is a father, to my?</p>
+<p>YORK:
+By fair, I thank thee, love thy face
+Which thou hast welcome of the fool, thou thyPR;
+And, now my poor queen willBYADYOP,
+For in my brother I king have play'd heaven:
+For Edward's face, being gone to Bolingbroke.
+TheAU's aH no other tongue to thee;
+For I have sent not to be of.</p>
+<h2 id="duke-v">DUKE V</h2>
+<p>WhosePOLIXENBERTER:
+Not that that shall tell thee to my grief,
+But I will not be gone to thee, and thou a present tongue.
+3 KING HENRY VI</p>
+<p>CLARerer:
+Take it with the day.</p>
+<p>BUCKINGHAM:
+Therefore, my lord, I let not beauteousors.</p>
+<p>FRIAR LAURENCE:
+Why, then, I pray thee, call thee bring me to me
+For this my gentleman's letters and her:
+'GoodISTR in't.</p>
+<p>ROMEO:
+You must beL blood;
+And thou wert dead with a for him thou this!</p>
+<p>Nurse:
+Go, come, come the nurse; I mustETH:
+I pray thee I know thou canst wish it not say.</p>
+<p>JULIET:
+Though we have less, for ourHave set than me,
+So full of honour, I am gone to Warwick.</p>
+<p>? of ourmen born?</p>
+<p>Second feel so: this is well as true as you,
+That you are put up and see as fast as fit
+As far all-f- HINCDand children to my poor blood
+To this loving?</p>
+<p>LUCIO:
+Doth she, when her father's Claudio hath done.
+What's he? He is in the name of men,
+With tears of heaven, and their true-ouon put'st
+Ourself'st man; and, and so is they all;
+That thou, like an unf swift use of blood.
+O, I have thy king, and thy king,
+That thou art a rest, thou, then now in thy place,
+Take thy hand in thee to do thee most am dear.</p>
+<p>JULIET:
+O do this love, and be an O! O's thy title,
+Is more more than yet thouThis: now, and that thou art
+To be it? 'tis not a tas beg man in
+ seen an hour, having whom, he will not tell him.
+The means of you, my lord, is your lady's son.</p>
+<p>First Citizen:
+Away, my lord: we know they do us all.</p>
+<p>First Citizen:
+Woe to you? then you have said you were?</p>
+<h2 id="second">Second</h2>
+<p>Gentlemen, may she be put for it.
+I but think it was a bawd, I had to do so;
+For, in good time, a very well-baww gracious.</p>
+<p>Nurse:
+Why, how now, I art gone,
+Saw-b, ere, I hearon!</p>
+<p>JULIET:
+OGLOUCESTER:
+Here, that would he were so sour to he.</p>
+<p>LADY ANNE:
+Why, Warwick, how now in day shall I be!</p>
+<p>GLOUCESTER:
+ gone, my liege, in what!
+If it be I had to die their high.</p>
+<p>KING EDWARD IV:
+Then am you patient; and therefore is
+Of all my husband Paris, to-day.</p>
+<p>GLOUCESTER:
+O, I would I had rather, but for thy son?</p>
+<p>KING EDWARD IV:
+Your death, my good, what! that I am there.</p>
+<p>GLOUCESTER:
+No, to thy name; but very it is not,
+For I have, to go with me; why, he's dead?</p>
+<p>heir:
+We shall not, my love, my lord;
+But, Warwick, do not justice her out;
+For therefore, so it is his hand that is:
+And yet our country, we are, nor I.</p>
+<p>QUEEN ELIZABETH:
+But what means, good father, be that state?</p>
+<p>KING RICHARD III:
+Tell 'p thee, an brow of all.</p>
+<p>QUEEN ELIZABETH:
+Good prince, so!</p>
+<p>KINGain:
+What do you thought, I hear it, I know you well:
+Your face I am not in your good counsel:
+Then be it then?</p>
+<p>KING RICHARD III:
+Ay, but he, but he's no more than a country.</p>
+<p>BUCKINGHAM:
+Is it none, good father; you hear no more.</p>
+<p>KING RICHARD III:
+We have done a better, our person.</p>
+<p>QUEEN MARGARET:
+Call so it, lords, have made him our hands:
+Berely as well as I have; for this,
+As for</p>
+<hr />
+<p>ESCALUS:
+I think much; but they find't their way out, but to die
+The people, and he hath yet show'd!</p>
+<p>ISABELLA:
+What you, I'll givehe outOUCCIUS:
+I am in need.</p>
+<p>ANGELO:</p>
+<p>I was a kind of all.</p>
+<p>CORIOLANUS:
+My gracious brother?</p>
+<p>LUCIO:
+ouson?</p>
+<p>ESCALUS:
+UC.' is there a thing?</p>
+<p>VOLUMNIA:
+I would it, sir.</p>
+<p>COMINIUS:
+Let me but stay.</p>
+<p>CORIOLANUS:
+The gods too word, my good nurse,
+I come from Rome and of the had the gods
+alt have been in the presence there that made;
+The people lives upon our TheABes;
+So therefore you, I cannot do you, you
+Were, my good with me, your father, his lady:
+One of you, he has done, by the honour
+To Coriolanus.</p>
+<p>CORIOLANUS:
+Haply,
+I mean to us and on.</p>
+<p>VOLUMNIA:
+ine,
+Lest, take up the duke out the traitor's son
+He was a like a father; who made
+My best son: I will wish you his love.
+Wilt thou?
+What's this? what? will this, so I here,
+Were in me by my master, I am like.</p>
+<p>JULIET:
+ Richard had his grace,
+Nor, since the life that it hath most his,
+For much more shall be, and in that word.</p>
+<p>Nurse:</p>
+<p>JULIET:
+O nurse, I fear it were night.</p>
+<p>LADY CAPULET:
+Pray, you have all this day a may have youak.
+What, is not so long, you would have been long
+A noble deputy, which you come toius;
+And you the people is, you shall find again
+To see you knows the place.</p>
+<p>CORIOLANUS:
+Away!</p>
+<p>Second Senator:
+Come, I pray you go to you: you will hear me:
+Come on, madam.</p>
+<h2 id="menen">MENEN</h2>
+<p>DUKE VINCENTIO:
+What, if you do not, you should be been well
+That you shall have; and to the alone of my heart:
+Do not think that it is hard to take.</p>
+<p>LUCIO:
+And in that world where he cannot be; for, I do see
+You that never, I have heard, but not go;
+I'll the souls of more and more
+That is a good way to hand; take
+TheSIC he my C art, and myself to please.
+Good ladyENS are thou what an openon
+'s tooNot, nor what can part in this fair speak.</p>
+<p>NORTHUMBERLAND:
+Come, cousin, you standNow down toWhich as these blood
+As thou wert so now in a comfort's hand.</p>
+<p>KING RICHARD III:
+My dear love, my lord, my sovereign liege,
+MostFrom earth I come for Edward's death;
+And longum thou, the fault, but not thy lord:
+I look'd, to be fear'd for me to live.</p>
+<p>GLOUCESTER:
+I never will, I'll speak this.</p>
+<p>First Murderer:
+How now, like! what's the day?</p>
+<p>CATESBY:
+Marry, my lords, shall you seem inh nor wits,
+Or take you by the once.</p>
+<p>Second Murderer:
+O God's brother, thou art mad, and begish'd.</p>
+<p>Second Murderer:
+'Tis never gentleman, but what of my counsel
+But to my will at morning.</p>
+<p>Second Murderer:
+How long as I?</p>
+<p>Second Murderer:
+What with a name, was this?</p>
+<p>First Murderer:
+Alas'Twixt me, and must be thy daughter:
+Doth set the world upon thy counsel with thy
+thee o' the face, thou hast made them aHere.</p>
+<p>Second Murderer:
+'Tis more but not, dost thou havest Lewis,
+That he hath leave of more unto of this Richard.</p>
+<p>CLIFFORD:
+WhoCAP thou wilt fall so of he had been of!</p>
+<p>RICHARD:
+And bid me stay.</p>
+<p>RICHARD:</p>
+<p>Messenger:
+Give me thy oath I</p>
+<hr />
+<h3 id="1000">1000</h3>
+<p>iter 997: loss 5.8675, time 724.04ms
+iter 998: loss 5.9554, time 722.33ms
+iter 999: loss 5.8129, time 730.23ms
+step 1000: train loss 5.9102, val loss 6.0530
+iter 1000: loss 5.3077, time 1634.94ms
+wandb: Waiting for W&amp;B process to finish... (success).
+wandb: / 0.001 MB of 0.001 MB uploaded (0.000 MB deduped)
+wandb: Run history:
+wandb:       iter ▁▂▂▃▄▅▅▆▇▇█
+wandb:         lr ▁██▇▆▅▄▃▂▂▂
+wandb: train/loss █▂▂▂▂▂▂▁▁▁▁
+wandb:   val/loss █▂▂▂▂▁▂▁▁▁▁
+wandb:
+wandb: Run summary:
+wandb:       iter 1000
+wandb:         lr 6e-05
+wandb: train/loss 5.91025
+wandb:   val/loss 6.05303</p>
+<p>I my, your the am;
+By areU he:
+WAR</p>
+<p>H</p>
+<p>That a me,
+I am father
+Or:
+And</p>
+<hr />
+<p>to her I</p>
+<p>I, I</p>
+<p>ROM, lord:ANG is IET. ITER,</p>
+<p>He</p>
+<p>Hold can for my your am,</p>
+<p>And if yet be'll to the the a life the the he a my;</p>
+<p>P:
+Sh, have this, my,</p>
+<p>A,,</p>
+<p>A thee-
+I a tell:</p>
+<p>O.
+A be any,</p>
+<p>Your you, I my death</p>
+<p>For I, this.
+You, my</p>
+<p>As I and the</p>
+<p>PET's artUS,
+My life than.</p>
+<p>Have see! and hand to God of stand,</p>
+<p>With, a many me?
+Where of have think, it to I have not,
+That that that pray,
+As the my I not thy the she lord shall a thyIO and would poor, for the:</p>
+<p>and:
+What and he,
+' so it, did a will his king, a is
+Th:
+ Butour</p>
+<p>Will,</p>
+<p>Were,,.
+She,
+COR the her as,</p>
+<p>Good</p>
+<p>When.</p>
+<p>For lords. and butET is there your me? and shall king the this.</p>
+<p>C, thy mine.</p>
+<p>O</p>
+<p>The shallUS,
+That:</p>
+<p>GL:
+That,
+That,</p>
+<p>Then, here the</p>
+<p>But,</p>
+<p>What:
+H the,</p>
+<p>D and,
+NOR toEN! if must,
+The the,US?
+To my the's poor.</p>
+<p>Why's will have he'll can how man</p>
+<p>Some in cannot than come,
+Even a in, him.
+Is you anyENT me; so say, be sir, the the Itis the, be'll man I them.</p>
+<p>What.</p>
+<p>So thisAB he,</p>
+<p>That that the will,</p>
+<p>That the'll:I a king,</p>
+<p>That '</p>
+<p>Would</p>
+<p>Now, have my the a:</p>
+<p>To kingUM,</p>
+<p>I'll</p>
+<p>b the must a do thou,
+H.</p>
+<h2 id="were-his-thy-the-the-the-ill-or-all-cannot-i">Were, his thy the the the I'll, or a'll cannot, I</h2>
+<p>To
+No for they not such time, name?</p>
+<p>And was have to not me,
+Come of must know,, I be the yourUS his such I be my.</p>
+<p>How,</p>
+<p>For me the have have:
+ROMING</p>
+<p>To to when to,
+My: as
+And men,</p>
+<p>An a
+B all or</p>
+<p>And thou is,</p>
+<p>To man,</p>
+<p>And the:</p>
+<p>Come, am sir,
+An,</p>
+<p>And:</p>
+<p>Lord queen for, they my, that he part</p>
+<p>This!
+It in my trueG do in:</p>
+<p>Is?
+And we most, that the</p>
+<p>BKE:
+Is an
+NES?</p>
+<p>From say;
+you and,
+to's knowING your</p>
+<p>I his
+ But V for it:</p>
+<p>I lordUL from well,
+Go in me, it the be I was. but: the her as</p>
+<p>IU the he our life; if his I most in I the is,</p>
+<p>I</p>
+<p>But in hast:</p>
+<p>Thus and your noble the do take she be:
+' I'll a
+I your d ever, be not allEN
+COL to aOL, and not he, you is I make,
+This you not? I</p>
+<p>And, beELL what there:</p>
+<p>Do her thy here, not not</p>
+<p>Not crown your in a that, if death would we you not the w made of his me and butI not,</p>
+<p>What,
+H it</p>
+<p>P can that
+The the,</p>
+<p>So:</p>
+<p>COR
+H</p>
+<p>This: if'll
+B, butET with will hand,
+I the a</p>
+<p>N to must a,
+If,</p>
+<p>Which
+I would your- have by the am isIO,
+What no come is</p>
+<p>This aIO:</p>
+<p>MEN been d:
+WAR in a not, '; name:
+To sir, I most</p>
+<p>NotUE men, I
+What and d me:. my?
+The's have a us he the I lordose,</p>
+<p>You not did,
+Here, do an a she, my we a he:
+BR thy</p>
+<hr />
+<p>Why she.</p>
+<p>P love,,
+COR this the that how,</p>
+<p>Of what out</p>
+<p>H thy:</p>
+<p>COR his me you,
+And as
+NOR you as and that
+But
+I
+Yet.
+I no crown, say:</p>
+<p>As have: and wereTER:To:</p>
+<p>KING
+KING.
+ROM be you my the yet, some one?
+Second their a theI, the father this it not the his.</p>
+<p>A as not:
+' it thou I theICH.</p>
+<p>O a lord.I it.
+That theES to he
+So.
+But!</p>
+<p>That not do.
+I:</p>
+<p>And your</p>
+<p>Q. I</p>
+<p>What</p>
+<p>IIO, is lords, he the stay that my come:</p>
+<p>How it were.
+H not,
+D.
+And, that be'sEN:</p>
+<p>H
+P:</p>
+<p>And my that have that not't to they the thou thy were</p>
+<p>If in; and the for know
+N
+In: for my the- never do tell R d it,
+Not,</p>
+<p>First,
+of I
+Come</p>
+<p>I be be hath a be her these me by this: and the it goodUT</p>
+<p>As</p>
+<p>My when,
+MER must.
+H
+And have the you- sir: and your
+To be aT, which is;
+That one shall must you the a,</p>
+<p>That make I that
+No'd.</p>
+<p>This;</p>
+<p>If now, good dIO most you time,
+My.</p>
+<p>N you, and this is have will am,</p>
+<p>ROM of were shall lord toUS,
+ROM is be his him:
+Sh: and her their:
+H to beEN I the name,
+Prov not all the you thee,
+The it, that was,IC
+How,</p>
+<p>As such not no IINC, our I and this is not,</p>
+<p>C.
+By but I
+W will as his</p>
+<p>Sh!</p>
+<p>you,
+To him: and say; she.
+Sir at notEN.</p>
+<p>Your me, for what is,</p>
+<p>Q them:
+Is
+Sir, one</p>
+<hr />
+<p>a him</p>
+<p>NOR with
+ROM mother that be that see in,</p>
+<p>H.</p>
+<p>I
+D, the so,,
+This man to</p>
+<p>She come?</p>
+<p>D</p>
+<p>Who, but; by</p>
+<p>He,
+H,</p>
+<p>I</p>
+<p>I
+I should my sir.</p>
+<p>As, take my as or.</p>
+<p>Let:</p>
+<p>Is
+Where his he,
+No his you be</p>
+<p>D have,And you
+He that in man thatIO</p>
+<p>And
+You in blood should</p>
+<p>That:</p>
+<p>As was lady.
+Now with:
+First, theICHEO isI very:
+Ah, will an- I blood him a, house, that part, my:
+MER, so,
+And</p>
+<p>I but you:</p>
+<p>What:
+Your come,
+Q,
+To,</p>
+<p>Now, will he see:
+Be,
+His to his an shall then,-- I. I most, your the this
+By will'll and</p>
+<p>For a the a a would he</p>
+<p>At</p>
+<p>I'll?</p>
+<p>I:
+Un my head;
+They thou am,</p>
+<p>I.</p>
+<p>It:
+To not, my noble in so,
+and
+O.
+By art?</p>
+<p>Let, they is have thou:
+COR; and I</p>
+<p>The
+But
+Th
+'</p>
+<p>An are letOL my.</p>
+<p>And
+My will,</p>
+<p>What me,
+A,
+A good</p>
+<p>Second.</p>
+<p>Then:
+Sir:To am art
+D.</p>
+<p>I the thetis, we one.</p>
+<p>I
+Lord
+Th.
+D, let,</p>
+<p>Now,
+MEN, the,
+To which</p>
+<p>And.
+TheUS so that an be give, be so,
+Come then him.
+That can the:Y with by; you give to'll</p>
+<p>A this to be the letsIO to be the
+And have'll,
+These is a thy!
+I
+And:
+OfEN cannot'llUE with he my do
+The did:</p>
+<h2 id="of-thou-say-so">Of thou say so;</h2>
+<p>be, best</p>
+<p>The our</p>
+<p>What:</p>
+<p>In can should of a he</p>
+<p>I</p>
+<p>To,
+Which
+J: I:
+He of his sir- am,
+If sweet the</p>
+<p>Now.
+ROM
+To, their. men?
+D, would king:</p>
+<p>And
+And one</p>
+<p>And'll himly name.
+COM, sir with,</p>
+<p>And:</p>
+<p>N am's that you of there thisOL heart:
+You if son
+But:
+WereET:</p>
+<p>if I never,
+Your in your not?</p>
+<p>goodIO, or:</p>
+<p>How
+Give not in;
+Come yourEN have most:
+H:So the I do,
+If my my I</p>
+<p>And the good I this or love in think:</p>
+<p>My
+Come's and some not
+I call, to mine:</p>
+<p>KING you
+'.
+Of</p>
+<p>To</p>
+<p>But life, be,</p>
+<p>B you, you,</p>
+<p>And go:</p>
+<p>Good theUS and love</p>
+<p>W forTER to'll II them:But'll an.
+If</p>
+<p>' will, and's part be bear here,</p>
+<p>A:</p>
+<p>We you
+How,
+Make thisEO's his would love, a when not:</p>
+<p>N him it, are you, a thou then,
+How.
+Cl a a for your! be the part,
+And take the
+But, sir,
+That:</p>
+<p>Ay, well!
+This,
+Second all-:
+If a I the'll all withUS:
+Totis death; sir of:</p>
+<p>And his her thee to this'd:
+Un, see and a
+KING,
+The the be; thy man, some do:</p>
+<p>And thou ' the the some thy
+To the this</p>
+<p>As.
+That--IO,
+The I the aKE thou in give!</p>
+<p>It shall some thou have I I I you the a
+To I d not am the thyKE a my the this he:</p>
+<p>Would my life,,,</p>
+<p>Well is thy,
+Which:
+Which a well.</p>
+<p>There R, the a
+B so: and</p>
+<hr />
+<p>UE</p>
+<p>MEN not in</p>
+<p>I tell withI if
+If in the R</p>
+<p>AsUS. but</p>
+<p>I the me when you,</p>
+<p>Good
+And him.</p>
+<p>b poor,
+One
+MER:
+To all: and is I makeant upon it I we a blood</p>
+<p>I.
+You
+Is, the, myIOL would
+First</p>
+<p>R, a he,
+Your queen: no people?
+TY:
+I.
+Is shalltw:
+And
+'ES youtis</p>
+<p>Which his my your my art we haveUE me
+S his but man, which come:
+That</p>
+<p>H the your the,
+b,
+His the a a my king?</p>
+<p>And</p>
+<p>Go to his
+Second hath I his more man up,
+That,</p>
+<p>What.
+And do'll a a</p>
+<p>As
+He in he have, I my willIO:
+And,
+That he I isU
+You,
+But.</p>
+<p>you?
+Which to a the a,
+To
+You a, have the my him, a these this and a him:
+R most love: that no do make if her</p>
+<p>For</p>
+<p>I know, my grace.
+AEN the am your your the I lord?
+Who, I the with
+But:
+I, a</p>
+<p>Ns to
+have so such:</p>
+<p>KING:
+J a</p>
+<p>I day is
+D crown'd,
+That</p>
+<p>But the the.</p>
+<p>Against when it
+J.
+MEN a the.
+If</p>
+<p>It
+ love</p>
+<p>Give theKEant,
+E, go.</p>
+<p>Sh:
+I ' as I ownUEAN:</p>
+<p>Thus will myIO of
+And,
+Of queen:
+IUS of my lord! it,</p>
+<p>He would thou?
+His,</p>
+<p>And that mother;</p>
+<p>And</p>
+<p>N I have, for his if shall,
+Now, to the am, there that great must betis he</p>
+<p>D this.</p>
+<p>C the do,</p>
+<p>To an,
+As a them,:
+ROM,
+Third,
+First:
+For the see,</p>
+<h2 id="i-the-a-a">I the a a,</h2>
+<p>,</p>
+<p>Now</p>
+<p>I was,'s that I it you the done</p>
+<p>Th with do my,
+That that it:
+O:
+Your, our'll
+And the that '</p>
+<p>him like but, a honouron.</p>
+<p>I dead to her</p>
+<p>some
+I:
+He,</p>
+<p>If:</p>
+<p>KING:</p>
+<p>R thyUS.
+And
+Too:
+For a be theELL, our,
+And many the but am this,</p>
+<p>Why,
+They</p>
+<p>that the this make,</p>
+<p>I:</p>
+<p>Is have am her my my he all,, when the will the to be,</p>
+<p>This,
+As may I my their have the</p>
+<p>To him:
+H know is say
+YU
+ETER,
+Let.</p>
+<p>Now.
+A give is of shall thou,</p>
+<p>There you,
+P,
+I poor, a the some have the your are the for do for you this to your a for or good do, or noble:
+But</p>
+<p>And shall he be</p>
+<p>And good them with
+Cl's</p>
+<p>The are a do you.
+That</p>
+<p>notown,
+Sh,</p>
+<p>I be do it,U
+O you
+I be die,
+Her, by I; she,
+To be to that sweet all,
+We be:</p>
+<p>D more.</p>
+<p>For the
+WAR: a the-'s she, that
+And a thy what,</p>
+<p>And
+It, and these.
+The thetw's know.</p>
+<p>Like of makeIO.</p>
+<p>A
+But I speak: with and:
+not,</p>
+<p>PR:</p>
+<p>Come we
+If his,EN hear:
+To I
+I,
+N;
+Of, I,</p>
+<p>First so the head:</p>
+<p>To that hisI be you the:
+That you.
+You?
+' shall
+I be</p>
+<p>As</p>
+<p>He is
+KING, come</p>
+<p>KING, the do the the
+So,</p>
+<p>With,
+And shalloth such me,,
+you by:</p>
+<p>That to her for I like.
+Our,
+As in this love:</p>
+<h3 id="000">000</h3>
+<p>iter 4990: loss 4.7843, time 730.76ms
+iter 4991: loss 4.9219, time 722.85ms
+iter 4992: loss 4.6760, time 731.14ms
+iter 4993: loss 4.8503, time 699.10ms
+iter 4994: loss 4.7151, time 721.49ms
+iter 4995: loss 4.7852, time 687.31ms
+iter 4996: loss 4.5192, time 732.55ms
+iter 4997: loss 5.0381, time 727.84ms
+iter 4998: loss 4.6365, time 694.68ms
+iter 4999: loss 4.8973, time 691.50ms
+step 5000: train loss 4.7097, val loss 5.5308
+iter 5000: loss 4.3929, time 1421.90ms
+wandb: Waiting for W&amp;B process to finish... (success).
+wandb: - 0.001 MB of 0.001 MB uploaded (0.000 MB deduped)
+wandb: Run history:
+wandb:       iter ▁▂▂▃▄▅▅▆▇▇█
+wandb:         lr ▁██▇▆▅▄▃▂▂▂
+wandb: train/loss █▂▂▂▂▁▁▁▁▁▁
+wandb:   val/loss █▂▂▂▁▂▁▁▁▁▁
+wandb:
+wandb: Run summary:
+wandb:       iter 5000
+wandb:         lr 6e-05
+wandb: train/loss 4.70968
+wandb:   val/loss 5.53077</p>
+<p>number of parameters: 81.52M
+No meta.pkl found, assuming GPT-2 encodings...</p>
+<p>Not that;
+You.</p>
+<p>And it, I to the mother on my son.',
+PR:
+And the suour of,
+Quke,</p>
+<p>That, not is this earth
+And not,</p>
+<p>Now more years will the part:
+The hands;
+Not,</p>
+<p>My son,</p>
+<p>To I do my queen.
+TellY:
+Darest by strength and.
+And,
+As
+Provife's side,
+And I not the gOM look, which:
+AUTUS:</p>
+<p>May not men to dU and you,
+So,
+LUEut's lie on a would I can!
+The suilman,
+The noble lord up I I do nothing in your end,
+DUCatter thou have my r LA,</p>
+<p>For, with to the earth to your wife,
+Not my or not his hands
+With you do a friends,
+His loss,
+Should have not, as Ibians
+My mostt to I lord, the world, take you not that you the cause,
+IOL OFCES:
+To you, if her my father, I can be your Tower
+To do my name.
+That the hands to me.
+Icius,</p>
+<p>LE:
+Why,
+LUCIO:
+LELCUTIO:
+To thy lord, to my day with me?
+And you more for,
+For never my power,</p>
+<p>Her heart;
+DUE:</p>
+<p>Good great noble father, this
+In to an father?
+And be do for the friends!
+The lord
+ClOL OF YORK:
+And he will he of my hour.
+And if
+Will some thing at the lord
+Bove's father have her;
+Darep the counsel.
+As will be those the one, go; come
+How me:
+Madunes!</p>
+<p>By me.
+And a curse of my.
+' I hast my lord
+Not,</p>
+<p>And, my lord;
+He.
+O
+Do you have be
+With blood,
+R VI:
+Tell your foe is a king-eseous death,
+Sir a most mind.
+That:
+Who I have
+ProvUoWARD</p>
+<hr />
+<p>But,
+O</p>
+<p>And in a go,
+From sweet high is joy upon my,
+FirstICan had this?
+WARICHCES V Lay:
+Come about a people,
+IUCUS:</p>
+<p>But this land'd's father,
+And
+Could
+To my will; let my ancient lord
+Unless my lord, but
+That,
+And I shall be I, farewell, if I have said their head,
+And yourly the time
+All it which thou have,
+Which not will; an eye!
+In me of her not.
+How I would I
+DUCost it have the lord, to you is my d'll my common d understand
+What will not.The business! Glouace; and you,
+Why your king is your great</p>
+<p>And</p>
+<p>Mess not's in heaven on me
+Say
+It thy day.IUS:
+And
+FirstIC VU,</p>
+<p>Be that I?
+AndtwEN
+Which
+Best you no is to thou should I do not,
+Be thy life;</p>
+<p>And and</p>
+<p>If you.
+And I not.
+A:
+And he callWARD:
+To their most we do yours,</p>
+<p>Dost;
+Who the first:
+To be't?
+A:
+To my king but
+Once will
+But.
+Thou hast our loving dADWARD IV:
+The Duke;</p>
+<p>Sself is the father, and be make you
+Why,</p>
+<p>Blbroksarry;
+From a Lord of that she?
+As this,
+Which I have but I spoke, since was the lords,
+Well,
+And your course!</p>
+<p>Sir.
+Do this grace they were in heaven</p>
+<p>NEENIUS:
+Look's,
+BowY:</p>
+<p>With in the word.
+L:
+But I wost to not the heart
+To all thee,
+LU' the my heart,</p>
+<p>Hre the heavens.
+And he, we art shall be be your other the last in this quarrel.</p>
+<p>B me to my royal prince,
+My life, it may bear hist;
+SecondUS: But in your, good day,
+And you, that,
+And it; it, to give him,
+From true may be not</p>
+<hr />
+<p>AB,
+Look to you will
+My,
+In thee-OM do the less aself,</p>
+<p>Before the,
+For I not better 'er she not you here:</p>
+<p>And be a heavy un Senator:
+MENall him
+It,</p>
+<p>It be my suit</p>
+<p>KINGELBY:
+Yes!
+Is my father,</p>
+<p>To the best, a grace.
+YATHolding, but such me I cause your sovereign!
+KINGABILLES:
+Nor what shall do a ear of the word's tribricMour him
+PER be.
+A:</p>
+<p>Sweet sister,
+My self,</p>
+<p>That the grave,</p>
+<p>The lie' so thy case in put,</p>
+<p>And my wrong,
+MENre father. Your child, I do be our will
+Nor your
+That
+KINGOU RABit's with a sovereign's heart as, and been
+But, good lOW:</p>
+<p>From your court will you me they friends withESSyly I-US:</p>
+<p>On the mind,
+Iie,
+And if
+That the good thing the very poorICIN
+With this is him.
+POLam'd me
+Say,</p>
+<p>And thou I do be be all my word, be my noble day, a Tower to you,</p>
+<p>Or,</p>
+<p>That them, sir</p>
+<p>By my sister;
+HILLES:
+Or than was this,
+Or it,
+LUS:
+For none.</p>
+<p>Have all your dINGS:
+HULEfore.
+Of her,
+Who
+Th OFABall
+Burse:
+IUS:
+Dcius.
+But time, when I will be you it the lie me,</p>
+<p>So me,
+So my lords,
+Be but bear all more
+His better I have thee to not by thy dU me's more may,
+And he.</p>
+<p>Go,</p>
+<p>That the words, which I besinks would he'd in hisENTumerine!
+Had I will,
+There has, but when</p>
+<p>Stand with him,</p>
+<p>FirstUS:
+Why:</p>
+<p>Our father, in
+CO;</p>
+<p>Like you it me's lord,
+But,' he heaven?
+Be you may the life.
+Doth my lord, but was you is dead,
+AETH</p>
+<hr />
+<p>And see your words.
+Ander thy will all down,
+Or in my suit,
+And at this f Murdaced not,</p>
+<p>To;</p>
+<p>LUS:
+From all the very and his
+And I must it shall am I am you you,</p>
+<p>Which,
+My friend with</p>
+<p>Inay again:
+For they traitor;
+For you but an country?
+To had the</p>
+<p>LU, here, had
+That thou, do the heart,</p>
+<p>IUS:</p>
+<p>A:
+IUartarry.
+But I but
+MEN:</p>
+<p>FirstUS:
+And they not,
+LE OFELA Marshal:</p>
+<p>Are not to heard theICINNow, sir,
+RABELLARRIUman.</p>
+<p>Well.And he a eye, and.And show to I be your death have this lords me that, in the king
+And this a times from I would say, then, your father,
+FUCUS:
+R YORK: Now.</p>
+<p>To see with my queen,</p>
+<p>GiveBERIO: for your sister,
+For it.
+Of your land!
+And</p>
+<p>For, I be use their case; do have too as see his fault
+And I speak
+Who I more stay? Let the or ent not, and now all you by a gods, you I say dU your war,</p>
+<p>In me as that:</p>
+<p>The end.
+God no more thus;</p>
+<p>GLCES OFUant;
+And I,
+O of
+HENO,</p>
+<p>But,</p>
+<p>ToASIONISHorn!
+Which</p>
+<p>The world,</p>
+<p>Why to,
+Which.
+Who have tost it shall done.Iona me.
+JOHN:
+And it to his lord.
+To be dead for peace, for me;
+She I they as that,</p>
+<p>Which art.
+Which be a soldiers</p>
+<p>And a rest with an soul, and of me to all for her,
+MERARDULBRES:
+Now.
+CORUT'll give me,
+And a house,</p>
+<p>Give your gentle be l'd for
+Good death,
+KING R HEN'B the honour,</p>
+<p>To be ourself,
+Firsthouse.
+MEN and the father!</p>
+<hr />
+<p>?
+You'll forUCKONT thee;
+Of his gentleman,</p>
+<p>He will more's:
+ThINIUS:
+To I stand!
+The head.
+No, the brother's this, nor so the world that in a bo', then,
+Most justice,
+So you, as the life,
+What,</p>
+<p>With her this breath, sir,</p>
+<p>You thousand uncle;</p>
+<p>When he the world, but
+And these brother the people.</p>
+<p>That I besiss?
+the good father;</p>
+<p>And,</p>
+<p>LUKE:
+Why, I,
+And for the king,</p>
+<p>HEN' so to
+And to you.
+KING RABETH:
+Th me,</p>
+<p>Cer;
+Let haste, now
+LETER:</p>
+<p>To't,
+And
+Quke!
+And this, I of to the eyes,
+In your blood we all here this sovereign:
+And if a my time,
+As my hand,
+Three life:</p>
+<p>Than to your power?</p>
+<p>That,</p>
+<p>FUuUCKIN
+Ile?
+LUCIO: Your head.</p>
+<p>The head, no thy people in you can your heart,</p>
+<p>HERuck thee,</p>
+<p>They be the life.</p>
+<p>Dague to me
+For not's kingdom,
+From the death, this loss,
+DUS:
+BBY:
+O is my as it my noble trible, and nothing,--And my quarrel would what you, being not,
+Q YORK:
+WAR YORK:</p>
+<p>Why
+Now,
+With a my side?
+En them,</p>
+<p>E:
+As I know is my other's poor
+They have you is,
+DAR LA II:</p>
+<p>That's more, for me to myself that I be a queen and be a heart:
+IS VI:
+SIO:
+Why and this lord, MontM the crown:
+May think.
+To this's hand, and your hands,
+Are not I not I not's very man,
+He you, I be done,
+QUC love upon the cause of my air</p>
+<p>In you I he do pass,
+FADESSINFor my father,
+Bret to
+But here, sir?
+WhKE:
+We</p>
+<hr />
+<p>Q be,
+FU,
+LE:
+DUall what and,
+On,
+LU, you I'll,
+There,</p>
+<p>LUS:</p>
+<p>And you,
+Theark any?</p>
+<p>Which no that,</p>
+<p>COR thou be in 'er</p>
+<p>And
+There in the child,
+LARDELLOU VI:
+If plWARDASTICK:
+GL YORK:
+The crown, as my VolKE:
+Lome,
+For I come thy life,</p>
+<p>And</p>
+<p>HERESSou I to you shall, on true have-ighth up
+And lay
+Dague,</p>
+<p>Y:</p>
+<p>GREY:
+Who,</p>
+<p>To have your ears's lord; that now.
+But than I thing!
+LE OFUCH'd,
+Your death.
+FIO:</p>
+<p>'T:
+To in the soul, sir on the word.</p>
+<p>Like OF YORK:
+GLARD III:
+The air,
+As
+There?
+Peace;
+What a love,
+FICK: but is the end,
+And were the friend
+B thee, for a king,
+' he:
+And
+And that is an l me to.IUS:</p>
+<p>So,
+SwESS OF RentleY ANICou we did art your breath, weENTona?
+Say
+It that,</p>
+<p>At your man and
+His uncle.
+And I have him,
+And thou look is thee,
+And this very good, that go; that to time?
+MENENES:
+And here's, sir,
+Ay: My prisoner's me.
+My daughter!
+IENCE:</p>
+<p>This,
+And your restrah is your great!
+LARADEW' the other fair land.IAD me you may we be he live,
+KINGELUTET:
+And many hands,
+And he thou came in thy sea. This your sister,</p>
+<p>And I set wABiful;
+While'd, with this cause, and done,</p>
+<p>DAB II:
+Or can our breast, Henry shall were my oath!
+Which thatness--
+T,</p>
+<p>She I have live in some man off be me now not may my lord,</p>
+<p>In a people;
+Which</p>
+<hr />
+<p>' the words to his,
+If mine you should my name;
+I have
+Now in a lords,
+And my life with him,
+KINGUS:
+And you, poor looks's you on your father have light,
+If 'em.
+GLUions when men my</p>
+<p>On your lord?</p>
+<p>But his grace.</p>
+<p>Go,,</p>
+<p>CBRESTER: an sweet
+LUge,</p>
+<p>O, with your world.
+And I well to true is the Lord.
+Lordugh,
+LU and how you;
+My soul,</p>
+<p>With,
+And</p>
+<p>What:</p>
+<p>And,
+To-US:</p>
+<p>To that is your life as in.
+My hands.</p>
+<p>And it it to be
+Ct is our soul.
+You now,
+As both a queen, like once and any more,
+Like you be a brother!
+SUMGABENI would he, and I see a blood
+We do Clarence</p>
+<p>Well me,
+To time, we spICIN</p>
+<p>GRE me-ICINJENALIO:
+And the quarrel, 'T of a my the Tower,
+CIUS:
+On the case;
+Let him,</p>
+<p>She that shall be we power!</p>
+<p>To be your,
+And</p>
+<p>And a right with that'sENTOLou you he,
+And that!</p>
+<p>LE:</p>
+<p>DUiol you.
+And,
+Will be be you of mine that we more for the father.
+And IENTIO:
+For to right upon the death'd.IINGS:
+Now,
+His field, I be my gods's land,</p>
+<p>FW'll.
+KINGOUES:
+And thou
+If not to the father?
+HETH:
+LE:--</p>
+<p>Look must you</p>
+<p>Who know man by her.
+POLopit you it man's to the other were make my d my lord to the one.
+BYts you;
+His time's more is this eyes,
+IS RARWICK:
+LUish a men is to such this brother,
+O,
+That must he it out?
+We can be</p>
+<p>There him that more's more me, eunes,
+And</p>
+<hr />
+<p>IC I not is your the lord.
+Ander before it.
+And thou were, a peace,
+And
+Scak down with a,
+AndT II:</p>
+<p>Which and him the king;</p>
+<p>QAENI had me to set sorrow,
+He with the lord of my wrong.
+He, CY:</p>
+<p>And were a gentle lord,
+And I had justice.
+He, aICan's to be your prince.
+The better and once have be have none!
+And he is him,
+I may this:
+Yet come are the king,</p>
+<p>Andn all.
+From our life.
+Shful blood'd, and not
+Shre is what that,
+Jutful men all day, my better you to your own earth,</p>
+<p>I do</p>
+<p>LICHCBRHAM:
+Who,
+And my night,
+My life!
+What this name.
+With the side:
+How
+And our further with ourselves,
+If are for the pleasure:
+And is;
+The own life,
+The father;
+And I stay.
+We be the fault,
+FirstUS:</p>
+<p>F mayENTfm.
+Of my death it,</p>
+<p>Firstoler.
+IICK OFICHINC scorn me,
+ThINTo the heart!
+Of thy while man, of him</p>
+<p>To take me,
+You.
+It by those the in me,
+As
+So no world,--
+To put off's man</p>
+<p>CORtis going's land,
+Her counsel at your father than both you,</p>
+<p>Why more;
+But you,
+For most world-ICanly Richard,
+Make no need is me thee;</p>
+<p>The
+And so!
+POLKE:
+DOUO:
+FirstUS:
+Thus,</p>
+<p>Must shall not but I,</p>
+<p>You, lords, farewell</p>
+<p>And will not. How'sbher dost, and be,
+LUEENO, even or so I</p>
+<p>For in my queen's good king,
+To fear,</p>
+<p>The hand and, to my man:</p>
+<p>And the voices,
+Here aem word,
+And will all to a dUman:
+Who by her with him.</p>
+<h2 id="jricest-a-bo">Jricest a bo</h2>
+<p>R with your
+IIO:
+And we in him am the lord is.</p>
+<p>And
+As
+To not is great
+Have you to in it,
+Mess so is my high on and the time!
+That I do your lord,
+He shall made?</p>
+<p>O you of a best, theyt with her of her must with the high me, and the master at my brother, if it you not not I in the suful house to they desire, hear fulled thy grace
+And your
+FirstUS:
+GLOUUTIO:
+O.</p>
+<p>A:
+Of,
+This it with?</p>
+<p>First should for theself:
+To the hand,
+Or you,
+SICIN
+Ay,
+He in me again!</p>
+<p>Which go with the time.
+You come's!</p>
+<p>Here myself,</p>
+<p>L:</p>
+<p>A:
+IUS:
+Or that he your blood's and he are
+And know your king.</p>
+<p>And
+With't will a son,
+DAD your is an old's king in him to thy house;</p>
+<p>While yourt in me,
+Are bear,</p>
+<p>' they.
+T:
+ROMO,</p>
+<p>QW:
+DOUES ANIO:
+And true, he a day,
+T:
+To to you than, and so;
+If he is me from me is my one.
+The kingdom in our lord;
+And the hand upon BolCHp Henry.</p>
+<p>MEN:
+For I would the earth,
+The crown,
+Your bed, I not
+ISARDENES:
+Alure,</p>
+<p>And more to;</p>
+<p>MadKE VINC say
+CORES:
+MethESS:</p>
+<p>She of a more do IIZARD:</p>
+<p>And you,
+And you, I turn not the presence.</p>
+<p>To gone:
+And I will th, I say. our voices,</p>
+<p>IUS:
+O,
+KINGABours.
+And you hear my face, for they more I will his king, thy bosENES:
+Sir should have go,
+LU,
+If I be none, my soul is your Duke,</p>
+<p>And he.
+And a more ' it for the son,
+His kind,
+He, being she</p>
+<hr />
+<p>En is it to this I
+HreG am so,</p>
+<p>LE:
+He to be,
+That that by, sir,
+Cords,
+LETER:
+MENENCOKEANost, and not we
+What the wife,
+ESANUS:
+May I of the Lordus'd the</p>
+<p>That to you will not did,
+If
+For he by my man and,
+DareUCKou
+And it,</p>
+<p>But, but
+For the life.</p>
+<p>SecondUS:
+And we think, they
+The part.
+CAPishment his do been me what is you that,
+SecondIO:</p>
+<p>Go your do not,
+When you
+B this life.</p>
+<p>With her, if he to fear.
+The grave!
+The king:
+That I
+HFAD down, all you with me.
+And I to't.
+MESSou would he, I,</p>
+<p>IADere's man
+Call the word
+Before a mother:</p>
+<p>My life,
+IICK:</p>
+<p>IUS:
+As
+That to the fault,</p>
+<p>Or shall in my heartous face, by that, then are it, and my headly.
+LABch the present,</p>
+<p>FirstUS:
+To,
+AENIUS:</p>
+<p>ThANUS:
+I'll out!
+And we the looks's blood, and be your life.
+IUS:
+Th VAENES:</p>
+<p>SUS:
+That's,
+Which in him,
+Who for me I show her?
+But me, so thy friends, as I not,</p>
+<p>To you I</p>
+<p>ThINGBRO,
+GLAB-US:
+And then.
+ROUO.IUS:
+Of peace,</p>
+<p>On the hand,
+But from a lord,
+DUed to I-ICINLARUS:
+3 III:</p>
+<p>Sir,
+And did not can you-blood
+DUed,
+And the great head too thou should leave,
+'T:
+To how you him,
+A III:
+Thou will not
+But to not, no devil, as it, but I be him;</p>
+<p>Hans, as he, and this time,
+You his life.</p>
+<hr />
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../yolox/" class="btn btn-neutral float-left" title="yolox"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../stable_diffusion/" class="btn btn-neutral float-right" title="stable_diffussion">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../yolox/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../stable_diffusion/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

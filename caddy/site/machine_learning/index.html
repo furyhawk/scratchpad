@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>machine_learning - 124c41</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "machine_learning";
+        var mkdocs_page_input_path = "machine_learning.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <script src="../js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+      <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> 124c41
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../resume/">Resume</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../conda/">Conda</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../git/">git</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../softwarearchitecture/">softwarearchitecture</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../code/">vscode</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">machine_learning</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#neural-network-playground">Neural Network Playground</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#residual-connections">Residual connections</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#batch-normalization">Batch normalization</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#batch-normalization-and-fine-tuning">Batch normalization and Fine tuning</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#steps-per-epoch">Steps per Epoch</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#feature-extraction">Feature Extraction</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#penultimate-layer-features-pre-classifier-features">Penultimate Layer Features (Pre-Classifier Features)</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#unpooled">Unpooled</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#pooled">Pooled</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#multi-scale-feature-maps-feature-pyramid">Multi-scale Feature Maps (Feature Pyramid)</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#create-a-feature-map-extraction-model">Create a feature map extraction model</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#query-the-feature-information">Query the feature information</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#select-specific-feature-levels-or-limit-the-stride">Select specific feature levels or limit the stride</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#gloabalpooling">GloabalPooling</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#globalmaxpooling">GlobalMaxPooling</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#use-of-globalavgpooling">Use of GlobalAvgPooling</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#how-filter-init">How filter init</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#transfer-learning">Transfer Learning</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#when-and-how-to-fine-tune">When and how to fine-tune?</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#practical-advice">Practical advice.</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#when-to-scale">When to Scale</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#pytorch-loss-function-cheatsheet">PyTorch Loss Function Cheatsheet</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../llm/">llm</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../rag/">rag</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../llama2/">llmama2</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../framework/">Framework</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../db/">database</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../dataframe/">Dataframe</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../anomaly_detection/">anomaly_detection</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../chart/">Chart</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../hydra/">Hydra</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../linux/">Linux</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../macos/">macos</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../sway/">sway</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../docker/">Docker</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../jetson/">jetson</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../yolox/">yolox</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../gpt/">gpt</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../stable_diffusion/">stable_diffussion</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../wandb/">Model Analysis</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../ssh/">ssh</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../smb/">Samba</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../smb2/">Samba_ubuntu</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../mkdocs/">MkDocs</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../mypy/">mypy</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../literatures/">Literatures</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../scrape_pad/">scrape_pad</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../random/">random</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../about/">About</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">124c41</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" alt="Docs"></a> &raquo;</li>
+      <li>machine_learning</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="machine_learning">machine_learning</h1>
+<h2 id="neural-network-playground">Neural Network Playground</h2>
+<p><a href="https://furyhawk.github.io/playground/">https://furyhawk.github.io/playground/</a></p>
+<h2 id="residual-connections">Residual connections</h2>
+<p>When the network get too deep, to adjust the parameters for each function in the chain based on the error(loss) recorded on the output layer, each sucessful layers include more noise. The noise start to overwhelm gradient information. This is the <em>vanishing gradients</em> problem.</p>
+<h2 id="batch-normalization">Batch normalization</h2>
+<p>The paper stated that Batch normalization operates by "reducing internal covariate shift". Helps with gradient propagation, allowing for deeper networks.</p>
+<pre><code class="language-py"># Because the output of the Conv2D layer gets normalized, the layer doesn't need its own bias vector.
+x = layers.Conv2D(32,3,use_bias)(x) # do not include activation
+x = layers.BatchNormalization()(x)
+x = layers.Activation(&quot;relu&quot;)(x)    # place activation after BatchNormalization layer
+</code></pre>
+<h3 id="batch-normalization-and-fine-tuning">Batch normalization and Fine tuning</h3>
+<p>When fine-tuning a model that includes BatchNormalization layers, leave these layers frozen( <code>trainable=False</code>). Otherwise they will keep updating their internal mean and variance, which can interfere with the very small updates applied to the surrounding <em>Conv2D</em> layers.</p>
+<h2 id="steps-per-epoch">Steps per Epoch</h2>
+<p>Based on what you said it sounds like you need a larger batch_size, and of course there are implications with that which could impact the steps_per_epoch and number of epochs.</p>
+<p><strong>To solve for jumping-around</strong></p>
+<pre><code>- A **larger batch size** will give you a better gradient and will help to prevent jumping around
+- You may also want to consider a smaller learning rate, or a learning rate scheduler (or decay) to allow the network to "settle in" as it trains
+</code></pre>
+<h2 id="feature-extraction">Feature Extraction</h2>
+<p>All of the models in <code>timm</code> have consistent mechanisms for obtaining various types of features from the model for tasks besides classification.</p>
+<h3 id="penultimate-layer-features-pre-classifier-features">Penultimate Layer Features (Pre-Classifier Features)</h3>
+<p>The features from the penultimate model layer can be obtained in several ways without requiring model surgery (although feel free to do surgery). One must first decide if they want pooled or un-pooled features.</p>
+<h4 id="unpooled">Unpooled</h4>
+<p>There are three ways to obtain unpooled features.</p>
+<p>Without modifying the network, one can call <code>model.forward_features(input)</code> on any model instead of the usual <code>model(input)</code>. This will bypass the head classifier and global pooling for networks.</p>
+<p>If one wants to explicitly modify the network to return unpooled features, they can either create the model without a classifier and pooling, or remove it later. Both paths remove the parameters associated with the classifier from the network.</p>
+<h5 id="forward_features">forward_features()</h5>
+<pre><code class="language-python">import torch
+import timm
+m = timm.create_model('xception41', pretrained=True)
+o = m(torch.randn(2, 3, 299, 299))
+print(f'Original shape: {o.shape}')
+o = m.forward_features(torch.randn(2, 3, 299, 299))
+print(f'Unpooled shape: {o.shape}')
+</code></pre>
+<p>Output:</p>
+<pre><code class="language-text">Original shape: torch.Size([2, 1000])
+Unpooled shape: torch.Size([2, 2048, 10, 10])
+</code></pre>
+<h5 id="create-with-no-classifier-and-pooling">Create with no classifier and pooling</h5>
+<pre><code class="language-python">import torch
+import timm
+m = timm.create_model('resnet50', pretrained=True, num_classes=0, global_pool='')
+o = m(torch.randn(2, 3, 224, 224))
+print(f'Unpooled shape: {o.shape}')
+</code></pre>
+<p>Output:</p>
+<pre><code class="language-text">Unpooled shape: torch.Size([2, 2048, 7, 7])
+</code></pre>
+<h5 id="remove-it-later">Remove it later</h5>
+<pre><code class="language-python">import torch
+import timm
+m = timm.create_model('densenet121', pretrained=True)
+o = m(torch.randn(2, 3, 224, 224))
+print(f'Original shape: {o.shape}')
+m.reset_classifier(0, '')
+o = m(torch.randn(2, 3, 224, 224))
+print(f'Unpooled shape: {o.shape}')
+</code></pre>
+<p>Output:</p>
+<pre><code class="language-text">Original shape: torch.Size([2, 1000])
+Unpooled shape: torch.Size([2, 1024, 7, 7])
+</code></pre>
+<h4 id="pooled">Pooled</h4>
+<p>To modify the network to return pooled features, one can use <code>forward_features()</code> and pool/flatten the result themselves, or modify the network like above but keep pooling intact. </p>
+<h5 id="create-with-no-classifier">Create with no classifier</h5>
+<pre><code class="language-python">import torch
+import timm
+m = timm.create_model('resnet50', pretrained=True, num_classes=0)
+o = m(torch.randn(2, 3, 224, 224))
+print(f'Pooled shape: {o.shape}')
+</code></pre>
+<p>Output:</p>
+<pre><code class="language-text">Pooled shape: torch.Size([2, 2048])
+</code></pre>
+<h5 id="remove-it-later_1">Remove it later</h5>
+<pre><code class="language-python">import torch
+import timm
+m = timm.create_model('ese_vovnet19b_dw', pretrained=True)
+o = m(torch.randn(2, 3, 224, 224))
+print(f'Original shape: {o.shape}')
+m.reset_classifier(0)
+o = m(torch.randn(2, 3, 224, 224))
+print(f'Pooled shape: {o.shape}')
+</code></pre>
+<p>Output:</p>
+<pre><code class="language-text">Original shape: torch.Size([2, 1000])
+Pooled shape: torch.Size([2, 1024])
+</code></pre>
+<h3 id="multi-scale-feature-maps-feature-pyramid">Multi-scale Feature Maps (Feature Pyramid)</h3>
+<p>Object detection, segmentation, keypoint, and a variety of dense pixel tasks require access to feature maps from the backbone network at multiple scales. This is often done by modifying the original classification network. Since each network varies quite a bit in structure, it's not uncommon to see only a few backbones supported in any given obj detection or segmentation library.</p>
+<p><code>timm</code> allows a consistent interface for creating any of the included models as feature backbones that output feature maps for selected levels. </p>
+<p>A feature backbone can be created by adding the argument <code>features_only=True</code> to any <code>create_model</code> call. By default 5 strides will be output from most models (not all have that many), with the first starting at 2 (some start at 1 or 4).</p>
+<h4 id="create-a-feature-map-extraction-model">Create a feature map extraction model</h4>
+<pre><code class="language-python">import torch
+import timm
+m = timm.create_model('resnest26d', features_only=True, pretrained=True)
+o = m(torch.randn(2, 3, 224, 224))
+for x in o:
+  print(x.shape)
+</code></pre>
+<p>Output:</p>
+<pre><code class="language-text">torch.Size([2, 64, 112, 112])
+torch.Size([2, 256, 56, 56])
+torch.Size([2, 512, 28, 28])
+torch.Size([2, 1024, 14, 14])
+torch.Size([2, 2048, 7, 7])
+</code></pre>
+<h4 id="query-the-feature-information">Query the feature information</h4>
+<p>After a feature backbone has been created, it can be queried to provide channel or resolution reduction information to the downstream heads without requiring static config or hardcoded constants. The <code>.feature_info</code> attribute is a class encapsulating the information about the feature extraction points.</p>
+<pre><code class="language-python">import torch
+import timm
+m = timm.create_model('regnety_032', features_only=True, pretrained=True)
+print(f'Feature channels: {m.feature_info.channels()}')
+o = m(torch.randn(2, 3, 224, 224))
+for x in o:
+  print(x.shape)
+</code></pre>
+<p>Output:</p>
+<pre><code class="language-text">Feature channels: [32, 72, 216, 576, 1512]
+torch.Size([2, 32, 112, 112])
+torch.Size([2, 72, 56, 56])
+torch.Size([2, 216, 28, 28])
+torch.Size([2, 576, 14, 14])
+torch.Size([2, 1512, 7, 7])
+</code></pre>
+<h4 id="select-specific-feature-levels-or-limit-the-stride">Select specific feature levels or limit the stride</h4>
+<p>There are two additional creation arguments impacting the output features. </p>
+<ul>
+<li><code>out_indices</code> selects which indices to output</li>
+<li><code>output_stride</code> limits the feature output stride of the network (also works in classification mode BTW)</li>
+</ul>
+<p><code>out_indices</code> is supported by all models, but not all models have the same index to feature stride mapping. Look at the code or check feature_info to compare. The out indices generally correspond to the <code>C(i+1)th</code> feature level (a <code>2^(i+1)</code> reduction). For most models, index 0 is the stride 2 features, and index 4 is stride 32.</p>
+<p><code>output_stride</code> is achieved by converting layers to use dilated convolutions. Doing so is not always straightforward, some networks only support <code>output_stride=32</code>.</p>
+<pre><code class="language-python">import torch
+import timm
+m = timm.create_model('ecaresnet101d', features_only=True, output_stride=8, out_indices=(2, 4), pretrained=True)
+print(f'Feature channels: {m.feature_info.channels()}')
+print(f'Feature reduction: {m.feature_info.reduction()}')
+o = m(torch.randn(2, 3, 320, 320))
+for x in o:
+  print(x.shape)
+</code></pre>
+<p>Output:</p>
+<pre><code class="language-text">Feature channels: [512, 2048]
+Feature reduction: [8, 8]
+torch.Size([2, 512, 40, 40])
+torch.Size([2, 2048, 40, 40])
+</code></pre>
+<h2 id="gloabalpooling">GloabalPooling</h2>
+<p>Reduce computation by 75%. Summarise features.</p>
+<h3 id="globalmaxpooling">GlobalMaxPooling</h3>
+<p>Feature extraction after covn layer.</p>
+<h3 id="use-of-globalavgpooling">Use of GlobalAvgPooling</h3>
+<p>One advantage of global average pooling over the fully connected layers is that it is more native to the convolution structure by enforcing correspondences between feature maps and categories. Thus the feature maps can be easily interpreted as categories confidence maps. Another advantage is that there is no parameter to optimize in the global average pooling thus overfitting is avoided at this layer. Futhermore, global average pooling sums out the spatial information, thus it is more robust to spatial translations of the input. We can see global average pooling as a structural regularizer that explicitly enforces feature maps to be confidence maps of concepts (categories). This is made possible by the mlpconv layers, as they makes better approximation to the confidence maps than GLMs.</p>
+<h2 id="how-filter-init">How filter init</h2>
+<p>Note that we use the same weight initialization formula as with the MLP. Weights are sampled randomly from a uniform distribution in the range [-1/fan-in, 1/fan-in], where fan-in is the number of inputs to a hidden unit. For MLPs, this was the number of units in the layer below. For CNNs however, we have to take into account the number of input feature maps and the size of the receptive fields.</p>
+<h2 id="transfer-learning">Transfer Learning</h2>
+<p>In practice, very few people train an entire Convolutional Network from scratch (with random initialization), because it is relatively rare to have a dataset of sufficient size. Instead, it is common to pretrain a ConvNet on a very large dataset (e.g. ImageNet, which contains 1.2 million images with 1000 categories), and then use the ConvNet either as an initialization or a fixed feature extractor for the task of interest. The three major Transfer Learning scenarios look as follows:</p>
+<ul>
+<li>
+<p>ConvNet as fixed feature extractor. Take a ConvNet pretrained on ImageNet, remove the last fully-connected layer (this layer's outputs are the 1000 class scores for a different task like ImageNet), then treat the rest of the ConvNet as a fixed feature extractor for the new dataset. In an AlexNet, this would compute a 4096-D vector for every image that contains the activations of the hidden layer immediately before the classifier. We call these features CNN codes. It is important for performance that these codes are ReLUd (i.e. thresholded at zero) if they were also thresholded during the training of the ConvNet on ImageNet (as is usually the case). Once you extract the 4096-D codes for all images, train a linear classifier (e.g. Linear SVM or Softmax classifier) for the new dataset.</p>
+</li>
+<li>
+<p>Fine-tuning the ConvNet. The second strategy is to not only replace and retrain the classifier on top of the ConvNet on the new dataset, but to also fine-tune the weights of the pretrained network by continuing the backpropagation. It is possible to fine-tune all the layers of the ConvNet, or it's possible to keep some of the earlier layers fixed (due to overfitting concerns) and only fine-tune some higher-level portion of the network. This is motivated by the observation that the earlier features of a ConvNet contain more generic features (e.g. edge detectors or color blob detectors) that should be useful to many tasks, but later layers of the ConvNet becomes progressively more specific to the details of the classes contained in the original dataset. In case of ImageNet for example, which contains many dog breeds, a significant portion of the representational power of the ConvNet may be devoted to features that are specific to differentiating between dog breeds.</p>
+</li>
+</ul>
+<h3 id="when-and-how-to-fine-tune">When and how to fine-tune?</h3>
+<p>How do you decide what type of transfer learning you should perform on a new dataset? This is a function of several factors, but the two most important ones are the size of the new dataset (small or big), and its similarity to the original dataset (e.g. ImageNet-like in terms of the content of images and the classes, or very different, such as microscope images). Keeping in mind that ConvNet features are more generic in early layers and more original-dataset-specific in later layers, here are some common rules of thumb for navigating the 4 major scenarios:</p>
+<ul>
+<li>
+<p>New dataset is small and similar to original dataset. Since the data is small, it is not a good idea to fine-tune the ConvNet due to overfitting concerns. Since the data is similar to the original data, we expect higher-level features in the ConvNet to be relevant to this dataset as well. Hence, the best idea might be to train a linear classifier on the CNN codes.</p>
+</li>
+<li>
+<p>New dataset is large and similar to the original dataset. Since we have more data, we can have more confidence that we won't overfit if we were to try to fine-tune through the full network.</p>
+</li>
+<li>
+<p>New dataset is small but very different from the original dataset. Since the data is small, it is likely best to only train a linear classifier. Since the dataset is very different, it might not be best to train the classifier form the top of the network, which contains more dataset-specific features. Instead, it might work better to train the SVM classifier from activations somewhere earlier in the network.</p>
+</li>
+<li>
+<p>New dataset is large and very different from the original dataset. Since the dataset is very large, we may expect that we can afford to train a ConvNet from scratch. However, in practice it is very often still beneficial to initialize with weights from a pretrained model. In this case, we would have enough data and confidence to fine-tune through the entire network.</p>
+</li>
+</ul>
+<h3 id="practical-advice">Practical advice.</h3>
+<p>There are a few additional things to keep in mind when performing Transfer Learning:</p>
+<ul>
+<li>
+<p><em>Constraints from pretrained models</em>. Note that if you wish to use a pretrained network, you may be slightly constrained in terms of the architecture you can use for your new dataset. For example, you can't arbitrarily take out Conv layers from the pretrained network. However, some changes are straight-forward: Due to parameter sharing, you can easily run a pretrained network on images of different spatial size. This is clearly evident in the case of Conv/Pool layers because their forward function is independent of the input volume spatial size (as long as the strides "fit"). In case of FC layers, this still holds true because FC layers can be converted to a Convolutional Layer: For example, in an AlexNet, the final pooling volume before the first FC layer is of size [6x6x512]. Therefore, the FC layer looking at this volume is equivalent to having a Convolutional Layer that has receptive field size 6x6, and is applied with padding of 0.</p>
+</li>
+<li>
+<p><em>Learning rates</em>. It's common to use a smaller learning rate for ConvNet weights that are being fine-tuned, in comparison to the (randomly-initialized) weights for the new linear classifier that computes the class scores of your new dataset. This is because we expect that the ConvNet weights are relatively good, so we don't wish to distort them too quickly and too much (especially while the new Linear Classifier above them is being trained from random initialization).</p>
+</li>
+</ul>
+<p><strong>Implications of a larger batch-size</strong></p>
+<pre><code>- Too large of a batch_size can produce memory problems, especially if you are using a GPU. Once you exceed the limit, dial it back until it works. This will help you find the max batch-size that your system can work with.
+- Too large of a batch size can get you stuck in a local minima, so if your training get stuck, I would reduce it some. Imagine here you are over-correcting the jumping-around and it's not jumping around enough to further minimize the loss function.
+</code></pre>
+<p><strong>When to reduce epochs</strong></p>
+<pre><code>- If your train error is very low, yet your test/validation is very high, then you have over-fit the model with too many epochs.
+- The best way to find the right balance is to use early-stopping with a validation test set. Here you can specify when to stop training, and save the weights for the network that gives you the best validation loss. (I highly recommend using this always)
+</code></pre>
+<p><strong>When to adjust steps-per-epoch</strong></p>
+<pre><code>- Traditionally, the steps per epoch is calculated as train_length // batch_size, since this will use all of the data points, one batch size worth at a time.
+- If you are augmenting the data, then you can stretch this a tad (sometimes I multiply that function above by 2 or 3 etc. But, if it's already training for too long, then I would just stick with the traditional approach.
+</code></pre>
+<h2 id="when-to-scale">When to Scale</h2>
+<p>Rule of thumb I follow here is any algorithm that computes distance or assumes normality, scale your features!!!
+Some examples of algorithms where feature scaling matters are:</p>
+<pre><code>- k-nearest neighbors with an Euclidean distance measure is sensitive to magnitudes and hence should be scaled for all features to weigh in equally.
+  - Scaling is critical, while performing Principal Component Analysis(PCA). PCA tries to get the features with maximum variance and the variance is high for high magnitude features. This skews the PCA towards high magnitude features.
+- We can speed up gradient descent by scaling. This is because θ will descend quickly on small ranges and slowly on large ranges, and so will oscillate inefficiently down to the optimum when the variables are very uneven.
+- Tree based models are not distance based models and can handle varying ranges of features. Hence, Scaling is not required while modelling trees.
+</code></pre>
+<p>Algorithms like Linear Discriminant Analysis(LDA), Naive Bayes are by design equipped to handle this and gives weights to the features accordingly. Performing a features scaling in these algorithms may not have much effect.</p>
+<h2 id="pytorch-loss-function-cheatsheet">PyTorch Loss Function Cheatsheet</h2>
+<p>PyTorch Loss-Input Confusion (Cheatsheet)</p>
+<ul>
+<li><a href="https://pytorch.org/docs/stable/generated/torch.nn.functional.binary_cross_entropy.html"><code>torch.nn.functional.binary_cross_entropy</code></a> takes logistic sigmoid values as inputs</li>
+<li><a href="https://pytorch.org/docs/stable/generated/torch.nn.functional.binary_cross_entropy_with_logits.html"><code>torch.nn.functional.binary_cross_entropy_with_logits</code></a> takes logits as inputs</li>
+<li><a href="https://pytorch.org/docs/stable/generated/torch.nn.functional.cross_entropy.html#torch.nn.functional.cross_entropy"><code>torch.nn.functional.cross_entropy</code></a> takes logits as inputs (performs log_softmax internally)</li>
+<li><a href="https://pytorch.org/docs/stable/generated/torch.nn.functional.nll_loss.html"><code>torch.nn.functional.nll_loss</code></a> is like <code>cross_entropy</code> but takes log-probabilities (log-softmax) values as inputs</li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../code/" class="btn btn-neutral float-left" title="vscode"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../llm/" class="btn btn-neutral float-right" title="llm">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../code/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../llm/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

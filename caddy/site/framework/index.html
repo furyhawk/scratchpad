@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Framework - 124c41</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Framework";
+        var mkdocs_page_input_path = "framework.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <script src="../js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+      <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> 124c41
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../resume/">Resume</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../conda/">Conda</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../git/">git</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../softwarearchitecture/">softwarearchitecture</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../code/">vscode</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../machine_learning/">machine_learning</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../llm/">llm</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../rag/">rag</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../llama2/">llmama2</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">Framework</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#pytorch-vs-tensorflow">Pytorch vs Tensorflow</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#to-tf">To TF</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#pytorch-dataset-to-tf-dataset">pytorch dataset to tf dataset</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#mean-and-std">mean and std</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#datageneratorkerasutilssequence">DataGenerator(keras.utils.Sequence):</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#unfreeze-specific-layers">Unfreeze specific layers</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#compute-the-trainable-and-non-trainable-variables">Compute the trainable and non-trainable variables.</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#tensorflow-macos-releases">tensorflow-macos Releases</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../db/">database</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../dataframe/">Dataframe</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../anomaly_detection/">anomaly_detection</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../chart/">Chart</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../hydra/">Hydra</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../linux/">Linux</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../macos/">macos</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../sway/">sway</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../docker/">Docker</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../jetson/">jetson</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../yolox/">yolox</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../gpt/">gpt</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../stable_diffusion/">stable_diffussion</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../wandb/">Model Analysis</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../ssh/">ssh</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../smb/">Samba</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../smb2/">Samba_ubuntu</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../mkdocs/">MkDocs</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../mypy/">mypy</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../literatures/">Literatures</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../scrape_pad/">scrape_pad</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../random/">random</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../about/">About</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">124c41</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" alt="Docs"></a> &raquo;</li>
+      <li>Framework</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="framework">Framework</h1>
+<h2 id="pytorch-vs-tensorflow">Pytorch vs Tensorflow</h2>
+<p>The image range is different for each framework. In PyTorch, the image range is 0-1 while TensorFlow uses a range from 0 to 255. To use TensorFlow, we have to adapt the image range.</p>
+<h3 id="to-tf">To TF</h3>
+<pre><code class="language-py">def dataset_to_tf(
+    dataset,
+    cols_to_retain,
+    collate_fn,
+    collate_fn_args,
+    columns_to_np_types,
+    output_signature,
+    shuffle,
+    batch_size,
+    drop_remainder,
+):
+    &quot;&quot;&quot;Create a tf.data.Dataset from the underlying Dataset. This is a single-process method - the multiprocess
+    equivalent is multiprocess_dataset_to_tf.
+
+            Args:
+                dataset (`Dataset`): Dataset to wrap with tf.data.Dataset.
+                cols_to_retain (`List[str]`): Dataset column(s) to load in the
+                    tf.data.Dataset. It is acceptable to include column names that are created by the `collate_fn` and
+                    that do not exist in the original dataset.
+                collate_fn(`Callable`): A function or callable object (such as a `DataCollator`) that will collate
+                    lists of samples into a batch.
+                collate_fn_args (`Dict`): A  `dict` of keyword arguments to be passed to the
+                    `collate_fn`. Can be empty.
+                columns_to_np_types (`Dict[str, np.dtype]`): A `dict` mapping column names to numpy dtypes.
+                output_signature (`Dict[str, tf.TensorSpec]`): A `dict` mapping column names to
+                    `tf.TensorSpec` objects.
+                shuffle(`bool`): Shuffle the dataset order when loading. Recommended True for training, False for
+                    validation/evaluation.
+                batch_size (`int`): Size of batches to load from the dataset.
+                drop_remainder(`bool`, default `None`): Drop the last incomplete batch when loading. If not provided,
+                    defaults to the same setting as shuffle.
+
+            Returns:
+                `tf.data.Dataset`
+    &quot;&quot;&quot;
+    if config.TF_AVAILABLE:
+        import tensorflow as tf
+    else:
+        raise ImportError(&quot;Called a Tensorflow-specific function but Tensorflow is not installed.&quot;)
+
+    getter_fn = partial(
+        np_get_batch,
+        dataset=dataset,
+        cols_to_retain=cols_to_retain,
+        collate_fn=collate_fn,
+        collate_fn_args=collate_fn_args,
+        columns_to_np_types=columns_to_np_types,
+        return_dict=False,  # TF expects numpy_function to return a list and will not accept a dict
+    )
+
+    @tf.function(input_signature=[tf.TensorSpec(None, tf.int64)])
+    def fetch_function(indices):
+        output = tf.numpy_function(
+            getter_fn,
+            inp=[indices],
+            # This works because dictionaries always output in the same order
+            Tout=[tf.dtypes.as_dtype(dtype) for dtype in columns_to_np_types.values()],
+        )
+        return {key: output[i] for i, key in enumerate(columns_to_np_types.keys())}
+
+    tf_dataset = tf.data.Dataset.from_tensor_slices(np.arange(len(dataset), dtype=np.int64))
+
+    if shuffle:
+        tf_dataset = tf_dataset.shuffle(len(dataset))
+
+    tf_dataset = tf_dataset.batch(batch_size, drop_remainder=drop_remainder).map(fetch_function)
+
+    def ensure_shapes(input_dict):
+        return {key: tf.ensure_shape(val, output_signature[key].shape) for key, val in input_dict.items()}
+
+    return tf_dataset.map(ensure_shapes)
+</code></pre>
+<h3 id="pytorch-dataset-to-tf-dataset">pytorch dataset to tf dataset</h3>
+<pre><code class="language-py">import tensorflow as tf
+import torch
+
+# Assume that we have a PyTorch Dataset object called 'dataset'
+
+def pytorch_dataset_to_tensorflow_dataset(dataset):
+  def generator():
+    for data in dataset:
+      # Convert data from PyTorch tensors to TensorFlow tensors
+      data = [tf.convert_to_tensor(x) for x in data]
+      yield data
+
+  # Create a TensorFlow Dataset from the generator
+  dataset = tf.data.Dataset.from_generator(generator, output_types=data[0].dtype, output_shapes=data[0].shape)
+
+  return dataset
+
+# Create a TensorFlow Dataset from the PyTorch Dataset
+dataset = pytorch_dataset_to_tensorflow_dataset(dataset)
+
+# Create a TensorFlow DataLoader from the TensorFlow Dataset
+dataloader = tf.data.DataLoader(dataset, batch_size=32, num_parallel_calls=tf.data.AUTOTUNE)
+</code></pre>
+<pre><code class="language-py">image = tf.io.read_file(filename=filepath)
+image = tf.image.decode_jpeg(image, channels=3) #or decode_png
+</code></pre>
+<p>The opposite of <code>unsqueeze</code> and <code>squeeze</code> is <code>expand_dims</code>:</p>
+<pre><code class="language-py">img = tf.expand_dims(img,axis=0)
+</code></pre>
+<p>yield the desired/necessary transformations.</p>
+<p>As for the photos, I am quite sure that you missed a /255.0 in case of PyTorch or added a 255.0 division in case of TensorFlow.</p>
+<p>In fact, when digging deep into the Keras backend, you can see that when you call your preprocessing function, it will call this function here:</p>
+<pre><code class="language-py">def _preprocess_numpy_input(x, data_format, mode):
+  &quot;&quot;&quot;Preprocesses a Numpy array encoding a batch of images.
+
+  Arguments:
+    x: Input array, 3D or 4D.
+    data_format: Data format of the image array.
+    mode: One of &quot;caffe&quot;, &quot;tf&quot; or &quot;torch&quot;.
+      - caffe: will convert the images from RGB to BGR,
+          then will zero-center each color channel with
+          respect to the ImageNet dataset,
+          without scaling.
+      - tf: will scale pixels between -1 and 1,
+          sample-wise.
+      - torch: will scale pixels between 0 and 1 and then
+          will normalize each channel with respect to the
+          ImageNet dataset.
+
+  Returns:
+      Preprocessed Numpy array.
+  &quot;&quot;&quot;
+  if not issubclass(x.dtype.type, np.floating):
+    x = x.astype(backend.floatx(), copy=False)
+
+  if mode == 'tf':
+    x /= 127.5
+    x -= 1.
+    return x
+  elif mode == 'torch':
+    x /= 255.
+    mean = [0.485, 0.456, 0.406]
+    std = [0.229, 0.224, 0.225]
+  else:
+    if data_format == 'channels_first':
+      # 'RGB'-&gt;'BGR'
+      if x.ndim == 3:
+        x = x[::-1, ...]
+      else:
+        x = x[:, ::-1, ...]
+    else:
+      # 'RGB'-&gt;'BGR'
+      x = x[..., ::-1]
+    mean = [103.939, 116.779, 123.68]
+    std = None
+
+  # Zero-center by mean pixel
+  if data_format == 'channels_first':
+    if x.ndim == 3:
+      x[0, :, :] -= mean[0]
+      x[1, :, :] -= mean[1]
+      x[2, :, :] -= mean[2]
+      if std is not None:
+        x[0, :, :] /= std[0]
+        x[1, :, :] /= std[1]
+        x[2, :, :] /= std[2]
+    else:
+      x[:, 0, :, :] -= mean[0]
+      x[:, 1, :, :] -= mean[1]
+      x[:, 2, :, :] -= mean[2]
+      if std is not None:
+        x[:, 0, :, :] /= std[0]
+        x[:, 1, :, :] /= std[1]
+        x[:, 2, :, :] /= std[2]
+  else:
+    x[..., 0] -= mean[0]
+    x[..., 1] -= mean[1]
+    x[..., 2] -= mean[2]
+    if std is not None:
+      x[..., 0] /= std[0]
+      x[..., 1] /= std[1]
+      x[..., 2] /= std[2]
+  return x
+</code></pre>
+<h2 id="mean-and-std">mean and std</h2>
+<pre><code class="language-py">mean = 0.0
+std = 0.0
+for images, _ in dl:
+    batch_samples = images.size(0)  # batch size (the last batch can have smaller size!)
+    images = images.view(batch_samples, images.size(1), -1)
+    mean += images.mean(2).sum(0)
+    std += images.std(2).sum(0)
+
+mean /= len(dl.dataset)
+std /= len(dl.dataset)
+</code></pre>
+<h2 id="datageneratorkerasutilssequence">DataGenerator(keras.utils.Sequence):</h2>
+<pre><code class="language-py">import numpy as np
+import keras
+
+class DataGenerator(keras.utils.Sequence):
+    'Generates data for Keras'
+    def __init__(self, list_IDs, labels, batch_size=32, dim=(32,32,32), n_channels=1,
+                 n_classes=10, shuffle=True):
+        'Initialization'
+        self.dim = dim
+        self.batch_size = batch_size
+        self.labels = labels
+        self.list_IDs = list_IDs
+        self.n_channels = n_channels
+        self.n_classes = n_classes
+        self.shuffle = shuffle
+        self.on_epoch_end()
+
+    def __len__(self):
+        'Denotes the number of batches per epoch'
+        return int(np.floor(len(self.list_IDs) / self.batch_size))
+
+    def __getitem__(self, index):
+        'Generate one batch of data'
+        # Generate indexes of the batch
+        indexes = self.indexes[index*self.batch_size:(index+1)*self.batch_size]
+
+        # Find list of IDs
+        list_IDs_temp = [self.list_IDs[k] for k in indexes]
+
+        # Generate data
+        X, y = self.__data_generation(list_IDs_temp)
+
+        return X, y
+
+    def on_epoch_end(self):
+        'Updates indexes after each epoch'
+        self.indexes = np.arange(len(self.list_IDs))
+        if self.shuffle == True:
+            np.random.shuffle(self.indexes)
+
+    def __data_generation(self, list_IDs_temp):
+        'Generates data containing batch_size samples' # X : (n_samples, *dim, n_channels)
+        # Initialization
+        X = np.empty((self.batch_size, *self.dim, self.n_channels))
+        y = np.empty((self.batch_size), dtype=int)
+
+        # Generate data
+        for i, ID in enumerate(list_IDs_temp):
+            # Store sample
+            X[i,] = np.load('data/' + ID + '.npy')
+
+            # Store class
+            y[i] = self.labels[ID]
+
+        return X, keras.utils.to_categorical(y, num_classes=self.n_classes)
+</code></pre>
+<pre><code class="language-py">class ImageDataGenerator(tf.keras.preprocessing.image.ImageDataGenerator):
+    def __init__(self):
+        super().__init__(
+            rescale=1.0 / 255.0,
+            rotation_range=10,
+            width_shift_range=0.2,
+            height_shift_range=0.2,
+            zoom_range=[0.95, 1.05],
+            shear_range=0.1,
+            fill_mode=&quot;wrap&quot;,
+            horizontal_flip=True,
+            vertical_flip=True,
+        )
+
+
+class Generator(object):
+    def __init__(self, batch_size, name_x, name_y):
+
+        data_f = None  # h5py.File(open_directory, &quot;r&quot;)
+
+        self.x = data_f[name_x]
+        self.y = data_f[name_y]
+
+        if len(self.x.shape) == 4:
+            self.shape_x = (None, self.x.shape[1], self.x.shape[2], self.x.shape[3])
+
+        if len(self.x.shape) == 3:
+            self.shape_x = (None, self.x.shape[1], self.x.shape[2])
+
+        if len(self.y.shape) == 4:
+            self.shape_y = (None, self.y.shape[1], self.y.shape[2], self.y.shape[3])
+
+        if len(self.y.shape) == 3:
+            self.shape_y = (None, self.y.shape[1], self.y.shape[2])
+
+        self.num_samples = self.x.shape[0]
+        self.batch_size = batch_size
+        self.epoch_size = self.num_samples // self.batch_size + 1 * (
+            self.num_samples % self.batch_size != 0
+        )
+
+        self.pointer = 0
+        self.sample_nums = np.arange(0, self.num_samples)
+        np.random.shuffle(self.sample_nums)
+
+    def data_generator(self):
+
+        for batch_num in range(self.epoch_size):
+
+            x = []
+            y = []
+
+            for elem_num in range(self.batch_size):
+
+                sample_num = self.sample_nums[self.pointer]
+
+                x += [self.x[sample_num]]
+                y += [self.y[sample_num]]
+
+                self.pointer += 1
+
+                if self.pointer == self.num_samples:
+                    self.pointer = 0
+                    np.random.shuffle(self.sample_nums)
+                    break
+
+            x = np.array(x, dtype=np.float32)
+            y = np.array(y, dtype=np.float32)
+
+            yield x, y
+
+    def get_dataset(self):
+        dataset = tf.data.Dataset.from_generator(
+            self.data_generator,
+            output_signature=(
+                tf.TensorSpec(shape=(), dtype=tf.int32),
+                tf.RaggedTensorSpec(shape=(2, None), dtype=tf.int32),
+            ),
+        )
+        dataset = dataset.prefetch(1)
+
+        return dataset
+</code></pre>
+<pre><code class="language-py">def _load_image(self, image_path):
+        image = cv2.imread(image_path)  # BGR
+        # image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        # image = tf.io.read_file(image_path)
+        # image = tf.io.decode_image(
+        #     image,
+        #     channels=self.num_channels,
+        #     dtype=tf.dtypes.uint8,
+        #     expand_animations=False,
+        # )
+        # image = tf.image.resize(
+        #     image,
+        #     self.dim,
+        #     method=tf.image.ResizeMethod.BILINEAR,
+        #     preserve_aspect_ratio=True,
+        #     antialias=False,
+        #     name=None,
+        # )
+        # if not issubclass(image.dtype.type, np.floating):
+        image = image.astype(np.float32)
+        # image = image.astype(tf.keras.backend.floatx(), copy=False)
+        image = self.apply_image_transforms(image)
+        # 'RGB'-&gt;'BGR'
+        # image = image[..., ::-1]
+        # image = tf.image.convert_image_dtype(image, dtype=tf.uint8, saturate=False)
+        # image = tf.cast(image, tf.float32)  # / 127.5
+        # image -= 1.0
+        mean = [103.939, 116.779, 123.68]
+        # mean_tensor = tf.keras.backend.constant(-np.array(mean))
+        # if tf.keras.backend.dtype(image) != tf.keras.backend.dtype(mean_tensor):
+        #     image = tf.keras.backend.bias_add(
+        #         image,
+        #         tf.keras.backend.cast(mean_tensor, tf.keras.backend.dtype(image)),
+        #         data_format=&quot;channels_last&quot;,
+        #     )
+        # else:
+        #     image = tf.keras.backend.bias_add(image, mean_tensor, &quot;channels_last&quot;)
+        # image[0, :, :] -= mean[0]
+        # image[1, :, :] -= mean[1]
+        # image[2, :, :] -= mean[2]
+        image[..., 0] -= mean[0]
+        image[..., 1] -= mean[1]
+        image[..., 2] -= mean[2]
+        # image = tf.keras.applications.vgg16.preprocess_input(image)
+        &quot;&quot;&quot; Preprocessed numpy.array or a tf.Tensor with type float32. The images are converted from RGB to BGR,
+            then each color channel is zero-centered with respect to the ImageNet dataset, without scaling. &quot;&quot;&quot;
+        return image
+</code></pre>
+<h2 id="unfreeze-specific-layers">Unfreeze specific layers</h2>
+<p>Here is one way to <strong>unfreeze</strong> specific layers. We pick the same model and some layers (e.g. <code>block14_sepconv2</code>). The purpose is to <strong>unfreeze</strong> these layers and make the rest of the layers <strong>freeze</strong>.</p>
+<pre><code class="language-py">from tensorflow import keras
+
+base_model = keras.applications.Xception(
+    weights='imagenet',
+    input_shape=(150,150,3),
+    include_top=False
+)
+
+# free all layer except the desired layers
+# which is in [ ... ]
+for layer in base_model.layers:
+    if layer.name not in ['block14_sepconv2', 'block13_sepconv1']:
+        layer.trainable = False
+
+    if layer.trainable:
+        print(layer.name)
+
+block14_sepconv2
+block13_sepconv1
+</code></pre>
+<h2 id="compute-the-trainable-and-non-trainable-variables">Compute the trainable and non-trainable variables.</h2>
+<pre><code class="language-py">import tensorflow.keras.backend as K
+import numpy as np 
+
+trainable_count = np.sum([K.count_params(w) \
+                          for w in base_model.trainable_weights])
+non_trainable_count = np.sum([K.count_params(w) \
+                              for w in base_model.non_trainable_weights])
+print('Total params: {:,}'.format(trainable_count + non_trainable_count))
+print('Trainable params: {:,}'.format(trainable_count))
+print('Non-trainable params: {:,}'.format(non_trainable_count))
+</code></pre>
+<pre><code class="language-log">Total params: 20,861,480
+Trainable params: 3,696,088
+Non-trainable params: 17,165,392
+</code></pre>
+<h2 id="tensorflow-macos-releases">tensorflow-macos Releases</h2>
+<table>
+<thead>
+<tr>
+<th>tensorflow-macos</th>
+<th>tensorflow-metal</th>
+<th>macOS version</th>
+<th>Features</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>v2.5</td>
+<td>0.1.2</td>
+<td>12.0+</td>
+<td>Pluggable device</td>
+</tr>
+<tr>
+<td>v2.6</td>
+<td>0.2.0</td>
+<td>12.0+</td>
+<td>Variable sequences for RNN layers</td>
+</tr>
+<tr>
+<td>v2.7</td>
+<td>0.3.0</td>
+<td>12.0+</td>
+<td>Custom op support</td>
+</tr>
+<tr>
+<td>v2.8</td>
+<td>0.4.0</td>
+<td>12.0+</td>
+<td>RNN performance improvements</td>
+</tr>
+<tr>
+<td>v2.9</td>
+<td>0.5.0</td>
+<td>12.1+</td>
+<td>Distributed training</td>
+</tr>
+</tbody>
+</table>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../llama2/" class="btn btn-neutral float-left" title="llmama2"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../db/" class="btn btn-neutral float-right" title="database">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../llama2/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../db/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

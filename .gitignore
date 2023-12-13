@@ -131,3 +131,4 @@ notebooks/*.png
 notebooks/VOCdevkit/
 
 node_modules/
+.chroma/
