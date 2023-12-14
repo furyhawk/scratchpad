@@ -1,5 +1,11 @@
 furyhawk.synology.me
 
-encode gzip
+# Templates give static sites some dynamic features
+templates
+
+# Compress responses according to Accept-Encoding headers
+encode gzip zstd
+
 root * /srv
+
 file_server
