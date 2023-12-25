@@ -277,6 +277,7 @@ def demo():
     #     time.sleep_ms(2000)
 
     print("Disconnected")
+    oled.text("Disconnected", 5, 16)
 
 
 if __name__ == "__main__":
