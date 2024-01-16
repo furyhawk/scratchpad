@@ -14,7 +14,7 @@ WIDTH = 128  # oled display width
 HEIGHT = 64  # oled display height
 
 i2c = I2C(
-    0, scl=Pin(17), sda=Pin(16), freq=400_000
+    1, scl=Pin(3), sda=Pin(2), freq=400_000
 )  # Init I2C using pins GP8 & GP9 (default I2C0 pins)
 
 print("Speed set to " + str(freq()) + "Hz")  # get the current frequency of the CPU
@@ -61,3 +61,4 @@ while True:
     except:
         print("Finished.")
         break
+
