@@ -132,3 +132,7 @@ notebooks/VOCdevkit/
 
 node_modules/
 .chroma/
+tests/lightning_logs/
+*.ckpt
+*.sav
+.pt_tmp/

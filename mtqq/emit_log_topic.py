@@ -3,7 +3,7 @@ import pika
 import sys
 
 connection = pika.BlockingConnection(
-    pika.ConnectionParameters(host='localhost'))
+    pika.ConnectionParameters(host='cloud5'))
 channel = connection.channel()
 
 channel.exchange_declare(exchange='topic_logs', exchange_type='topic')
