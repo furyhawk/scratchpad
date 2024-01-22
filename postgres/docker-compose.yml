@@ -2,7 +2,7 @@ version: '3.8'
 services:
   postgres_db:
     image: postgres:latest
-    container_name: PostgresCont 
+    container_name: Postgres
     restart: always
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
