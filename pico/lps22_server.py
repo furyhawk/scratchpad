@@ -12,10 +12,10 @@ def connect():
     # Connect to WLAN
     wlan = network.WLAN(network.STA_IF)
     wlan.active(True)
-    wlan.connect(ssid, password)
 
     while wlan.isconnected() == False:
         print("Waiting for connection...")
+        wlan.connect(ssid, password)
         sleep(1)
         print(wlan.ifconfig())
     ip = wlan.ifconfig()[0]
@@ -27,6 +27,7 @@ def open_socket(ip):
     # Open a socket
     address = (ip, 80)
     connection = socket.socket()
+    connection.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     connection.bind(address)
     connection.listen(1)
     print(connection)
@@ -47,28 +48,43 @@ def webpage(pressure, temperature):
     return str(html)
 
 
-def serve(connection):
+def serve(connection, lps22hb):
     # Start a web server
-    lps22hb = LPS22HB()
-    while True:
-        client = connection.accept()[0]
-        request = client.recv(1024)
-        request = str(request)
-        print(request)
-        try:
-            request = request.split()[1]
-        except IndexError:
-            pass
 
-        html = webpage(lps22hb.pressure, lps22hb.temperature)
-        client.send(html)
-        sleep(5)
-        client.close()
+    try:
+        client, addr = connection.accept()
+        while True:
+            request = client.recv(1024)
+            if not request:
+                print(f">> {addr} disconnected")
+                continue
+            request = str(request)
+            print(request)
+            try:
+                request = request.split()[1]
+            except IndexError:
+                pass
+
+            pressure = lps22hb.pressure
+            temperature = lps22hb.temperature
+            html = webpage(pressure, temperature)
+            client.send(html)
+            client.close()
+            print("Sent a response")
+            print(f"Pressure is {pressure:6.2f}  hPa")
+            print(f"Temperature is {temperature:6.2f} °C")
+            sleep(5)
+    except OSError as e:
+        print("Socket error", e)
+    finally:
+        connection.close()
+        print("Connection closed")
 
 
 try:
     ip = connect()
     connection = open_socket(ip)
-    serve(connection)
+    lps22hb = LPS22HB()
+    serve(connection, lps22hb)
 except KeyboardInterrupt:
     machine.reset()
