@@ -21,7 +21,7 @@ def connect():
         print(wlan.ifconfig())
 
     ip = wlan.ifconfig()[0]
-    print(f"Connected on {ip}")
+    print(f"Connected on http://{ip}")
     return ip
 
 
@@ -54,8 +54,8 @@ def serve(connection, lps22hb):
     # Start a web server
 
     try:
-        client, addr = connection.accept()
         while True:
+            client, addr = connection.accept()
             request = client.recv(1024)
             if not request:
                 print(f">> {addr} disconnected")
@@ -87,6 +87,7 @@ try:
     ip = connect()
     connection = open_socket(ip)
     lps22hb = LPS22HB()
+
     serve(connection, lps22hb)
 except KeyboardInterrupt:
     machine.reset()
