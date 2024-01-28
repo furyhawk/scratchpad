@@ -4,9 +4,15 @@ from time import sleep
 from lps22hbtr import LPS22HB
 import machine
 
-ssid = "wifi_name"
-password = "12345678"
+from mpy_env import get_env, load_env
 
+# Loading `env.json` at once as default.
+# if `verbose` is true, the loader will print debug messages
+load_env(verbose=True)
+
+
+ssid = get_env("wifi")
+password = get_env("wifi_pwd")
 
 def connect():
     # Connect to WLAN
@@ -73,9 +79,9 @@ def serve(connection, lps22hb):
             client.send(html)
             client.close()
             print("Sent a response")
-            print(f"Pressure is {pressure:6.2f}  hPa")
+            print(f"Pressure is {pressure:6.2f} hPa")
             print(f"Temperature is {temperature:6.2f} °C")
-            sleep(5)
+            #sleep(5)
     except OSError as e:
         print("Socket error", e)
     finally:
