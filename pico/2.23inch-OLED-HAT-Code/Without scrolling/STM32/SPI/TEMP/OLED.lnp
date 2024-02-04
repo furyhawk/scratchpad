@@ -1,0 +1,20 @@
+--cpu Cortex-M3
+"..\temp\spi.o"
+"..\temp\delay.o"
+"..\temp\iic.o"
+"..\temp\ssd1305.o"
+"..\temp\fonts.o"
+"..\temp\core_cm3.o"
+"..\temp\system_stm32f10x.o"
+"..\temp\misc.o"
+"..\temp\stm32f10x_gpio.o"
+"..\temp\stm32f10x_rcc.o"
+"..\temp\stm32f10x_spi.o"
+"..\temp\stm32f10x_usart.o"
+"..\temp\startup_stm32f10x_md.o"
+"..\temp\config.o"
+"..\temp\main.o"
+--strict --scatter "..\TEMP\OLED.sct"
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list "..\TEMP\OLED.map" -o ..\TEMP\OLED.axf
