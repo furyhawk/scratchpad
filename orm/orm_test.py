@@ -13,7 +13,7 @@ t1 = Table("t1", meta, Column("name", String(50), primary_key=True))
 
 async def async_main() -> None:
     engine = create_async_engine(
-        "postgresql+asyncpg://postgres:postgres123@localhost/postgres",
+        "postgresql+asyncpg://casaos:casaos@cloud5/casaos",
         echo=True,
     )
 
