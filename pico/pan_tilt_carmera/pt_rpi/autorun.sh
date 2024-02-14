@@ -8,7 +8,8 @@ if [ -n "$SUDO_USER" ] || [ -n "$SUDO_UID" ]; then
 fi
 
 # # Define the cron job and its schedule
-cron_job="@reboot ~/pt_rpi/ugv-env/bin/python ~/pt_rpi/app.py >> ~/ugv.log 2>&1"
+# source $PWD/ugv-env/bin/activate
+cron_job="@reboot ~/ugv-env/bin/python ~/pt_rpi/app.py >> ~/ugv.log 2>&1"
 
 # Check if the cron job already exists in the user's crontab
 if crontab -l | grep -q "$cron_job"; then
