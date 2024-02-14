@@ -160,9 +160,9 @@ sudo apt-get install -y util-linux procps hostapd iproute2 iw haveged dnsmasq ip
 # Install create_ap
 echo "# Install create_ap."
 # git clone https://github.com/oblique/create_ap.git
-cd $PWD/create_ap/
-sudo make install
-cd ..
+# cd $PWD/create_ap/
+# sudo make install
+# cd ..
 
 
 
