@@ -22,6 +22,10 @@ def on_unsubscribe(client, userdata, mid, reason_code_list, properties):
 
 def on_message(client, userdata, message):
     # userdata is the structure we choose to provide, here it's a list()
+    print(
+        f"Received message '{message.payload.decode()}' on topic '{message.topic}' with QoS {message.qos}"
+        f" and userdata {userdata}"
+    )
     userdata.append(message.payload)
     # We only want to process 10 messages
     if len(userdata) >= 10:
@@ -44,6 +48,7 @@ mqttc.on_subscribe = on_subscribe
 mqttc.on_unsubscribe = on_unsubscribe
 
 mqttc.user_data_set([])
-mqttc.connect("clould5")
+mqttc.username_pw_set(username="user1", password="123456")
+mqttc.connect("localhost", 1883)
 mqttc.loop_forever()
 print(f"Received the following message: {mqttc.user_data_get()}")
