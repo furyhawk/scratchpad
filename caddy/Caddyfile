@@ -9,3 +9,5 @@ encode gzip zstd
 root * /srv
 
 file_server
+
+reverse_proxy /bai/* beyondallreason:8501
