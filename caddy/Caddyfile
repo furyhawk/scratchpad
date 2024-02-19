@@ -7,7 +7,6 @@ templates
 encode gzip zstd
 
 root * /srv
-
 file_server
 
-reverse_proxy /bai/* beyondallinfo:8501
+reverse_proxy /bai localhost:8501
