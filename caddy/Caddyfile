@@ -1,12 +1,13 @@
-furyhawk.synology.me
-
+furyhawk.synology.me, www.furyhawk.lol, wiki.furyhawk.lol {
 # Templates give static sites some dynamic features
 templates
-
 # Compress responses according to Accept-Encoding headers
 encode gzip zstd
 
 root * /srv
 file_server
+}
 
-reverse_proxy /bai localhost:8501
+bai.furyhawk.lol {
+	reverse_proxy /bai localhost:8501
+}
