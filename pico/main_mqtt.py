@@ -33,20 +33,21 @@ if not wlan.isconnected():
     print("ip = " + status[0])
 
 # Default  MQTT_BROKER to connect to
-MQTT_BROKER = "192.168.50.57"
+MQTT_BROKER = "furyhawk.lol"
+MQTT_PORT = 1883
 CLIENT_ID = ubinascii.hexlify(machine.unique_id())
-mqtt_user = get_env("mqtt_user")
-mqtt_password = get_env("mqtt_password")
+MQTT_USER = get_env("mqtt_user")
+MQTT_PASSWORD = get_env("mqtt_password")
 SUBSCRIBE_TOPIC = b"led"
-PUBLISH_TOPIC = b"temperature"
+PUBLISH_TOPIC_TEMP = b"temperature"
+PUBLISH_TOPIC_PRESSURE = b"pressure"
+PUBLISH_TOPIC_HUMIDITY = b"humidity"
 
 # Setup built in PICO LED as Output
 led = machine.Pin("LED", machine.Pin.OUT)
-
 # Publish MQTT messages after every set timeout
 last_publish = utime.time()
-publish_interval = 20
-
+publish_interval = 30
 
 # I2C for the Wemos D1 Mini with ESP8266
 i2c = machine.I2C(
@@ -79,7 +80,7 @@ oled.text("SSD1306", 40, 12, 1)
 oled.text("OLED 128x64", 40, 24, 1)
 # Finally update the oled display so the image & text is displayed
 oled.show()
-utime.sleep(3)
+utime.sleep(1)
 
 
 # Received messages from subscriptions will be delivered to this callback
@@ -105,7 +106,7 @@ def get_temperature_reading():
 def main():
     print(f"Begin connection with MQTT Broker :: {MQTT_BROKER}")
     mqttClient = MQTTClient(
-        CLIENT_ID, MQTT_BROKER, 1883, mqtt_user, mqtt_password, keepalive=60
+        CLIENT_ID, MQTT_BROKER, MQTT_PORT, MQTT_USER, MQTT_PASSWORD, keepalive=60
     )
     mqttClient.set_callback(sub_cb)
     mqttClient.connect()
@@ -120,8 +121,11 @@ def main():
         global last_publish
         if (utime.time() - last_publish) >= publish_interval:
             temp, pressure, humidity = get_temperature_reading()
-            mqttClient.publish(PUBLISH_TOPIC, str(temp).encode())
+            mqttClient.publish(PUBLISH_TOPIC_TEMP, str(temp).encode())
+            mqttClient.publish(PUBLISH_TOPIC_PRESSURE, str(pressure).encode())
+            mqttClient.publish(PUBLISH_TOPIC_HUMIDITY, str(humidity).encode())
             last_publish = utime.time()
+
             oled.fill(0)
             oled.text("BME280 3.3V:", 5, 8)
             oled.text(f"Temp: {temp}", 1, 25)
@@ -129,7 +133,7 @@ def main():
             oled.text(f"hum: {humidity}", 1, 45)
             oled.show()
 
-        utime.sleep(1)
+        utime.sleep(5)
 
 
 if __name__ == "__main__":
@@ -139,4 +143,3 @@ if __name__ == "__main__":
         except OSError as e:
             print("Error: " + str(e))
             reset()
-

@@ -1,5 +1,12 @@
 import paho.mqtt.client as mqtt
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
+
+USERNAME = os.getenv('USERNAME')
+PASSWORD = os.getenv('PASSWORD')
+TOPIC = "temperature"
 
 def on_subscribe(client, userdata, mid, reason_code_list, properties):
     # Since we subscribed only for a single channel, reason_code_list contains
@@ -29,7 +36,7 @@ def on_message(client, userdata, message):
     userdata.append(message.payload)
     # We only want to process 10 messages
     if len(userdata) >= 10:
-        client.unsubscribe("paho/test/topic/#")
+        client.unsubscribe(f"{TOPIC}/#")
 
 
 def on_connect(client, userdata, flags, reason_code, properties):
@@ -38,7 +45,7 @@ def on_connect(client, userdata, flags, reason_code, properties):
     else:
         # we should always subscribe from on_connect callback to be sure
         # our subscribed is persisted across reconnections.
-        client.subscribe("paho/test/topic/#")
+        client.subscribe(f"{TOPIC}/#")
 
 
 mqttc = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
@@ -48,7 +55,7 @@ mqttc.on_subscribe = on_subscribe
 mqttc.on_unsubscribe = on_unsubscribe
 
 mqttc.user_data_set([])
-mqttc.username_pw_set(username="user1", password="123456")
-mqttc.connect("localhost", 1883)
+mqttc.username_pw_set(username=USERNAME, password=PASSWORD)
+mqttc.connect("furyhawk.lol", 1883)
 mqttc.loop_forever()
 print(f"Received the following message: {mqttc.user_data_get()}")
