@@ -6,7 +6,7 @@ load_dotenv()
 
 USERNAME = os.getenv('USERNAME')
 PASSWORD = os.getenv('PASSWORD')
-TOPIC = "temperature"
+TOPIC = "testtopic/#"
 
 def on_subscribe(client, userdata, mid, reason_code_list, properties):
     # Since we subscribed only for a single channel, reason_code_list contains
