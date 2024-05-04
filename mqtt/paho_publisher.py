@@ -35,7 +35,7 @@ mqttc.on_publish = on_publish
 
 mqttc.user_data_set(unacked_publish)
 # mqttc.username_pw_set(username="user1", password="123456")
-mqttc.connect("furyhawk.lol", 1883)
+mqttc.connect("mqtt.furyhawk.lol", 1883)
 mqttc.loop_start()
 
 # Our application produce some messages

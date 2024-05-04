@@ -6,7 +6,7 @@ load_dotenv()
 
 USERNAME = os.getenv('USERNAME')
 PASSWORD = os.getenv('PASSWORD')
-TOPIC = "testtopic/#"
+TOPIC = "testtopic"
 
 def on_subscribe(client, userdata, mid, reason_code_list, properties):
     # Since we subscribed only for a single channel, reason_code_list contains
@@ -56,6 +56,6 @@ mqttc.on_unsubscribe = on_unsubscribe
 
 mqttc.user_data_set([])
 mqttc.username_pw_set(username=USERNAME, password=PASSWORD)
-mqttc.connect("furyhawk.lol", 1883)
+mqttc.connect("mqtt.furyhawk.lol", 1883)
 mqttc.loop_forever()
 print(f"Received the following message: {mqttc.user_data_get()}")
