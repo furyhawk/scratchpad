@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "postgres"
+version = "0.1.0"
+description = ""
+authors = ["Teck Meng <furyx@hotmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+alembic = "^1.13.1"
+SQLAlchemy = "^2.0.29"
+pydantic = "^2.7.1"
+ipykernel = "^6.29.4"
+pydantic-settings = "^2.2.1"
+asyncpg = "^0.29.0"
+fastapi = "^0.111.0"
+greenlet = "^3.0.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
