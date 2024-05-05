@@ -47,7 +47,7 @@ PUBLISH_TOPIC_HUMIDITY = b"humidity"
 led = machine.Pin("LED", machine.Pin.OUT)
 # Publish MQTT messages after every set timeout
 last_publish = utime.time()
-publish_interval = 30
+publish_interval = 180
 
 # I2C for the Wemos D1 Mini with ESP8266
 i2c = machine.I2C(
@@ -129,8 +129,8 @@ def main():
             oled.fill(0)
             oled.text("BME280 3.3V:", 5, 8)
             oled.text(f"Temp: {temp}", 1, 25)
-            oled.text(f"pres: {pressure}", 1, 35)
-            oled.text(f"hum: {humidity}", 1, 45)
+            oled.text(f"Pres: {pressure}", 1, 35)
+            oled.text(f"Hum: {humidity}", 1, 45)
             oled.show()
 
         utime.sleep(5)
