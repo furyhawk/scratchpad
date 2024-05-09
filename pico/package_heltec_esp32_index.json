@@ -1,0 +1,1044 @@
+{
+  "packages": [
+    {
+      "maintainer": "Heltec Automation(TM)", 
+      "help": {
+        "online": "https://heltec.org"
+      }, 
+      "websiteURL": "https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series", 
+      "platforms": [
+        {
+        "category": "ESP32",
+        "name": "Heltec ESP32 Series Dev-boards",
+        "url": "https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/releases/download/1.0.0/esp32-1.0.0.zip",
+        "checksum": "SHA-256:e4131df00261a5e5226aaa95ab87784873625a0cb6be353edacd9bc7ea422023",
+          "size": "204464690",
+        "help": {
+          "online": ""
+        },
+        "version": "1.0.0",
+        "architecture": "esp32",
+        "archiveFileName": "esp32-1.0.0.zip",
+        "boards": [
+          {"name": "WiFi Kit 32"},
+          {"name": "WiFi LoRa 32"},
+          {"name": "WiFi LoRa 32(V2)"},
+          {"name": "Wirreless Stick Lite"},
+          {"name": "Wireless Stick"},
+          {"name": "WIFI LoRa 32 V3"},
+          {"name": "Wirreless Stick Lite V3"},
+          {"name": "Wireless Stick V3"},
+          {"name": "Wireless Mini Shell"},
+          {"name": "Wireless Paper"},
+          {"name":"Wireless Tacker"}
+        ],
+        "toolsDependencies": [
+            {
+              "packager": "Heltec-esp32",
+              "name": "riscv32-esp-elf-gcc",
+              "version": "gcc8_4_0-esp-2021r2-patch3"
+            },
+            {
+              "packager": "Heltec-esp32",
+              "name": "xtensa-esp32-elf-gcc",
+              "version": "gcc8_4_0-esp-2021r2-patch3"
+            },
+            {
+              "packager": "Heltec-esp32",
+              "name": "xtensa-esp32s2-elf-gcc",
+              "version": "gcc8_4_0-esp-2021r2-patch3"
+            },
+            {
+              "packager": "Heltec-esp32",
+              "name": "xtensa-esp32s3-elf-gcc",
+              "version": "gcc8_4_0-esp-2021r2-patch3"
+            },
+            {
+              "packager": "Heltec-esp32",
+              "name": "esptool_py",
+              "version": "3.3.0"
+            },
+            {
+              "packager": "Heltec-esp32",
+              "name": "mkspiffs",
+              "version": "0.2.3"
+            },
+            {
+              "packager": "Heltec-esp32",
+              "name": "mklittlefs",
+              "version": "3.0.0-gnu12-dc7f933"
+            }
+          ]
+      },
+        {
+	      "category": "ESP32", 
+	      "name": "Heltec ESP32 Series Dev-boards", 
+	      "url": "https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/releases/download/0.0.9/esp32-0.0.9.zip", 
+	      "checksum": "SHA-256:e9971df528a3acbb37f6fe852ae7917b0863d9c2d16bb9458ddc9b8356613ab5",
+  	      "size": "211285263",
+	      "help": {
+	        "online": ""
+	      }, 
+	      "version": "0.0.9", 
+	      "architecture": "esp32", 
+	      "archiveFileName": "esp32-0.0.9.zip", 
+	      "boards": [
+	        {"name": "WiFi Kit 32"}, 
+	        {"name": "WiFi LoRa 32"}, 
+	        {"name": "WiFi LoRa 32(V2)"},
+	        {"name": "Wirreless Stick Lite"}, 
+	        {"name": "Wireless Stick"},
+	        {"name": "WIFI LoRa 32 V3"},
+          {"name": "Wirreless Stick Lite V3"},
+          {"name": "Wireless stick V3"},
+	        {"name": "esp32c3"},
+          {"name": "Wireless Paper"},
+          {"name":"Wireless tacker"}
+	      ], 
+        "toolsDependencies": [
+            {
+              "packager": "Heltec-esp32",
+              "name": "riscv32-esp-elf-gcc",
+              "version": "gcc8_4_0-esp-2021r2-patch3"
+            },
+            {
+              "packager": "Heltec-esp32",
+              "name": "xtensa-esp32-elf-gcc",
+              "version": "gcc8_4_0-esp-2021r2-patch3"
+            },
+            {
+              "packager": "Heltec-esp32",
+              "name": "xtensa-esp32s2-elf-gcc",
+              "version": "gcc8_4_0-esp-2021r2-patch3"
+            },
+            {
+              "packager": "Heltec-esp32",
+              "name": "xtensa-esp32s3-elf-gcc",
+              "version": "gcc8_4_0-esp-2021r2-patch3"
+            },
+            {
+              "packager": "Heltec-esp32",
+              "name": "esptool_py",
+              "version": "3.3.0"
+            },
+            {
+              "packager": "Heltec-esp32",
+              "name": "mkspiffs",
+              "version": "0.2.3"
+            },
+            {
+              "packager": "Heltec-esp32",
+              "name": "mklittlefs",
+              "version": "3.0.0-gnu12-dc7f933"
+            }
+          ]
+      },
+      {
+	      "category": "ESP32", 
+	      "name": "Heltec ESP32 Series Dev-boards", 
+	      "url": "https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/releases/download/0.0.8/esp32-0.0.8.zip", 
+	      "checksum": "SHA-256:d35ca6f1660744508aa4b8af5d6c01ccc50ddb127de58a984db8f76b85136380",
+  	      "size": "204366673",
+	      "help": {
+	        "online": ""
+	      }, 
+	      "version": "0.0.8", 
+	      "architecture": "esp32", 
+	      "archiveFileName": "esp32-0.0.8.zip", 
+	      "boards": [
+	        {"name": "WiFi Kit 32"}, 
+	        {"name": "WiFi LoRa 32"}, 
+	        {"name": "WiFi LoRa 32(V2)"},
+	        {"name": "Wirreless Stick Lite"}, 
+	        {"name": "Wireless Stick"},
+	        {"name": "WIFI LoRa 32 V3"},
+          {"name": "Wirreless Stick Lite V3"},
+          {"name": "Wireless stick V3"},
+	        {"name": "esp32c3"},
+          {"name": "Wireless Paper"},
+          {"name":"Wireless tacker"}
+	      ], 
+        "toolsDependencies": [
+            {
+              "packager": "Heltec-esp32",
+              "name": "riscv32-esp-elf-gcc",
+              "version": "gcc8_4_0-esp-2021r2-patch3"
+            },
+            {
+              "packager": "Heltec-esp32",
+              "name": "xtensa-esp32-elf-gcc",
+              "version": "gcc8_4_0-esp-2021r2-patch3"
+            },
+            {
+              "packager": "Heltec-esp32",
+              "name": "xtensa-esp32s2-elf-gcc",
+              "version": "gcc8_4_0-esp-2021r2-patch3"
+            },
+            {
+              "packager": "Heltec-esp32",
+              "name": "xtensa-esp32s3-elf-gcc",
+              "version": "gcc8_4_0-esp-2021r2-patch3"
+            },
+            {
+              "packager": "Heltec-esp32",
+              "name": "esptool_py",
+              "version": "3.3.0"
+            },
+            {
+              "packager": "Heltec-esp32",
+              "name": "mkspiffs",
+              "version": "0.2.3"
+            },
+            {
+              "packager": "Heltec-esp32",
+              "name": "mklittlefs",
+              "version": "3.0.0-gnu12-dc7f933"
+            }
+          ]
+      },{
+	      "category": "ESP32", 
+	      "name": "Heltec ESP32 Series Dev-boards", 
+	      "url": "https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/releases/download/0.0.7/esp32-0.0.7.zip", 
+	      "checksum": "SHA-256:6da8d512c8fd8b7eb6e49f78e6874730621fc1e0c811e1f5571d6d770e3b3492",
+	      "help": {
+	        "online": ""
+	      }, 
+	      "version": "0.0.7", 
+	      "architecture": "esp32", 
+	      "archiveFileName": "esp32-0.0.7.zip", 
+	      "boards": [
+	        {"name": "WiFi Kit 32"}, 
+	        {"name": "WiFi LoRa 32"}, 
+	        {"name": "WiFi LoRa 32(V2)"},
+	        {"name": "Wirreless Stick Lite"}, 
+	        {"name": "Wireless Stick"},
+	        {"name": "WIFI LoRa 32 V3"},
+          {"name": "Wirreless Stick Lite V3"},
+          {"name": "Wireless stick V3"},
+	        {"name": "esp32c3"}
+	      ], 
+        "toolsDependencies": [
+            {
+              "packager": "Heltec-esp32",
+              "name": "riscv32-esp-elf-gcc",
+              "version": "gcc8_4_0-esp-2021r2-patch3"
+            },
+            {
+              "packager": "Heltec-esp32",
+              "name": "xtensa-esp32-elf-gcc",
+              "version": "gcc8_4_0-esp-2021r2-patch3"
+            },
+            {
+              "packager": "Heltec-esp32",
+              "name": "xtensa-esp32s2-elf-gcc",
+              "version": "gcc8_4_0-esp-2021r2-patch3"
+            },
+            {
+              "packager": "Heltec-esp32",
+              "name": "xtensa-esp32s3-elf-gcc",
+              "version": "gcc8_4_0-esp-2021r2-patch3"
+            },
+            {
+              "packager": "Heltec-esp32",
+              "name": "esptool_py",
+              "version": "3.3.0"
+            },
+            {
+              "packager": "Heltec-esp32",
+              "name": "mkspiffs",
+              "version": "0.2.3"
+            },
+            {
+              "packager": "Heltec-esp32",
+              "name": "mklittlefs",
+              "version": "3.0.0-gnu12-dc7f933"
+            }
+          ],
+          "size": "204171884"
+
+      },
+      {
+	      "category": "ESP32", 
+	      "name": "Heltec ESP32 Series Dev-boards", 
+	      "url": "https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/releases/download/0.0.6/esp32-0.0.6.zip", 
+	      "checksum": "SHA-256:d296459580aa18026fe097f01032e1b8d8d8a754128dbc906cc7314843dc7504", 
+	      "help": {
+	        "online": ""
+	      }, 
+	      "version": "0.0.6", 
+	      "architecture": "esp32", 
+	      "archiveFileName": "esp32-0.0.6.zip", 
+	      "boards": [
+	        {"name": "WiFi Kit 32"}, 
+	        {"name": "WiFi LoRa 32"}, 
+	        {"name": "WiFi LoRa 32(V2)"},
+	        {"name": "Wirreless Stick Lite"}, 
+	        {"name": "Wireless Stick"},
+	        {"name": "Wireless Bridge"},		
+	        {"name": "Lora Eink Board"}
+
+	      ], 
+	      "toolsDependencies": [
+	        {
+	          "packager": "Heltec-esp32", 
+	          "version": "1.22.0-80-g6c4433a-5.2.0", 
+	          "name": "xtensa-esp32-elf-gcc"
+	        }, 
+	        {
+	          "packager": "Heltec-esp32", 
+	          "version": "2.6.1", 
+	          "name": "esptool_py"
+	        }, 
+	        {
+	          "packager": "Heltec-esp32", 
+	          "version": "0.2.3", 
+	          "name": "mkspiffs"
+	        }
+	      ], 
+	      "size": "45993269"
+      },
+      {
+          "category": "ESP32", 
+          "name": "Heltec ESP32 Series Dev-boards", 
+          "url": "https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/releases/download/0.0.5/esp32-0.0.5.zip", 
+          "checksum": "SHA-256:a6ff8835e9504b27f5129c0a396446503890497d9f6b646352f7de5f8011daca", 
+          "help": {
+            "online": ""
+          }, 
+          "version": "0.0.5", 
+          "architecture": "esp32", 
+          "archiveFileName": "esp32-0.0.5.zip", 
+          "boards": [
+            {"name": "WiFi Kit 32"}, 
+            {"name": "WiFi LoRa 32"}, 
+            {"name": "WiFi LoRa 32(V2)"},
+            {"name": "Wirreless Stick Lite"}, 
+            {"name": "Wireless Stick"}
+          ], 
+          "toolsDependencies": [
+            {
+              "packager": "Heltec-esp32", 
+              "version": "1.22.0-80-g6c4433a-5.2.0", 
+              "name": "xtensa-esp32-elf-gcc"
+            }, 
+            {
+              "packager": "Heltec-esp32", 
+              "version": "2.6.1", 
+              "name": "esptool_py"
+            }, 
+            {
+              "packager": "Heltec-esp32", 
+              "version": "0.2.3", 
+              "name": "mkspiffs"
+            }
+          ], 
+          "size": "36318582"
+        },
+        {
+          "category": "ESP32", 
+          "name": "Heltec ESP32 Series Dev-boards", 
+          "url": "https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/releases/download/0.0.4/esp32-0.0.4.zip", 
+          "checksum": "SHA-256:252324bdd073d94083dfb1351d0bb796005c3760349d510382e4566f3b0b9b6f", 
+          "help": {
+            "online": ""
+          }, 
+          "version": "0.0.4", 
+          "architecture": "esp32", 
+          "archiveFileName": "esp32-0.0.4.zip", 
+          "boards": [
+            {"name": "WiFi Kit 32"}, 
+            {"name": "WiFi LoRa 32"}, 
+            {"name": "WiFi LoRa 32(V2)"},
+            {"name": "Wirreless Stick Lite"}, 
+            {"name": "Wireless Stick"}
+          ], 
+          "toolsDependencies": [
+            {
+              "packager": "Heltec-esp32", 
+              "version": "1.22.0-80-g6c4433a-5.2.0", 
+              "name": "xtensa-esp32-elf-gcc"
+            }, 
+            {
+              "packager": "Heltec-esp32", 
+              "version": "2.6.1", 
+              "name": "esptool_py"
+            }, 
+            {
+              "packager": "Heltec-esp32", 
+              "version": "0.2.3", 
+              "name": "mkspiffs"
+            }
+          ], 
+          "size": "36319098"
+        },
+        {
+          "category": "ESP32", 
+          "name": "Heltec ESP32 Series Dev-boards", 
+          "url": "https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/releases/download/0.0.2-rc1/esp32-0.0.2-rc1.zip", 
+          "checksum": "SHA-256:21cc7d6786b2bad59612f995d41b15a3bccf89351f639ec741f8582a695c349d", 
+          "help": {
+            "online": ""
+          }, 
+          "version": "0.0.2-rc1", 
+          "architecture": "esp32", 
+          "archiveFileName": "esp32-0.0.2-rc1.zip", 
+          "boards": [
+            {"name": "WiFi Kit 32"}, 
+            {"name": "WiFi LoRa 32"}, 
+            {"name": "WiFi LoRa 32(V2)"},
+            {"name": "Wirreless Stick Lite"}, 
+            {"name": "Wireless Stick"}
+          ], 
+          "toolsDependencies": [
+            {
+              "packager": "Heltec-esp32", 
+              "version": "1.22.0-80-g6c4433a-5.2.0", 
+              "name": "xtensa-esp32-elf-gcc"
+            }, 
+            {
+              "packager": "Heltec-esp32", 
+              "version": "2.6.1", 
+              "name": "esptool_py"
+            }, 
+            {
+              "packager": "Heltec-esp32", 
+              "version": "0.2.3", 
+              "name": "mkspiffs"
+            }
+          ], 
+          "size": "30380883"
+        },
+        {
+          "category": "ESP32", 
+          "name": "Heltec ESP32 Series Dev-boards", 
+          "url": "https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/releases/download/0.0.1/esp32-0.0.1.zip", 
+          "checksum": "SHA-256:2ab92a24cbfc0517c49b467503f346ffdf8c80e366a45a7a92149b962452edfa", 
+          "help": {
+            "online": ""
+          }, 
+          "version": "0.0.1", 
+          "architecture": "esp32", 
+          "archiveFileName": "esp32-0.0.1.zip", 
+          "boards": [
+            {"name": "WiFi Kit 32"}, 
+            {"name": "WiFi LoRa 32"}, 
+            {"name": "WiFi LoRa 32(V2)"}, 
+            {"name": "Wireless Stick"}
+          ], 
+          "toolsDependencies": [
+            {
+              "packager": "Heltec-esp32", 
+              "version": "1.22.0-80-g6c4433a-5.2.0", 
+              "name": "xtensa-esp32-elf-gcc"
+            }, 
+            {
+              "packager": "Heltec-esp32", 
+              "version": "2.6.0", 
+              "name": "esptool_py"
+            }, 
+            {
+              "packager": "Heltec-esp32", 
+              "version": "0.2.3", 
+              "name": "mkspiffs"
+            }
+          ], 
+          "size": "30752869"
+        }
+      ], 
+      "tools": [
+        {
+          "name": "riscv32-esp-elf-gcc",
+          "version": "gcc8_4_0-esp-2021r2-patch3",
+          "systems": [
+            {
+              "host": "x86_64-pc-linux-gnu",
+              "url": "https://github.com/espressif/crosstool-NG/releases/download/esp-2021r2-patch3/riscv32-esp-elf-gcc8_4_0-esp-2021r2-patch3-linux-amd64.tar.gz",
+              "archiveFileName": "riscv32-esp-elf-gcc8_4_0-esp-2021r2-patch3-linux-amd64.tar.gz",
+              "checksum": "SHA-256:179cbad579790ad35e0f414a18d90017c0f158c397022411a8e9867db2174f15",
+              "size": "106843321"
+            },
+            {
+              "host": "aarch64-linux-gnu",
+              "url": "https://github.com/espressif/crosstool-NG/releases/download/esp-2021r2-patch3/riscv32-esp-elf-gcc8_4_0-esp-2021r2-patch3-linux-arm64.tar.gz",
+              "archiveFileName": "riscv32-esp-elf-gcc8_4_0-esp-2021r2-patch3-linux-arm64.tar.gz",
+              "checksum": "SHA-256:fb339d476c79c76db8f903b265cab6bb6950d5ed954dec644445252d3378023c",
+              "size": "103277393"
+            },
+            {
+              "host": "arm-linux-gnueabihf",
+              "url": "https://github.com/espressif/crosstool-NG/releases/download/esp-2021r2-patch3/riscv32-esp-elf-gcc8_4_0-esp-2021r2-patch3-linux-armel.tar.gz",
+              "archiveFileName": "riscv32-esp-elf-gcc8_4_0-esp-2021r2-patch3-linux-armel.tar.gz",
+              "checksum": "SHA-256:51a6296d8334b7452dba44b2b62e87afd7fd1c74bafa1aa29b1f4ab72cb9e5e0",
+              "size": "103062256"
+            },
+            {
+              "host": "i686-pc-linux-gnu",
+              "url": "https://github.com/espressif/crosstool-NG/releases/download/esp-2021r2-patch3/riscv32-esp-elf-gcc8_4_0-esp-2021r2-patch3-linux-i686.tar.gz",
+              "archiveFileName": "riscv32-esp-elf-gcc8_4_0-esp-2021r2-patch3-linux-i686.tar.gz",
+              "checksum": "SHA-256:fef60f7ef37ffaa50416d8f244cdbd710d6729dae41ef06c4ec0e50a1f3b7dd7",
+              "size": "109460025"
+            },
+            {
+              "host": "x86_64-apple-darwin",
+              "url": "https://github.com/espressif/crosstool-NG/releases/download/esp-2021r2-patch3/riscv32-esp-elf-gcc8_4_0-esp-2021r2-patch3-macos.tar.gz",
+              "archiveFileName": "riscv32-esp-elf-gcc8_4_0-esp-2021r2-patch3-macos.tar.gz",
+              "checksum": "SHA-256:4aacc1742a76349d790b1ac8e9e9d963daefda5346dbd6741cfe8e7a35a44e4e",
+              "size": "113703959"
+            },
+            {
+              "host": "i686-mingw32",
+              "url": "https://github.com/espressif/crosstool-NG/releases/download/esp-2021r2-patch3/riscv32-esp-elf-gcc8_4_0-esp-2021r2-patch3-win32.zip",
+              "archiveFileName": "riscv32-esp-elf-gcc8_4_0-esp-2021r2-patch3-win32.zip",
+              "checksum": "SHA-256:eb2a442d7f551ebeb842995ec372ec4b364314ca2d7aae779399a74972f7d6bc",
+              "size": "144711970"
+            },
+            {
+              "host": "x86_64-mingw32",
+              "url": "https://github.com/espressif/crosstool-NG/releases/download/esp-2021r2-patch3/riscv32-esp-elf-gcc8_4_0-esp-2021r2-patch3-win64.zip",
+              "archiveFileName": "riscv32-esp-elf-gcc8_4_0-esp-2021r2-patch3-win64.zip",
+              "checksum": "SHA-256:f5607e5187317d521f0474cade83f8eb590f2d165d95c3779b6ce11fbac21d1f",
+              "size": "146606480"
+            }
+          ]
+        },
+        {
+          "name": "xtensa-esp32-elf-gcc",
+          "version": "gcc8_4_0-esp-2021r2-patch3",
+          "systems": [
+            {
+              "host": "x86_64-pc-linux-gnu",
+              "url": "https://github.com/espressif/crosstool-NG/releases/download/esp-2021r2-patch3/xtensa-esp32-elf-gcc8_4_0-esp-2021r2-patch3-linux-amd64.tar.gz",
+              "archiveFileName": "xtensa-esp32-elf-gcc8_4_0-esp-2021r2-patch3-linux-amd64.tar.gz",
+              "checksum": "SHA-256:9edd1e77627688f435561922d14299f6a0021ba1f6ff67e472e1108695a69e53",
+              "size": "90569312"
+            },
+            {
+              "host": "aarch64-linux-gnu",
+              "url": "https://github.com/espressif/crosstool-NG/releases/download/esp-2021r2-patch3/xtensa-esp32-elf-gcc8_4_0-esp-2021r2-patch3-linux-arm64.tar.gz",
+              "archiveFileName": "xtensa-esp32-elf-gcc8_4_0-esp-2021r2-patch3-linux-arm64.tar.gz",
+              "checksum": "SHA-256:3a21a3e310e6b1e7d7bed1f3e59698a5bd29ed3a5ca79fba9265d7dd2f1e0cd2",
+              "size": "86838362"
+            },
+            {
+              "host": "arm-linux-gnueabihf",
+              "url": "https://github.com/espressif/crosstool-NG/releases/download/esp-2021r2-patch3/xtensa-esp32-elf-gcc8_4_0-esp-2021r2-patch3-linux-armel.tar.gz",
+              "archiveFileName": "xtensa-esp32-elf-gcc8_4_0-esp-2021r2-patch3-linux-armel.tar.gz",
+              "checksum": "SHA-256:89313c4c1d8db1b01624f31b58bf3fbe527160569828ac4301e9daa75c52716d",
+              "size": "86187540"
+            },
+            {
+              "host": "i686-pc-linux-gnu",
+              "url": "https://github.com/espressif/crosstool-NG/releases/download/esp-2021r2-patch3/xtensa-esp32-elf-gcc8_4_0-esp-2021r2-patch3-linux-i686.tar.gz",
+              "archiveFileName": "xtensa-esp32-elf-gcc8_4_0-esp-2021r2-patch3-linux-i686.tar.gz",
+              "checksum": "SHA-256:a1f165a836f175daa6fbfde4ca99cb93b377f021fbfc41f79a700bd4df965a9a",
+              "size": "92580267"
+            },
+            {
+              "host": "x86_64-apple-darwin",
+              "url": "https://github.com/espressif/crosstool-NG/releases/download/esp-2021r2-patch3/xtensa-esp32-elf-gcc8_4_0-esp-2021r2-patch3-macos.tar.gz",
+              "archiveFileName": "xtensa-esp32-elf-gcc8_4_0-esp-2021r2-patch3-macos.tar.gz",
+              "checksum": "SHA-256:dda3d7a43efd995d9a51d5a5741626dbf915df46078aef0b5aea7163ac82398b",
+              "size": "97807647"
+            },
+            {
+              "host": "i686-mingw32",
+              "url": "https://github.com/espressif/crosstool-NG/releases/download/esp-2021r2-patch3/xtensa-esp32-elf-gcc8_4_0-esp-2021r2-patch3-win32.zip",
+              "archiveFileName": "xtensa-esp32-elf-gcc8_4_0-esp-2021r2-patch3-win32.zip",
+              "checksum": "SHA-256:fd147592928ef2d7092ba34b01ecd776fe26ba3d7e3f9b6b215a3b46e981ee2c",
+              "size": "116464819"
+            },
+            {
+              "host": "x86_64-mingw32",
+              "url": "https://github.com/espressif/crosstool-NG/releases/download/esp-2021r2-patch3/xtensa-esp32-elf-gcc8_4_0-esp-2021r2-patch3-win64.zip",
+              "archiveFileName": "xtensa-esp32-elf-gcc8_4_0-esp-2021r2-patch3-win64.zip",
+              "checksum": "SHA-256:9395315c07de0b9f05c9a6616ba1f05e76ab651053f2f40479163a8e03cfa830",
+              "size": "119511910"
+            }
+          ]
+        },
+        {
+          "name": "xtensa-esp32s2-elf-gcc",
+          "version": "gcc8_4_0-esp-2021r2-patch3",
+          "systems": [
+            {
+              "host": "x86_64-pc-linux-gnu",
+              "url": "https://github.com/espressif/crosstool-NG/releases/download/esp-2021r2-patch3/xtensa-esp32s2-elf-gcc8_4_0-esp-2021r2-patch3-linux-amd64.tar.gz",
+              "archiveFileName": "xtensa-esp32s2-elf-gcc8_4_0-esp-2021r2-patch3-linux-amd64.tar.gz",
+              "checksum": "SHA-256:a32451a8edc1104b83cd9971178e61826e957d7db9ad9f81798a8969fd5a954e",
+              "size": "90894048"
+            },
+            {
+              "host": "aarch64-linux-gnu",
+              "url": "https://github.com/espressif/crosstool-NG/releases/download/esp-2021r2-patch3/xtensa-esp32s2-elf-gcc8_4_0-esp-2021r2-patch3-linux-arm64.tar.gz",
+              "archiveFileName": "xtensa-esp32s2-elf-gcc8_4_0-esp-2021r2-patch3-linux-arm64.tar.gz",
+              "checksum": "SHA-256:2ac2c94a533a99a091d2159c678c611c712c494b5f68d97913254712047260f9",
+              "size": "87178224"
+            },
+            {
+              "host": "arm-linux-gnueabihf",
+              "url": "https://github.com/espressif/crosstool-NG/releases/download/esp-2021r2-patch3/xtensa-esp32s2-elf-gcc8_4_0-esp-2021r2-patch3-linux-armel.tar.gz",
+              "archiveFileName": "xtensa-esp32s2-elf-gcc8_4_0-esp-2021r2-patch3-linux-armel.tar.gz",
+              "checksum": "SHA-256:da49afee1e2e03eaab3f492718789442d33b562800e2a892679f95b50be24d14",
+              "size": "86569314"
+            },
+            {
+              "host": "i686-pc-linux-gnu",
+              "url": "https://github.com/espressif/crosstool-NG/releases/download/esp-2021r2-patch3/xtensa-esp32s2-elf-gcc8_4_0-esp-2021r2-patch3-linux-i686.tar.gz",
+              "archiveFileName": "xtensa-esp32s2-elf-gcc8_4_0-esp-2021r2-patch3-linux-i686.tar.gz",
+              "checksum": "SHA-256:36d3c4990a5feb68aa8534463bc9e8ee367fe23886f78e1d726f4411c7571462",
+              "size": "92884013"
+            },
+            {
+              "host": "x86_64-apple-darwin",
+              "url": "https://github.com/espressif/crosstool-NG/releases/download/esp-2021r2-patch3/xtensa-esp32s2-elf-gcc8_4_0-esp-2021r2-patch3-macos.tar.gz",
+              "archiveFileName": "xtensa-esp32s2-elf-gcc8_4_0-esp-2021r2-patch3-macos.tar.gz",
+              "checksum": "SHA-256:de9af641678c93775e932ee5ec4f478f8925cfc1ebc22e41adc4fb85430a0c35",
+              "size": "98224709"
+            },
+            {
+              "host": "i686-mingw32",
+              "url": "https://github.com/espressif/crosstool-NG/releases/download/esp-2021r2-patch3/xtensa-esp32s2-elf-gcc8_4_0-esp-2021r2-patch3-win32.zip",
+              "archiveFileName": "xtensa-esp32s2-elf-gcc8_4_0-esp-2021r2-patch3-win32.zip",
+              "checksum": "SHA-256:ccf08afe60046f87b0e81ca17dc5073eda68ab5e7522c163dd5b583d713b7b39",
+              "size": "116924759"
+            },
+            {
+              "host": "x86_64-mingw32",
+              "url": "https://github.com/espressif/crosstool-NG/releases/download/esp-2021r2-patch3/xtensa-esp32s2-elf-gcc8_4_0-esp-2021r2-patch3-win64.zip",
+              "archiveFileName": "xtensa-esp32s2-elf-gcc8_4_0-esp-2021r2-patch3-win64.zip",
+              "checksum": "SHA-256:37c91490b8fc75e638c23785e261eaf553be2dcd106cf6cff5b76981fa02955b",
+              "size": "119912142"
+            }
+          ]
+        },
+        {
+          "name": "xtensa-esp32s3-elf-gcc",
+          "version": "gcc8_4_0-esp-2021r2-patch3",
+          "systems": [
+            {
+              "host": "x86_64-pc-linux-gnu",
+              "url": "https://github.com/espressif/crosstool-NG/releases/download/esp-2021r2-patch3/xtensa-esp32s3-elf-gcc8_4_0-esp-2021r2-patch3-linux-amd64.tar.gz",
+              "archiveFileName": "xtensa-esp32s3-elf-gcc8_4_0-esp-2021r2-patch3-linux-amd64.tar.gz",
+              "checksum": "SHA-256:59b271d014ff3915b6db1b43b610a45eea15fe5d6877d12cae8a191cc996ed37",
+              "size": "90903617"
+            },
+            {
+              "host": "aarch64-linux-gnu",
+              "url": "https://github.com/espressif/crosstool-NG/releases/download/esp-2021r2-patch3/xtensa-esp32s3-elf-gcc8_4_0-esp-2021r2-patch3-linux-arm64.tar.gz",
+              "archiveFileName": "xtensa-esp32s3-elf-gcc8_4_0-esp-2021r2-patch3-linux-arm64.tar.gz",
+              "checksum": "SHA-256:7051b32483e61f98606d71c98e372929428a5165df791dcd5830ed9517763152",
+              "size": "87065204"
+            },
+            {
+              "host": "arm-linux-gnueabihf",
+              "url": "https://github.com/espressif/crosstool-NG/releases/download/esp-2021r2-patch3/xtensa-esp32s3-elf-gcc8_4_0-esp-2021r2-patch3-linux-armel.tar.gz",
+              "archiveFileName": "xtensa-esp32s3-elf-gcc8_4_0-esp-2021r2-patch3-linux-armel.tar.gz",
+              "checksum": "SHA-256:48c8dbbf96eec691a812327dc580042d9718fe989e60c2111ebfd692ac710081",
+              "size": "86455731"
+            },
+            {
+              "host": "i686-pc-linux-gnu",
+              "url": "https://github.com/espressif/crosstool-NG/releases/download/esp-2021r2-patch3/xtensa-esp32s3-elf-gcc8_4_0-esp-2021r2-patch3-linux-i686.tar.gz",
+              "archiveFileName": "xtensa-esp32s3-elf-gcc8_4_0-esp-2021r2-patch3-linux-i686.tar.gz",
+              "checksum": "SHA-256:552dca3f4302ab7ca88a934b0391200198c9d10a4d8ac413fe604cbf8601f950",
+              "size": "92906274"
+            },
+            {
+              "host": "x86_64-apple-darwin",
+              "url": "https://github.com/espressif/crosstool-NG/releases/download/esp-2021r2-patch3/xtensa-esp32s3-elf-gcc8_4_0-esp-2021r2-patch3-macos.tar.gz",
+              "archiveFileName": "xtensa-esp32s3-elf-gcc8_4_0-esp-2021r2-patch3-macos.tar.gz",
+              "checksum": "SHA-256:e5af78f05d3af07617805d06ebb45ff2fe9b6aed6970a84c35eea28a5d8d5e53",
+              "size": "98553473"
+            },
+            {
+              "host": "i686-mingw32",
+              "url": "https://github.com/espressif/crosstool-NG/releases/download/esp-2021r2-patch3/xtensa-esp32s3-elf-gcc8_4_0-esp-2021r2-patch3-win32.zip",
+              "archiveFileName": "xtensa-esp32s3-elf-gcc8_4_0-esp-2021r2-patch3-win32.zip",
+              "checksum": "SHA-256:1b70163acccc5655449de1d149427a54f384156bd35816ec60c422d76d033f05",
+              "size": "116847008"
+            },
+            {
+              "host": "x86_64-mingw32",
+              "url": "https://github.com/espressif/crosstool-NG/releases/download/esp-2021r2-patch3/xtensa-esp32s3-elf-gcc8_4_0-esp-2021r2-patch3-win64.zip",
+              "archiveFileName": "xtensa-esp32s3-elf-gcc8_4_0-esp-2021r2-patch3-win64.zip",
+              "checksum": "SHA-256:58e58575d1938879fd51e822181e54bcb343aa846eb3fca8f616c2cde7bd0041",
+              "size": "120066269"
+            }
+          ]
+        },
+        {
+          "name": "esptool_py",
+          "version": "3.3.0",
+          "systems": [
+            {
+              "host": "i686-mingw32",
+              "url": "https://github.com/espressif/arduino-esp32/releases/download/2.0.2/esptool-3.3-windows.zip",
+              "archiveFileName": "esptool-3.3-windows.zip",
+              "checksum": "SHA-256:55a1d7165414bf4dbd2bb16ca094e555d671958450f5d1536b457a518d2b15df",
+              "size": "7436864"
+            },
+            {
+              "host": "x86_64-mingw32",
+              "url": "https://github.com/espressif/arduino-esp32/releases/download/2.0.2/esptool-3.3-windows.zip",
+              "archiveFileName": "esptool-3.3-windows.zip",
+              "checksum": "SHA-256:55a1d7165414bf4dbd2bb16ca094e555d671958450f5d1536b457a518d2b15df",
+              "size": "7436864"
+            },
+            {
+              "host": "x86_64-apple-darwin",
+              "url": "https://github.com/espressif/arduino-esp32/releases/download/2.0.2/esptool-3.3-macos.tar.gz",
+              "archiveFileName": "esptool-3.3-macos.tar.gz",
+              "checksum": "SHA-256:3e5f7b521ae33c8c63f3b48efc909c08f37bef1a083c0eafa408312c09900afd",
+              "size": "6944975"
+            },
+            {
+              "host": "x86_64-pc-linux-gnu",
+              "url": "https://github.com/espressif/arduino-esp32/releases/download/2.0.2/esptool-3.3-linux.tar.gz",
+              "archiveFileName": "esptool-3.3-linux.tar.gz",
+              "checksum": "SHA-256:fbe91a49e5f5deca4881f5eed32e8903faf97bfd365fe2d0d1512b80bdb67f5e",
+              "size": "97026"
+            },
+            {
+              "host": "i686-pc-linux-gnu",
+              "url": "https://github.com/espressif/arduino-esp32/releases/download/2.0.2/esptool-3.3-linux.tar.gz",
+              "archiveFileName": "esptool-3.3-linux.tar.gz",
+              "checksum": "SHA-256:fbe91a49e5f5deca4881f5eed32e8903faf97bfd365fe2d0d1512b80bdb67f5e",
+              "size": "97026"
+            },
+            {
+              "host": "arm-linux-gnueabihf",
+              "url": "https://github.com/espressif/arduino-esp32/releases/download/2.0.2/esptool-3.3-linux.tar.gz",
+              "archiveFileName": "esptool-3.3-linux.tar.gz",
+              "checksum": "SHA-256:fbe91a49e5f5deca4881f5eed32e8903faf97bfd365fe2d0d1512b80bdb67f5e",
+              "size": "97026"
+            },
+            {
+              "host": "aarch64-linux-gnu",
+              "url": "https://github.com/espressif/arduino-esp32/releases/download/2.0.2/esptool-3.3-linux.tar.gz",
+              "archiveFileName": "esptool-3.3-linux.tar.gz",
+              "checksum": "SHA-256:fbe91a49e5f5deca4881f5eed32e8903faf97bfd365fe2d0d1512b80bdb67f5e",
+              "size": "97026"
+            }
+          ]
+        },
+        {
+           "version": "3.0.0-gnu12-dc7f933",
+           "name": "mklittlefs",
+           "systems": [
+              {
+                 "host": "aarch64-linux-gnu",
+                 "url": "https://github.com/earlephilhower/esp-quick-toolchain/releases/download/3.0.0-gnu12/aarch64-linux-gnu.mklittlefs-c41e51a.200706.tar.gz",
+                 "archiveFileName": "aarch64-linux-gnu.mklittlefs-c41e51a.200706.tar.gz",
+                 "checksum": "SHA-256:fc56e389383749e4cf4fab0fcf75cc0ebc41e59383caf6c2eff1c3d9794af200",
+                 "size": "44651"
+              },
+              {
+                 "host": "arm-linux-gnueabihf",
+                 "url": "https://github.com/earlephilhower/esp-quick-toolchain/releases/download/3.0.0-gnu12/arm-linux-gnueabihf.mklittlefs-c41e51a.200706.tar.gz",
+                 "archiveFileName": "arm-linux-gnueabihf.mklittlefs-c41e51a.200706.tar.gz",
+                 "checksum": "SHA-256:52b642dd0545eb3bd8dfb75dde6601df21700e4867763fd2696274be279294c5",
+                 "size": "37211"
+              },
+              {
+                 "host": "i686-pc-linux-gnu",
+                 "url": "https://github.com/earlephilhower/esp-quick-toolchain/releases/download/3.0.0-gnu12/i686-linux-gnu.mklittlefs-c41e51a.200706.tar.gz",
+                 "archiveFileName": "i686-linux-gnu.mklittlefs-c41e51a.200706.tar.gz",
+                 "checksum": "SHA-256:7886051d8ccc54aed0af2e7cdf6ff992bb51638df86f3b545955697720b6d062",
+                 "size": "48033"
+              },
+              {
+                 "host": "i686-mingw32",
+                 "url": "https://github.com/earlephilhower/esp-quick-toolchain/releases/download/3.0.0-gnu12/i686-w64-mingw32.mklittlefs-c41e51a.200706.zip",
+                 "archiveFileName": "i686-w64-mingw32.mklittlefs-c41e51a.200706.zip",
+                 "checksum": "SHA-256:43740db30ce451454f2337331f10ab4ed41bd83dbf0fa0cb4387107388b59f42",
+                 "size": "332655"
+              },
+              {
+                 "host": "x86_64-apple-darwin",
+                 "url": "https://github.com/earlephilhower/esp-quick-toolchain/releases/download/3.0.0-gnu12/x86_64-apple-darwin14.mklittlefs-c41e51a.200706.tar.gz",
+                 "archiveFileName": "x86_64-apple-darwin14.mklittlefs-c41e51a.200706.tar.gz",
+                 "checksum": "SHA-256:e3edd5e05b70db3c7df6b9d626558348ad04804022fe955c799aeb51808c7dc3",
+                 "size": "362608"
+              },
+              {
+                 "host": "x86_64-pc-linux-gnu",
+                 "url": "https://github.com/earlephilhower/esp-quick-toolchain/releases/download/3.0.0-gnu12/x86_64-linux-gnu.mklittlefs-c41e51a.200706.tar.gz",
+                 "archiveFileName": "x86_64-linux-gnu.mklittlefs-c41e51a.200706.tar.gz",
+                 "checksum": "SHA-256:66e84dda0aad747517da3785125e05738a540948aab2b7eaa02855167a1eea53",
+                 "size": "46778"
+              },
+              {
+                 "host": "x86_64-mingw32",
+                 "url": "https://github.com/earlephilhower/esp-quick-toolchain/releases/download/3.0.0-gnu12/x86_64-w64-mingw32.mklittlefs-c41e51a.200706.zip",
+                 "archiveFileName": "x86_64-w64-mingw32.mklittlefs-c41e51a.200706.zip",
+                 "checksum": "SHA-256:2e319077491f8e832e96eb4f2f7a70dd919333cee4b388c394e0e848d031d542",
+                 "size": "345132"
+              }
+           ]
+        },
+        {
+          "name": "mkspiffs",
+          "version": "0.2.3",
+          "systems": [
+            {
+              "host": "i686-mingw32",
+              "url": "https://github.com/igrr/mkspiffs/releases/download/0.2.3/mkspiffs-0.2.3-arduino-esp32-win32.zip",
+              "archiveFileName": "mkspiffs-0.2.3-arduino-esp32-win32.zip",
+              "checksum": "SHA-256:b647f2c2efe6949819c85ea9404271b55c7c9c25bcb98d3b98a1d0ba771adf56",
+              "size": "249809"
+            },
+            {
+              "host": "x86_64-apple-darwin",
+              "url": "https://github.com/igrr/mkspiffs/releases/download/0.2.3/mkspiffs-0.2.3-arduino-esp32-osx.tar.gz",
+              "archiveFileName": "mkspiffs-0.2.3-arduino-esp32-osx.tar.gz",
+              "checksum": "SHA-256:9f43fc74a858cf564966b5035322c3e5e61c31a647c5a1d71b388ed6efc48423",
+              "size": "130270"
+            },
+            {
+              "host": "i386-apple-darwin",
+              "url": "https://github.com/igrr/mkspiffs/releases/download/0.2.3/mkspiffs-0.2.3-arduino-esp32-osx.tar.gz",
+              "archiveFileName": "mkspiffs-0.2.3-arduino-esp32-osx.tar.gz",
+              "checksum": "SHA-256:9f43fc74a858cf564966b5035322c3e5e61c31a647c5a1d71b388ed6efc48423",
+              "size": "130270"
+            },
+            {
+              "host": "x86_64-pc-linux-gnu",
+              "url": "https://github.com/igrr/mkspiffs/releases/download/0.2.3/mkspiffs-0.2.3-arduino-esp32-linux64.tar.gz",
+              "archiveFileName": "mkspiffs-0.2.3-arduino-esp32-linux64.tar.gz",
+              "checksum": "SHA-256:5e1a4ff41385e842f389f6b5254102a547e566a06b49babeffa93ef37115cb5d",
+              "size": "50646"
+            },
+            {
+              "host": "i686-pc-linux-gnu",
+              "url": "https://github.com/igrr/mkspiffs/releases/download/0.2.3/mkspiffs-0.2.3-arduino-esp32-linux32.tar.gz",
+              "archiveFileName": "mkspiffs-0.2.3-arduino-esp32-linux32.tar.gz",
+              "checksum": "SHA-256:464463a93e8833209cdc29ba65e1a12fec31718dc10075c195a2445b2c3f6cb0",
+              "size": "48751"
+            },
+            {
+              "host": "arm-linux-gnueabihf",
+              "url": "https://github.com/igrr/mkspiffs/releases/download/0.2.3/mkspiffs-0.2.3-arduino-esp32-linux-armhf.tar.gz",
+              "archiveFileName": "mkspiffs-0.2.3-arduino-esp32-linux-armhf.tar.gz",
+              "checksum": "SHA-256:ade3dc00117912ac08a1bdbfbfe76b12d21a34bc5fa1de0cfc45fe7a8d0a0185",
+              "size": "40665"
+            },
+            {
+              "host": "aarch64-linux-gnu",
+              "url": "https://github.com/igrr/mkspiffs/releases/download/0.2.3/mkspiffs-0.2.3-arduino-esp32-linux-armhf.tar.gz",
+              "archiveFileName": "mkspiffs-0.2.3-arduino-esp32-linux-armhf.tar.gz",
+              "checksum": "SHA-256:ade3dc00117912ac08a1bdbfbfe76b12d21a34bc5fa1de0cfc45fe7a8d0a0185",
+              "size": "40665"
+            }
+          ]
+        },
+        {
+          "version": "2.6.1", 
+          "name": "esptool_py", 
+          "systems": [
+            {
+              "url": "https://dl.espressif.com/dl/esptool-2.6.1-windows.zip", 
+              "checksum": "SHA-256:84cf0b369a7707fe566434faba148852fc464992111d5baa95b658b374802f96", 
+              "host": "i686-mingw32", 
+              "archiveFileName": "esptool-2.6.1-windows.zip", 
+              "size": "3422445"
+            }, 
+            {
+              "url": "https://dl.espressif.com/dl/esptool-2.6.1-macos.tar.gz", 
+              "checksum": "SHA-256:f4eb758a301d6902cc9dfcd49d36345d2f075ad123da7cf8132d15cfb7533457", 
+              "host": "x86_64-apple-darwin", 
+              "archiveFileName": "esptool-2.6.1-macos.tar.gz", 
+              "size": "3837085"
+            }, 
+            {
+              "url": "https://dl.espressif.com/dl/esptool-2.6.1-linux.tar.gz", 
+              "checksum": "SHA-256:eaf82ff4070d9792f6a42ae1e485375de5a87bec59ef01dfb95de901519ec7fb", 
+              "host": "x86_64-pc-linux-gnu", 
+              "archiveFileName": "esptool-2.6.1-linux.tar.gz", 
+              "size": "44762"
+            }, 
+            {
+              "url": "https://dl.espressif.com/dl/esptool-2.6.1-linux.tar.gz", 
+              "checksum": "SHA-256:eaf82ff4070d9792f6a42ae1e485375de5a87bec59ef01dfb95de901519ec7fb", 
+              "host": "i686-pc-linux-gnu", 
+              "archiveFileName": "esptool-2.6.1-linux.tar.gz", 
+              "size": "44762"
+            }, 
+            {
+              "url": "https://dl.espressif.com/dl/esptool-2.6.1-linux.tar.gz", 
+              "checksum": "SHA-256:eaf82ff4070d9792f6a42ae1e485375de5a87bec59ef01dfb95de901519ec7fb", 
+              "host": "arm-linux-gnueabihf", 
+              "archiveFileName": "esptool-2.6.1-linux.tar.gz", 
+              "size": "44762"
+            }
+          ]
+        }, 
+        {
+          "version": "2.6.0", 
+          "name": "esptool_py", 
+          "systems": [
+            {
+              "url": "https://dl.espressif.com/dl/esptool-2.6.0-windows.zip", 
+              "checksum": "SHA-256:a73f4cf68db240d7f1d250c5c7f2dfcb53c17a37483729f1bf71f8f43d79a799", 
+              "host": "i686-mingw32", 
+              "archiveFileName": "esptool-2.6.0-windows.zip", 
+              "size": "3421208"
+            }, 
+            {
+              "url": "https://dl.espressif.com/dl/esptool-2.6.0-macos.tar.gz", 
+              "checksum": "SHA-256:0a881b91547c840fab8c72ae3d031069384278b8c2e5241647e8c8292c5e4a4b", 
+              "host": "x86_64-apple-darwin", 
+              "archiveFileName": "esptool-2.6.0-macos.tar.gz", 
+              "size": "3835660"
+            }, 
+            {
+              "url": "https://dl.espressif.com/dl/esptool-2.6.0-linux.tar.gz", 
+              "checksum": "SHA-256:6d162f70f395ca31f5008829dd7e833e729f044a9c7355d5be8ce333a054e110", 
+              "host": "x86_64-pc-linux-gnu", 
+              "archiveFileName": "esptool-2.6.0-linux.tar.gz", 
+              "size": "43535"
+            }, 
+            {
+              "url": "https://dl.espressif.com/dl/esptool-2.6.0-linux.tar.gz", 
+              "checksum": "SHA-256:6d162f70f395ca31f5008829dd7e833e729f044a9c7355d5be8ce333a054e110", 
+              "host": "i686-pc-linux-gnu", 
+              "archiveFileName": "esptool-2.6.0-linux.tar.gz", 
+              "size": "43535"
+            }, 
+            {
+              "url": "https://dl.espressif.com/dl/esptool-2.6.0-linux.tar.gz", 
+              "checksum": "SHA-256:6d162f70f395ca31f5008829dd7e833e729f044a9c7355d5be8ce333a054e110", 
+              "host": "arm-linux-gnueabihf", 
+              "archiveFileName": "esptool-2.6.0-linux.tar.gz", 
+              "size": "43535"
+            }
+          ]
+        }, 
+        {
+          "version": "0.2.3", 
+          "name": "mkspiffs", 
+          "systems": [
+            {
+              "url": "https://github.com/igrr/mkspiffs/releases/download/0.2.3/mkspiffs-0.2.3-arduino-esp32-win32.zip", 
+              "checksum": "SHA-256:b647f2c2efe6949819c85ea9404271b55c7c9c25bcb98d3b98a1d0ba771adf56", 
+              "host": "i686-mingw32", 
+              "archiveFileName": "mkspiffs-0.2.3-arduino-esp32-win32.zip", 
+              "size": "249809"
+            }, 
+            {
+              "url": "https://github.com/igrr/mkspiffs/releases/download/0.2.3/mkspiffs-0.2.3-arduino-esp32-osx.tar.gz", 
+              "checksum": "SHA-256:9f43fc74a858cf564966b5035322c3e5e61c31a647c5a1d71b388ed6efc48423", 
+              "host": "x86_64-apple-darwin", 
+              "archiveFileName": "mkspiffs-0.2.3-arduino-esp32-osx.tar.gz", 
+              "size": "130270"
+            }, 
+            {
+              "url": "https://github.com/igrr/mkspiffs/releases/download/0.2.3/mkspiffs-0.2.3-arduino-esp32-osx.tar.gz", 
+              "checksum": "SHA-256:9f43fc74a858cf564966b5035322c3e5e61c31a647c5a1d71b388ed6efc48423", 
+              "host": "i386-apple-darwin", 
+              "archiveFileName": "mkspiffs-0.2.3-arduino-esp32-osx.tar.gz", 
+              "size": "130270"
+            }, 
+            {
+              "url": "https://github.com/igrr/mkspiffs/releases/download/0.2.3/mkspiffs-0.2.3-arduino-esp32-linux64.tar.gz", 
+              "checksum": "SHA-256:5e1a4ff41385e842f389f6b5254102a547e566a06b49babeffa93ef37115cb5d", 
+              "host": "x86_64-pc-linux-gnu", 
+              "archiveFileName": "mkspiffs-0.2.3-arduino-esp32-linux64.tar.gz", 
+              "size": "50646"
+            }, 
+            {
+              "url": "https://github.com/igrr/mkspiffs/releases/download/0.2.3/mkspiffs-0.2.3-arduino-esp32-linux32.tar.gz", 
+              "checksum": "SHA-256:464463a93e8833209cdc29ba65e1a12fec31718dc10075c195a2445b2c3f6cb0", 
+              "host": "i686-pc-linux-gnu", 
+              "archiveFileName": "mkspiffs-0.2.3-arduino-esp32-linux32.tar.gz", 
+              "size": "48751"
+            }, 
+            {
+              "url": "https://github.com/igrr/mkspiffs/releases/download/0.2.3/mkspiffs-0.2.3-arduino-esp32-linux-armhf.tar.gz", 
+              "checksum": "SHA-256:ade3dc00117912ac08a1bdbfbfe76b12d21a34bc5fa1de0cfc45fe7a8d0a0185", 
+              "host": "arm-linux-gnueabihf", 
+              "archiveFileName": "mkspiffs-0.2.3-arduino-esp32-linux-armhf.tar.gz", 
+              "size": "40665"
+            }
+          ]
+        }, 
+        {
+          "version": "2.3.1", 
+          "name": "esptool", 
+          "systems": [
+            {
+              "url": "https://dl.espressif.com/dl/esptool-2.3.1-windows.zip", 
+              "checksum": "SHA-256:c187763d0faac7da7c30a292a23c759bbc256fcd084dc8846ed284000cb0fe29", 
+              "host": "i686-mingw32", 
+              "archiveFileName": "esptool-2.3.1-windows.zip", 
+              "size": "3396085"
+            }, 
+            {
+              "url": "https://dl.espressif.com/dl/esptool-2.3.1-macos.tar.gz", 
+              "checksum": "SHA-256:cd922418f02e0ca11dc066b36a22646a1b441da00d762b4464ca598c902c5ecb", 
+              "host": "x86_64-apple-darwin", 
+              "archiveFileName": "esptool-2.3.1-macos.tar.gz", 
+              "size": "3810932"
+            }, 
+            {
+              "url": "https://dl.espressif.com/dl/esptool-2.3.1-linux.tar.gz", 
+              "checksum": "SHA-256:cff30841dad80ed5d7d2d58a31843b63afa57528979a9c839806568167691d8e", 
+              "host": "x86_64-pc-linux-gnu", 
+              "archiveFileName": "esptool-2.3.1-linux.tar.gz", 
+              "size": "39563"
+            }, 
+            {
+              "url": "https://dl.espressif.com/dl/esptool-2.3.1-linux.tar.gz", 
+              "checksum": "SHA-256:cff30841dad80ed5d7d2d58a31843b63afa57528979a9c839806568167691d8e", 
+              "host": "i686-pc-linux-gnu", 
+              "archiveFileName": "esptool-2.3.1-linux.tar.gz", 
+              "size": "39563"
+            }, 
+            {
+              "url": "https://dl.espressif.com/dl/esptool-2.3.1-linux.tar.gz", 
+              "checksum": "SHA-256:cff30841dad80ed5d7d2d58a31843b63afa57528979a9c839806568167691d8e", 
+              "host": "arm-linux-gnueabihf", 
+              "archiveFileName": "esptool-2.3.1-linux.tar.gz", 
+              "size": "39563"
+            }
+          ]
+        }, 
+        {
+          "version": "1.22.0-80-g6c4433a-5.2.0", 
+          "name": "xtensa-esp32-elf-gcc", 
+          "systems": [
+            {
+              "url": "https://dl.espressif.com/dl/xtensa-esp32-elf-win32-1.22.0-80-g6c4433a-5.2.0.zip", 
+              "checksum": "SHA-256:f217fccbeaaa8c92db239036e0d6202458de4488b954a3a38f35ac2ec48058a4", 
+              "host": "i686-mingw32", 
+              "archiveFileName": "xtensa-esp32-elf-win32-1.22.0-80-g6c4433a-5.2.0.zip", 
+              "size": "125719261"
+            }, 
+            {
+              "url": "https://dl.espressif.com/dl/xtensa-esp32-elf-osx-1.22.0-80-g6c4433a-5.2.0.tar.gz", 
+              "checksum": "SHA-256:a4307a97945d2f2f2745f415fbe80d727750e19f91f9a1e7e2f8a6065652f9da", 
+              "host": "x86_64-apple-darwin", 
+              "archiveFileName": "xtensa-esp32-elf-osx-1.22.0-80-g6c4433a-5.2.0.tar.gz", 
+              "size": "46517409"
+            }, 
+            {
+              "url": "https://dl.espressif.com/dl/xtensa-esp32-elf-linux64-1.22.0-80-g6c4433a-5.2.0.tar.gz", 
+              "checksum": "SHA-256:3fe96c151d46c1d4e5edc6ed690851b8e53634041114bad04729bc16b0445156", 
+              "host": "x86_64-pc-linux-gnu", 
+              "archiveFileName": "xtensa-esp32-elf-linux64-1.22.0-80-g6c4433a-5.2.0.tar.gz", 
+              "size": "44219107"
+            }, 
+            {
+              "url": "https://dl.espressif.com/dl/xtensa-esp32-elf-linux32-1.22.0-80-g6c4433a-5.2.0.tar.gz", 
+              "checksum": "SHA-256:b4055695ffc2dfc0bcb6dafdc2572a6e01151c4179ef5fa972b3fcb2183eb155", 
+              "host": "i686-pc-linux-gnu", 
+              "archiveFileName": "xtensa-esp32-elf-linux32-1.22.0-80-g6c4433a-5.2.0.tar.gz", 
+              "size": "45566336"
+            }
+          ]
+        }
+      ],
+      "email": "support@heltec.cn", 
+      "name": "Heltec-esp32"
+    }
+  ]
+}
