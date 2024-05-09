@@ -1,0 +1,47 @@
+services:
+  
+  neo4j:
+    image: neo4j:latest
+    environment:
+        - NEO4J_dbms_connector_https_advertised__address=:7473
+        - NEO4J_dbms_connector_http_advertised__address=:7474
+        - NEO4J_dbms_connector_bolt_advertised__address=:8443
+        - NEO4J_AUTH=neo4j/password
+        - NEO4J_apoc_export_file_enabled=true
+        - NEO4J_apoc_import_file_enabled=true
+        - NEO4J_apoc_import_file_use__neo4j__config=true
+    deploy:
+      mode: replicated
+      replicas: 1
+      labels:
+        - "traefik.enable=true"
+        - "traefik.docker.network=traefik-public"
+
+        # Neo4j browser service
+        - "traefik.http.routers.neo4j.rule=Host(`${TRAEFIK_DOMAIN:-neo.local}`) && PathPrefix(`/neo4j`)"
+        - "traefik.http.routers.neo4j.tls=true"
+        - "traefik.http.routers.neo4j.service=neo4j"
+        - "traefik.http.routers.neo4j.entrypoints=support"
+        - "traefik.http.routers.neo4j.middlewares=neo4j-auth,neo4j-prefix,security-headers-middleware"
+        - "traefik.http.services.neo4j.loadbalancer.server.port=7474"
+        - "traefik.http.middlewares.neo4j-auth.basicauth.users=${AUTH_NEO4J_CREDENTIALS_USER}"
+        - "traefik.http.middlewares.neo4j-prefix.stripprefix.prefixes=/neo4j"
+
+        # Neo4j bolt service for browser websocket
+        - "traefik.http.routers.neo4j-bolt.entrypoints=support"
+        - "traefik.http.routers.neo4j-bolt.tls=true"
+        - "traefik.http.routers.neo4j-bolt.rule=Host(`${TRAEFIK_DOMAIN:-neo.local}`)"
+        - "traefik.http.routers.neo4j-bolt.service=neo4j-bolt"
+        - "traefik.http.services.neo4j-bolt.loadbalancer.server.port=7687"
+        - "traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto=https,wss"
+        - "traefik.http.routers.neo4j-bolt.middlewares=sslheader"
+
+        # Bolt service for drivers
+        - "traefik.tcp.routers.neo4j-bolt.rule=HostSNI(`${TRAEFIK_DOMAIN:-neo.local}`)"
+        - "traefik.tcp.routers.neo4j-bolt.service=neo4j-bolt"
+        - "traefik.tcp.routers.neo4j-bolt.entrypoints=support"
+        - "traefik.tcp.routers.neo4j-bolt.tls.passthrough=true"
+        - "traefik.tcp.services.neo4j-bolt.loadbalancer.server.port=7687"
+    ports:
+      - 7474:7474
+      - 7687:7687
