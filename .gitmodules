@@ -1,3 +1,9 @@
 [submodule "pico/micropython-ssd1327"]
 	path = pico/micropython-ssd1327
 	url = https://github.com/furyhawk/micropython-ssd1327.git
+[submodule "pico/micropython-micro-gui"]
+	path = pico/micropython-micro-gui
+	url = https://github.com/furyhawk/micropython-micro-gui.git
+[submodule "pico/micropython-nano-gui"]
+	path = pico/micropython-nano-gui
+	url = https://github.com/furyhawk/micropython-nano-gui.git
