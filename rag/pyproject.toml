@@ -16,6 +16,10 @@ langchain-groq = "^0.1.3"
 websockets = "^12.0"
 langgraph = "^0.0.48"
 tavily-python = "^0.3.3"
+transformers = {extras = ["agents"], version = "^4.40.2"}
+sentence-transformers = "^2.7.0"
+faiss-cpu = "^1.8.0"
+datasets = "^2.19.1"
 
 
 [build-system]
