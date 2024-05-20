@@ -8,7 +8,7 @@ import time
 
 from paho.mqtt import client as mqtt_client
 
-BROKER = 'mqtt.furyhawk.lol'
+BROKER = 'broker.furyhawk.lol'
 PORT = 8083
 TOPIC = "python-mqtt/ws"
 # generate client ID with pub prefix randomly
