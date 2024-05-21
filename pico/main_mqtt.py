@@ -33,7 +33,7 @@ if not wlan.isconnected():
     print("ip = " + status[0])
 
 # Default  MQTT_BROKER to connect to
-MQTT_BROKER = "furyhawk.lol"
+MQTT_BROKER = "broker.furyhawk.lol"
 MQTT_PORT = 1883
 CLIENT_ID = ubinascii.hexlify(machine.unique_id())
 MQTT_USER = get_env("mqtt_user")
@@ -46,8 +46,8 @@ PUBLISH_TOPIC_HUMIDITY = b"humidity"
 # Setup built in PICO LED as Output
 led = machine.Pin("LED", machine.Pin.OUT)
 # Publish MQTT messages after every set timeout
-last_publish = utime.time()
 publish_interval = 180
+last_publish = utime.time() - publish_interval
 
 # I2C for the Wemos D1 Mini with ESP8266
 i2c = machine.I2C(
@@ -106,7 +106,7 @@ def get_temperature_reading():
 def main():
     print(f"Begin connection with MQTT Broker :: {MQTT_BROKER}")
     mqttClient = MQTTClient(
-        CLIENT_ID, MQTT_BROKER, MQTT_PORT, MQTT_USER, MQTT_PASSWORD, keepalive=60
+        CLIENT_ID, MQTT_BROKER, MQTT_PORT, MQTT_USER, MQTT_PASSWORD, keepalive=300
     )
     mqttClient.set_callback(sub_cb)
     mqttClient.connect()
@@ -125,7 +125,6 @@ def main():
             mqttClient.publish(PUBLISH_TOPIC_PRESSURE, str(pressure).encode())
             mqttClient.publish(PUBLISH_TOPIC_HUMIDITY, str(humidity).encode())
             last_publish = utime.time()
-
             oled.fill(0)
             oled.text("BME280 3.3V:", 5, 8)
             oled.text(f"Temp: {temp}", 1, 25)
@@ -133,7 +132,7 @@ def main():
             oled.text(f"Hum: {humidity}", 1, 45)
             oled.show()
 
-        utime.sleep(5)
+        utime.sleep(10)
 
 
 if __name__ == "__main__":
