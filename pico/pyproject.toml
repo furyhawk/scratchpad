@@ -8,6 +8,7 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.12"
 thonny = "^4.1.4"
+micropython-rp2-pico-w-stubs = "^1.20.0.post5"
 
 
 [build-system]
