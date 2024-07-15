@@ -8,6 +8,8 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.12"
 open-clip-torch = "^2.26.1"
+clip-retrieval = "^2.44.0"
+img2dataset = "^1.45.0"
 
 
 [build-system]
