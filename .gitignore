@@ -137,3 +137,4 @@ tests/lightning_logs/
 *.ckpt
 *.sav
 .pt_tmp/
+pico/esp32/
