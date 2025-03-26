@@ -4,7 +4,7 @@ import serial as pyserial
 import asyncio
 from sqlmodel import create_engine, Session, SQLModel
 
-import serial_app.models as s_models
+import models as s_models
 
 app = FastAPI()
 

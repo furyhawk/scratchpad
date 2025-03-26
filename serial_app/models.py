@@ -1,7 +1,7 @@
 from datetime import datetime
 import uuid
 from sqlmodel import Field, SQLModel
-from sqlalchemy import Column, BigInteger, Text
+from sqlalchemy import Column, Text
 
 
 class Serial(SQLModel, table=True):
