@@ -41,7 +41,8 @@ class Serial(SQLModel, table=True):
 
         # If payload is less than 34 bytes, this is handshake data
         if len(payload) < 34:
-            print(f"Handshake data: {payload}")
+            print(f"Handshake data: {payload.decode('utf-8', errors='replace')}")
+            print(f"Handshake data (hex): {payload.hex()}")
             return
         header = payload[:2].hex()
         payload_length = payload[2]

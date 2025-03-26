@@ -3,10 +3,36 @@
 
 <head>
     <title>WebSocket Example</title>
+    <style>
+        .result-box {
+            margin-top: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f8f8f8;
+        }
+
+        .success {
+            color: green;
+        }
+
+        .error {
+            color: red;
+        }
+    </style>
 </head>
 
 <body>
     <h1>WebSocket Data Stream</h1>
+
+    <!-- Handshake test section -->
+    <div>
+        <h2>Device Handshake Test</h2>
+        <button id="test-handshake-btn">Test Handshake</button>
+        <div id="handshake-result" class="result-box" style="display: none;"></div>
+    </div>
+
+    <h2>Data Stream</h2>
     <div id="data-container"></div>
 
     <script>
@@ -43,6 +69,32 @@
         socket.onerror = function (error) {
             console.log('WebSocket error:', error);
         };
+
+        // Handshake test functionality
+        document.getElementById('test-handshake-btn').addEventListener('click', async function () {
+            const resultElement = document.getElementById('handshake-result');
+
+            // Show loading state
+            resultElement.style.display = 'block';
+            resultElement.innerHTML = 'Testing handshake...';
+            resultElement.className = 'result-box';
+
+            try {
+                const response = await fetch('http://localhost:8000/test-handshake');
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    resultElement.innerHTML = `<div class="success">Handshake successful!</div>
+                                              <div>Response: ${data.response}</div>`;
+                } else {
+                    resultElement.innerHTML = `<div class="error">Handshake failed</div>
+                                              <div>Error: ${data.message}</div>`;
+                }
+            } catch (error) {
+                resultElement.innerHTML = `<div class="error">Error connecting to server</div>
+                                          <div>${error.message}</div>`;
+            }
+        });
     </script>
 </body>
 

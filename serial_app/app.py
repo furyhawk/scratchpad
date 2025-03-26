@@ -29,7 +29,6 @@ async def read_serial_data():
         print(f"Error opening serial port: {e}")
         return
 
-    ser.write(b"$<")
     while True:
         try:
             data = ser.readline()
@@ -59,3 +58,28 @@ async def serial_websocket(websocket: WebSocket):
         print("WebSocket connection closed")
     except Exception as e:
         print(f"Error in WebSocket handler: {e}")
+
+
+@app.get("/test-handshake")
+async def test_handshake():
+    try:
+        ser = pyserial.Serial("/dev/ttyUSB0", 115200, timeout=2)
+        # Send the handshake test string
+        ser.write(b"$<")
+
+        # Wait for response
+        response = ser.readline()
+        ser.close()
+
+        if response:
+            return {
+                "status": "success",
+                "response": response.decode("utf-8", errors="replace"),
+            }
+        else:
+            return {"status": "error", "message": "No response received from device"}
+
+    except pyserial.SerialException as e:
+        return {"status": "error", "message": f"Serial port error: {str(e)}"}
+    except Exception as e:
+        return {"status": "error", "message": f"Unexpected error: {str(e)}"}
