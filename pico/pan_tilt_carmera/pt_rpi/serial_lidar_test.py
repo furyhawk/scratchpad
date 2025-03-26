@@ -1,4 +1,4 @@
-import serial
+import serial_app
 import argparse
 import threading
 import json
@@ -32,7 +32,7 @@ def main():
 
     args = parser.parse_args()
 
-    ser = serial.Serial(args.port, baudrate=230400, dsrdtr=None)
+    ser = serial_app.Serial(args.port, baudrate=230400, dsrdtr=None)
     ser.setRTS(False)
     ser.setDTR(False)
 

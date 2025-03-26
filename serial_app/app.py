@@ -1,7 +1,10 @@
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
-import serial
+import serial as pyserial
 import asyncio
+from sqlmodel import create_engine, Session, SQLModel
+
+import serial_app.models as s_models
 
 app = FastAPI()
 
@@ -14,11 +17,15 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+engine = create_engine("sqlite:///serial.db")
+SQLModel.metadata.create_all(engine)
+session = Session(engine)
+
 
 async def read_serial_data():
     try:
-        ser = serial.Serial("/dev/ttyUSB0", 115200, timeout=1)
-    except serial.SerialException as e:
+        ser = pyserial.Serial("/dev/ttyUSB0", 115200, timeout=1)
+    except pyserial.SerialException as e:
         print(f"Error opening serial port: {e}")
         return
 
@@ -27,8 +34,13 @@ async def read_serial_data():
         try:
             data = ser.readline()
             if data:
-                yield f"{data.hex()} : {data.decode('utf-8', errors='ignore')}"
-        except serial.SerialException as e:
+                print(f"Raw data from serial: {data}")
+                ser_obj = s_models.Serial.from_payload(data)
+                if ser_obj is not None:  # Check if ser_obj is not None
+                    session.add(ser_obj)
+                    session.commit()
+                    yield ser_obj.json()
+        except pyserial.SerialException as e:
             print(f"Error reading from serial port: {e}")
             break
 

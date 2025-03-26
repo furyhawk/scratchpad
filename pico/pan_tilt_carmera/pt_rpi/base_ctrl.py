@@ -1,4 +1,4 @@
-import serial  
+import serial_app  
 import json
 import queue
 import threading
@@ -36,7 +36,7 @@ class ReadLine:
 class BaseController:
 
 	def __init__(self, uart_dev_set, buad_set):
-		self.ser = serial.Serial(uart_dev_set, buad_set, timeout=1)
+		self.ser = serial_app.Serial(uart_dev_set, buad_set, timeout=1)
 		self.rl = ReadLine(self.ser)
 		self.command_queue = queue.Queue()
 		self.command_thread = threading.Thread(target=self.process_commands, daemon=True)

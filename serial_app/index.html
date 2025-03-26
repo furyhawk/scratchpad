@@ -23,10 +23,11 @@
 
         // Handle incoming data
         socket.onmessage = function (event) {
-            const data = event.data;
+            console.log('Raw data:', event.data);
+            const model = JSON.parse(event.data);
             const container = document.getElementById('data-container');
-            container.innerHTML += `<div>${data}</div>`;
-            console.log('Received data:', data);
+            container.innerHTML += `<div>${model.header}, GID: ${model.gid}, Lat: ${model.latitude}, Long: ${model.longitude}</div>`;
+            console.log('Received data:', event.data);
         };
 
         // Handle connection close

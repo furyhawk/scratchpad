@@ -57,7 +57,7 @@ else :
 	REBOOT_AT_END = True
 
 try:
-	import serial
+	import serial_app
 except:
 	import_serial_module = False
 
@@ -302,9 +302,9 @@ class SerialDev:
 		else:
 			port = ConfigArgs.SERIAL_PORT
 			try:
-				self.serial = serial.Serial(port, baudrate=115200,
-					parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE,
-					bytesize=serial.EIGHTBITS, timeout=0.1)
+				self.serial = serial_app.Serial(port, baudrate=115200,
+					parity=serial_app.PARITY_NONE, stopbits=serial_app.STOPBITS_ONE,
+					bytesize=serial_app.EIGHTBITS, timeout=0.1)
 			except Exception as e:
 				print("Cannot open port : " + port)
 				sys.exit(e.args[0])
