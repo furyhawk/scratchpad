@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>WebSocket Example</title>
+</head>
+
+<body>
+    <h1>WebSocket Data Stream</h1>
+    <div id="data-container"></div>
+
+    <script>
+        // WebSocket URL (replace with your FastAPI server's URL)
+        const wsUrl = 'ws://localhost:8000/serial-data';
+
+        // Create a WebSocket connection
+        let socket = new WebSocket(wsUrl);
+
+        // Handle connection success
+        socket.onopen = function (event) {
+            console.log('Connected to WebSocket server');
+        };
+
+        // Handle incoming data
+        socket.onmessage = function (event) {
+            const data = event.data;
+            const container = document.getElementById('data-container');
+            container.innerHTML += `<div>${data}</div>`;
+            console.log('Received data:', data);
+        };
+
+        // Handle connection close
+        socket.onclose = function (event) {
+            console.log('Connection closed');
+            // Reconnect logic
+            setTimeout(() => {
+                socket = new WebSocket(wsUrl);
+            }, 1000);
+        };
+
+        // Handle errors
+        socket.onerror = function (error) {
+            console.log('WebSocket error:', error);
+        };
+    </script>
+</body>
+
+</html>
