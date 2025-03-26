@@ -26,9 +26,14 @@ Serial App is a project designed to handle serial communication between devices.
 ## Usage
 1. Run the application:
     ```bash
-    python main.py
+    uvicorn app:app --reload 
     ```
 2. Configure the serial port settings as needed.
+
+```
+sudo usermod -a -G dialout $USER
+```
+
 3. Start sending and receiving data.
 
 ## Contributing
