@@ -22,6 +22,7 @@ class Serial(SQLModel, table=True):
     time_second: str = Field(sa_column=Column(Text))
     time: str
     mode: str = Field(sa_column=Column(Text))
+    gps_quality: str = Field(sa_column=Column(Text))
     battery_percent: str = Field(sa_column=Column(Text))
     device_to_host_rssi: str = Field(sa_column=Column(Text))
     host_to_device_rssi: str = Field(sa_column=Column(Text))
@@ -52,13 +53,35 @@ class Serial(SQLModel, table=True):
         latitude_frac = str(int.from_bytes(payload[7:9], "big"))
         longitude_int = str(int.from_bytes(payload[9:11], "big"))
         longitude_frac = str(int.from_bytes(payload[11:13], "big"))
-        latitude = float(f"{int(latitude_int)}.1{int(latitude_frac)}")
-        longitude = float(f"{int(longitude_int)}.{int(longitude_frac)}")
         time_hour = str(payload[13])
         time_minute = str(payload[14])
         time_second = str(payload[15])
         time = f"{payload[13]}:{payload[14]}:{payload[15]}"
         mode = str(payload[16])
+        # Add GPS quality - using a default value since exact location in payload is unclear
+        gps_quality = "0"  # Default value
+        latitude_msb_bit = (payload[16] & 0b10000000) >> 7
+        longitude_msb_bit = (payload[16] & 0b01000000) >> 6
+        rsvd_bit = (payload[16] & 0b00100000) >> 5
+        gps_quality = str((payload[16] & 0b00011100) >> 2)
+
+        # Fix latitude and longitude calculation
+        latitude_int_val = int(latitude_int)
+        latitude_frac_val = int(latitude_frac) + (latitude_msb_bit * 0x10000)
+        # Format latitude_int_val with up to 4 leading zeros
+        latitude_int_str = str(latitude_int_val).zfill(4)
+        # Convert to proper decimal degrees
+        latitude_val_str = f"{latitude_int_str}.{latitude_frac_val}"
+        # fix the signifcant digit to 4 fixed digits
+        latitude = float(latitude_val_str[:2]) + float(latitude_val_str[2:]) / 60.0
+
+        longitude_int_val = int(longitude_int)
+        longitude_frac_val = int(longitude_frac) + (longitude_msb_bit * 0x10000)
+        # Convert to proper decimal degrees
+        longitude_val_str = f"{longitude_int_val}.{longitude_frac_val}"
+        # fix the signifcant digit to 4 fixed digits
+        longitude = float(longitude_val_str[:3]) + float(longitude_val_str[3:]) / 60.0
+
         battery_percent = str(payload[17])
         device_to_host_rssi = str(int.from_bytes(payload[18:20], "big", signed=True))
         host_to_device_rssi = str(int.from_bytes(payload[20:22], "big", signed=True))
@@ -85,6 +108,7 @@ class Serial(SQLModel, table=True):
             time_second=time_second,
             time=time,
             mode=mode,
+            gps_quality=gps_quality,  # Add this parameter
             battery_percent=battery_percent,
             device_to_host_rssi=device_to_host_rssi,
             host_to_device_rssi=host_to_device_rssi,
