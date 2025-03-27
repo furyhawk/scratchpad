@@ -31,6 +31,7 @@ Serial App is a project designed to handle serial communication between devices.
 2. Configure the serial port settings as needed.
 
 ```
+sudo chmod a+rw /dev/ttyUSB0
 sudo usermod -a -G dialout $USER
 ```
 

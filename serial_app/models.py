@@ -45,29 +45,29 @@ class Serial(SQLModel, table=True):
             print(f"Handshake data (hex): {payload.hex()}")
             return
         header = payload[:2].hex()
-        payload_length = payload[2]
+        payload_length = str(payload[2])
         gid = hex(payload[3])
         did = hex(payload[4])
-        latitude_int = int.from_bytes(payload[5:7], "big")
-        latitude_frac = int.from_bytes(payload[7:9], "big")
-        longitude_int = int.from_bytes(payload[9:11], "big")
-        longitude_frac = int.from_bytes(payload[11:13], "big")
-        latitude = float(f"{latitude_int}.1{latitude_frac}")
-        longitude = float(f"{longitude_int}.{longitude_frac}")
-        time_hour = payload[13]
-        time_minute = payload[14]
-        time_second = payload[15]
-        time = f"{time_hour}:{time_minute}:{time_second}"
-        mode = payload[16]
-        battery_percent = payload[17]
-        device_to_host_rssi = int.from_bytes(payload[18:20], "big", signed=True)
-        host_to_device_rssi = int.from_bytes(payload[20:22], "big", signed=True)
-        heart_rate = payload[22]
-        blood_oxygen = payload[23]
-        stress = payload[24]
-        step = int.from_bytes(payload[25:28], "big")
-        distance = int.from_bytes(payload[28:31], "big")
-        calorie = int.from_bytes(payload[31:34], "big")
+        latitude_int = str(int.from_bytes(payload[5:7], "big"))
+        latitude_frac = str(int.from_bytes(payload[7:9], "big"))
+        longitude_int = str(int.from_bytes(payload[9:11], "big"))
+        longitude_frac = str(int.from_bytes(payload[11:13], "big"))
+        latitude = float(f"{int(latitude_int)}.1{int(latitude_frac)}")
+        longitude = float(f"{int(longitude_int)}.{int(longitude_frac)}")
+        time_hour = str(payload[13])
+        time_minute = str(payload[14])
+        time_second = str(payload[15])
+        time = f"{payload[13]}:{payload[14]}:{payload[15]}"
+        mode = str(payload[16])
+        battery_percent = str(payload[17])
+        device_to_host_rssi = str(int.from_bytes(payload[18:20], "big", signed=True))
+        host_to_device_rssi = str(int.from_bytes(payload[20:22], "big", signed=True))
+        heart_rate = str(payload[22])
+        blood_oxygen = str(payload[23])
+        stress = str(payload[24])
+        step = str(int.from_bytes(payload[25:28], "big"))
+        distance = str(int.from_bytes(payload[28:31], "big"))
+        calorie = str(int.from_bytes(payload[31:34], "big"))
 
         return cls(
             header=header,

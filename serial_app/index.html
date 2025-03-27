@@ -19,11 +19,95 @@
         .error {
             color: red;
         }
+
+        /* New styles for status indicators */
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .connected {
+            background-color: #4CAF50;
+        }
+
+        .connecting {
+            background-color: #FFC107;
+            animation: blink 1s infinite;
+        }
+
+        .disconnected {
+            background-color: #F44336;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0.5; }
+        }
+
+        #connection-status {
+            margin: 10px 0;
+            padding: 8px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+        }
+
+        #error-container {
+            margin: 10px 0;
+            padding: 8px;
+            border-radius: 4px;
+            background-color: #FFEBEE;
+            color: #D32F2F;
+            display: none;
+        }
+
+        #data-container {
+            height: 300px;
+            overflow-y: auto;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .data-item {
+            padding: 5px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .info-message {
+            background-color: #E3F2FD;
+            border-left: 4px solid #2196F3;
+            padding: 8px;
+        }
+
+        .warning-message {
+            background-color: #FFF3E0;
+            border-left: 4px solid #FF9800;
+            padding: 8px;
+        }
     </style>
 </head>
 
 <body>
     <h1>WebSocket Data Stream</h1>
+
+    <!-- Server status section -->
+    <div>
+        <h2>Server Status</h2>
+        <button id="check-status-btn">Check Server Status</button>
+        <div id="server-status" class="result-box" style="display: none;"></div>
+    </div>
+
+    <!-- Connection status indicator -->
+    <div id="connection-status">
+        <span class="status-indicator disconnected"></span>
+        <span id="status-text">Disconnected</span>
+    </div>
+
+    <!-- Error display -->
+    <div id="error-container"></div>
 
     <!-- Handshake test section -->
     <div>
@@ -37,38 +121,196 @@
 
     <script>
         // WebSocket URL (replace with your FastAPI server's URL)
-        const wsUrl = 'ws://localhost:8000/serial-data';
+        const wsUrl = 'ws://127.0.0.1:8000/serial-data';
+        const baseApiUrl = 'http://127.0.0.1:8000';
 
-        // Create a WebSocket connection
-        let socket = new WebSocket(wsUrl);
+        // WebSocket connection management
+        let socket;
+        let reconnectAttempts = 0;
+        const maxReconnectAttempts = 5;
+        let reconnectTimeout = 1000; // Start with 1s timeout
+        let reconnectTimer;
+        let intentionalClose = false;
 
-        // Handle connection success
-        socket.onopen = function (event) {
-            console.log('Connected to WebSocket server');
-        };
+        // Connect to WebSocket with better handling
+        function connectWebSocket() {
+            // Update UI
+            updateConnectionStatus('connecting');
+            
+            // Clear any previous connection
+            if (socket) {
+                intentionalClose = true;
+                socket.close();
+            }
 
-        // Handle incoming data
-        socket.onmessage = function (event) {
-            console.log('Raw data:', event.data);
-            const model = JSON.parse(event.data);
-            const container = document.getElementById('data-container');
-            container.innerHTML += `<div>${model.header}, GID: ${model.gid}, Lat: ${model.latitude}, Long: ${model.longitude}</div>`;
-            console.log('Received data:', event.data);
-        };
+            // Create a new WebSocket connection
+            socket = new WebSocket(wsUrl);
 
-        // Handle connection close
-        socket.onclose = function (event) {
-            console.log('Connection closed');
-            // Reconnect logic
-            setTimeout(() => {
-                socket = new WebSocket(wsUrl);
-            }, 1000);
-        };
+            // Handle connection success
+            socket.onopen = function (event) {
+                console.log('Connected to WebSocket server');
+                reconnectAttempts = 0;
+                reconnectTimeout = 1000; // Reset timeout
+                updateConnectionStatus('connected');
+                hideError();
+            };
 
-        // Handle errors
-        socket.onerror = function (error) {
-            console.log('WebSocket error:', error);
-        };
+            // Handle incoming data
+            socket.onmessage = function (event) {
+                console.log('Raw data:', event.data);
+                try {
+                    const data = JSON.parse(event.data);
+                    const container = document.getElementById('data-container');
+                    
+                    // Check if there's an error in the data
+                    if (data.error) {
+                        showError(`Server error: ${data.error}`);
+                        return;
+                    }
+                    
+                    // Handle info messages (like handshake data)
+                    if (data.info) {
+                        container.innerHTML = `<div class="data-item info-message">
+                            <strong>${data.info}</strong><br>
+                            Data: ${data.data}<br>
+                            Hex: ${data.hex}
+                        </div>` + container.innerHTML;
+                        return;
+                    }
+                    
+                    // Handle warning messages (like malformed data)
+                    if (data.warning) {
+                        container.innerHTML = `<div class="data-item warning-message">
+                            <strong>${data.warning}</strong><br>
+                            Length: ${data.data_length}<br>
+                            Hex: ${data.hex}
+                        </div>` + container.innerHTML;
+                        return;
+                    }
+                    
+                    // Handle normal data messages
+                    container.innerHTML = `<div class="data-item">${data.header}, GID: ${data.gid}, Lat: ${data.latitude}, Long: ${data.longitude}</div>` + container.innerHTML;
+                    
+                    // Limit number of displayed items to prevent browser slowdown
+                    const items = container.getElementsByClassName('data-item');
+                    if (items.length > 100) {
+                        container.removeChild(items[items.length - 1]);
+                    }
+                } catch (e) {
+                    console.error('Error parsing data:', e);
+                    showError(`Error parsing data: ${e.message}`);
+                }
+            };
+
+            // Handle connection close
+            socket.onclose = function (event) {
+                console.log('Connection closed', event);
+                updateConnectionStatus('disconnected');
+                
+                // Don't reconnect if intentionally closed
+                if (intentionalClose) {
+                    intentionalClose = false;
+                    return;
+                }
+                
+                // Implement exponential backoff for reconnection
+                if (reconnectAttempts < maxReconnectAttempts) {
+                    showError(`Connection lost. Reconnecting in ${reconnectTimeout/1000}s...`);
+                    console.log(`Reconnecting in ${reconnectTimeout/1000}s... (Attempt ${reconnectAttempts + 1}/${maxReconnectAttempts})`);
+                    
+                    clearTimeout(reconnectTimer);
+                    reconnectTimer = setTimeout(() => {
+                        reconnectAttempts++;
+                        reconnectTimeout = Math.min(30000, reconnectTimeout * 2); // Exponential backoff, max 30s
+                        connectWebSocket();
+                    }, reconnectTimeout);
+                } else {
+                    showError(`Failed to connect after ${maxReconnectAttempts} attempts. Please check server status.`);
+                }
+            };
+
+            // Handle errors
+            socket.onerror = function (error) {
+                console.log('WebSocket error:', error);
+                showError('Connection error. Server might be unavailable.');
+            };
+        }
+
+        // Function to update connection status in UI
+        function updateConnectionStatus(status) {
+            const statusIndicator = document.querySelector('.status-indicator');
+            const statusText = document.getElementById('status-text');
+            const connectionStatus = document.getElementById('connection-status');
+            
+            statusIndicator.className = 'status-indicator';
+            
+            switch (status) {
+                case 'connected':
+                    statusIndicator.classList.add('connected');
+                    statusText.textContent = 'Connected';
+                    connectionStatus.style.backgroundColor = '#E8F5E9';
+                    break;
+                case 'connecting':
+                    statusIndicator.classList.add('connecting');
+                    statusText.textContent = 'Connecting...';
+                    connectionStatus.style.backgroundColor = '#FFF8E1';
+                    break;
+                case 'disconnected':
+                    statusIndicator.classList.add('disconnected');
+                    statusText.textContent = 'Disconnected';
+                    connectionStatus.style.backgroundColor = '#FFEBEE';
+                    break;
+            }
+        }
+
+        // Show error message
+        function showError(message) {
+            const errorContainer = document.getElementById('error-container');
+            errorContainer.textContent = message;
+            errorContainer.style.display = 'block';
+        }
+
+        // Hide error message
+        function hideError() {
+            document.getElementById('error-container').style.display = 'none';
+        }
+
+        // Initialize connection when page loads
+        window.addEventListener('load', function() {
+            connectWebSocket();
+        });
+
+        // Server status check
+        document.getElementById('check-status-btn').addEventListener('click', async function () {
+            const resultElement = document.getElementById('server-status');
+            
+            resultElement.style.display = 'block';
+            resultElement.innerHTML = 'Checking server status...';
+            
+            try {
+                const response = await fetch(`${baseApiUrl}/status`);
+                const data = await response.json();
+                
+                let statusHtml = '<h3>Server Status</h3>';
+                statusHtml += `<p>Status: <span class="success">${data.status}</span></p>`;
+                statusHtml += `<p>Serial Port: ${data.serial_port} (${data.port_available ? 'Available' : 'Not Available'})</p>`;
+                
+                if (data.error) {
+                    statusHtml += `<p>Error: <span class="error">${data.error}</span></p>`;
+                }
+                
+                if (data.database) {
+                    statusHtml += `<p>Stored Records: ${data.database.recent_records_count}</p>`;
+                    if (data.database.latest_record_timestamp) {
+                        statusHtml += `<p>Latest Record: ${new Date(data.database.latest_record_timestamp).toLocaleString()}</p>`;
+                    }
+                }
+                
+                resultElement.innerHTML = statusHtml;
+            } catch (error) {
+                resultElement.innerHTML = `<div class="error">Error connecting to server</div><div>${error.message}</div>`;
+            }
+        });
 
         // Handshake test functionality
         document.getElementById('test-handshake-btn').addEventListener('click', async function () {
@@ -80,12 +322,13 @@
             resultElement.className = 'result-box';
 
             try {
-                const response = await fetch('http://localhost:8000/test-handshake');
+                const response = await fetch(`${baseApiUrl}/test-handshake`);
                 const data = await response.json();
 
                 if (data.status === 'success') {
                     resultElement.innerHTML = `<div class="success">Handshake successful!</div>
-                                              <div>Response: ${data.response}</div>`;
+                                              <div>Response 1: ${data.response1}</div>
+                                              <div>Response 2: ${data.response2}</div>`;
                 } else {
                     resultElement.innerHTML = `<div class="error">Handshake failed</div>
                                               <div>Error: ${data.message}</div>`;
