@@ -77,8 +77,9 @@ class Serial(SQLModel, table=True):
 
         longitude_int_val = int(longitude_int)
         longitude_frac_val = int(longitude_frac) + (longitude_msb_bit * 0x10000)
+        longitude_int_str = str(longitude_int_val).zfill(5)
         # Convert to proper decimal degrees
-        longitude_val_str = f"{longitude_int_val}.{longitude_frac_val}"
+        longitude_val_str = f"{longitude_int_str}.{longitude_frac_val}"
         # fix the signifcant digit to 4 fixed digits
         longitude = float(longitude_val_str[:3]) + float(longitude_val_str[3:]) / 60.0
 

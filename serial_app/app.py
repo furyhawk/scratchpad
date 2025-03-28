@@ -5,6 +5,7 @@ import asyncio
 import os
 from sqlmodel import create_engine, Session, SQLModel
 from datetime import datetime
+from pydantic import BaseModel
 
 import models as s_models
 
@@ -33,9 +34,13 @@ def is_serial_port_available():
 
 
 async def read_serial_data():
+    # Initialize ser variable before the try block
+    ser = None
+
     if not is_serial_port_available():
         print(f"Serial port {SERIAL_PORT} not found")
         yield f'{{"error": "Serial port {SERIAL_PORT} not found"}}'
+        return  # Early return if port not available
 
     try:
         ser = pyserial.Serial(SERIAL_PORT, BAUD_RATE, timeout=1)
@@ -44,7 +49,9 @@ async def read_serial_data():
         error_msg = f"Error opening serial port: {e}"
         print(error_msg)
         yield f'{{"error": "{error_msg}"}}'
+        return  # Early return if we can't open the port
 
+    # Only continue if we have a valid serial connection
     while True:
         try:
             data = ser.readline()
@@ -61,16 +68,20 @@ async def read_serial_data():
                     try:
                         # Create a copy of the object before adding to the session
                         db_obj = ser_obj.model_copy(deep=True)
-                        
+
                         # Check if required fields are populated
                         if db_obj.header is None:
-                            print("Warning: header field is NULL, setting default value")
-                            db_obj.header = "DEFAULT"  # Set a default value or appropriate fallback
-                        
+                            print(
+                                "Warning: header field is NULL, setting default value"
+                            )
+                            db_obj.header = (
+                                "DEFAULT"  # Set a default value or appropriate fallback
+                            )
+
                         # Add additional validation for other required fields if needed
                         # if db_obj.some_other_required_field is None:
                         #     db_obj.some_other_required_field = default_value
-                        
+
                         session.add(db_obj)
                         session.commit()
                         print(f"Successfully saved to database")
@@ -218,3 +229,52 @@ async def test_handshake():
         return {"status": "error", "message": f"Serial port error: {str(e)}"}
     except Exception as e:
         return {"status": "error", "message": f"Unexpected error: {str(e)}"}
+
+
+class CommandRequest(BaseModel):
+    command: str
+
+
+@app.post("/send-command")
+async def send_command(request: CommandRequest):
+    if not is_serial_port_available():
+        raise HTTPException(
+            status_code=400, detail=f"Serial port {SERIAL_PORT} not available"
+        )
+
+    try:
+        ser = pyserial.Serial(SERIAL_PORT, BAUD_RATE, timeout=1)
+        # Send the command
+        ser.write(request.command.encode("utf-8"))
+
+        # Read multiple responses (up to a reasonable limit)
+        responses = []
+        max_responses = 50  # Safety limit to prevent infinite loops
+        timeout_duration = 2  # Seconds to wait for all responses
+
+        # Set a shorter timeout for individual reads
+        ser.timeout = 0.1
+
+        start_time = datetime.now()
+        while len(responses) < max_responses:
+            response = ser.readline()
+            if response:
+                responses.append(
+                    {
+                        "raw": response.decode("utf-8", errors="replace"),
+                        "hex": response.hex(),
+                    }
+                )
+            else:
+                # If there's no more data and we've waited at least a bit or got some responses, break
+                elapsed = (datetime.now() - start_time).total_seconds()
+                if elapsed > timeout_duration or (len(responses) > 0 and elapsed > 0.2):
+                    break
+
+        ser.close()
+
+        return {"status": "success", "responses": responses, "count": len(responses)}
+    except pyserial.SerialException as e:
+        raise HTTPException(status_code=500, detail=f"Serial port error: {str(e)}")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Unexpected error: {str(e)}")
