@@ -33,6 +33,7 @@ Serial App is a project designed to handle serial communication between devices.
 ```
 sudo chmod a+rw /dev/ttyUSB0
 sudo usermod -a -G dialout $USER
+sudo usermod -a -G tty $USER
 ```
 
 3. Start sending and receiving data.
