@@ -12,8 +12,8 @@ import terminalio
 import time
 import displaySubsystem
 import keyInput
-from dirver_buzzer import *
-from dirver_lightSensor import *
+from driver_buzzer import *
+from driver_lightSensor import *
 
 MaxDays = [-1, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 
@@ -97,7 +97,7 @@ g = displayio.Group()
 g.append(line1)
 g.append(line2)
 g.append(line3)
-display.show(g)
+display.root_group = g
 
 keyInput.keyInit()
 
