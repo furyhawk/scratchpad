@@ -1,0 +1,17 @@
+[project]
+name = "pysenxor-master"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "cmapy>=0.6.6",
+    "crcmod>=1.7",
+    "gpiozero>=2.0.1",
+    "matplotlib>=3.9.4",
+    "numpy>=2.0.2",
+    "opencv-python>=4.11.0.86",
+    "pyserial>=3.5",
+    "smbus>=1.1.post2",
+    "spidev>=3.7",
+]
