@@ -9,18 +9,63 @@ import argparse
 
 try:
     from gpiozero import Pin, DigitalInputDevice, DigitalOutputDevice
+    GPIO_AVAILABLE = True
 except:
-    import sys
-    print("Please install the 'gpiozero' library to monitor "
-          "the MI48 DATA_READY pin. For example, by:")
-    print("pip3 install gpiozero")
-    sys.exit()
+    GPIO_AVAILABLE = False
+    print("Warning: GPIO hardware not available. Running in simulation mode.")
+    print("Install 'gpiozero' and run on Raspberry Pi for actual GPIO access.")
+    
+    # Mock classes for simulation
+    class MockDigitalInputDevice:
+        def __init__(self, pin, pull_up=None):
+            self.pin = pin
+            self.pull_up = pull_up
+            print(f"Mock GPIO input device created for pin {pin}")
+        
+        def wait_for_active(self):
+            # Simulate data ready by adding a small delay
+            time.sleep(0.01)
+            return True
+    
+    class MockDigitalOutputDevice:
+        def __init__(self, pin, active_high=True, initial_value=False):
+            self.pin = pin
+            self.active_high = active_high
+            self.value = initial_value
+            print(f"Mock GPIO output device created for pin {pin}")
+        
+        def on(self):
+            self.value = True
+            print(f"Mock GPIO {self.pin}: ON")
+        
+        def off(self):
+            self.value = False
+            print(f"Mock GPIO {self.pin}: OFF")
+    
+    DigitalInputDevice = MockDigitalInputDevice
+    DigitalOutputDevice = MockDigitalOutputDevice
 
 import time
 import logging
-import numpy as np
+# Check for required dependencies
+missing_deps = []
+try:
+    import numpy as np
+except ImportError:
+    missing_deps.append("numpy")
+    
+try:
+    import cv2 as cv
+except ImportError:
+    missing_deps.append("opencv-python")
 
-import cv2 as cv
+if missing_deps:
+    print("Error: Missing required dependencies:")
+    for dep in missing_deps:
+        print(f"  - {dep}")
+    print("\nPlease install them using:")
+    print(f"  pip install {' '.join(missing_deps)}")
+    sys.exit(1)
 
 from senxor.mi48 import MI48, DATA_READY, format_header, format_framestats
 from senxor.utils import data_to_frame, cv_filter
@@ -139,12 +184,14 @@ MI48_SPI_CS_DELAY = 0.0001   # delay between asserting/deasserting CS_N and init
 
 def close_all_interfaces():
     try:
-        spi.close()
-    except NameError:
+        if spi is not None:
+            spi.close()
+    except (NameError, AttributeError):
         pass
     try:
-        i2c.close()
-    except NameError:
+        if i2c is not None:
+            i2c.close()
+    except (NameError, AttributeError):
         pass
 
 # define a signal handler to ensure clean closure upon CTRL+C
@@ -163,7 +210,13 @@ signal.signal(signal.SIGINT, signal_handler)
 signal.signal(signal.SIGTERM, signal_handler)
 
 # create an I2C interface object
-i2c = I2C_Interface(SMBus(RPI_GPIO_I2C_CHANNEL), MI48_I2C_ADDRESS)
+try:
+    i2c = I2C_Interface(SMBus(RPI_GPIO_I2C_CHANNEL), MI48_I2C_ADDRESS)
+    print(f"I2C interface created on channel {RPI_GPIO_I2C_CHANNEL}")
+except Exception as e:
+    print(f"Warning: Could not create I2C interface: {e}")
+    print("Running in simulation mode - I2C commands will be mocked")
+    i2c = None
 
 # ==============================
 # Create an SPI interface object
@@ -178,22 +231,31 @@ i2c = I2C_Interface(SMBus(RPI_GPIO_I2C_CHANNEL), MI48_I2C_ADDRESS)
 # Preferred way may be with the initialisation of the spi object.
 # We chose 160 bytes which corresponds to 1 row on MI08xx
 SPI_XFER_SIZE_BYTES = 160  # bytes
-spi = SPI_Interface(SpiDev(RPI_GPIO_SPI_BUS, RPI_GPIO_SPI_CE_MI48),
-                    xfer_size=SPI_XFER_SIZE_BYTES)
 
-spi.device.mode = MI48_SPI_MODE
-spi.device.max_speed_hz = MI48_SPI_MAX_SPEED_HZ
-spi.device.bits_per_word = 8
-spi.device.lsbfirst = False   # seems to be a read-only value;
-                              # likely reflecting cpu endianness
-#spi.device.cshigh = MI48_SPI_CSHIGH
-# in linux kernel 5.x.x+ ioctl module does not handle the SPI CS
-# any more, since it is thought that it is a devcie property,
-# not a bus property. We therefore leave the CS to a GPIO handling.
-# Note that on the uHat board that we have with MI48 and Bobcat,
-# the CS is on GPIO-7 (J8 connector Pin 26).
-# spi.device.cshigh = True
-spi.device.no_cs = True
+try:
+    spi = SPI_Interface(SpiDev(RPI_GPIO_SPI_BUS, RPI_GPIO_SPI_CE_MI48),
+                        xfer_size=SPI_XFER_SIZE_BYTES)
+
+    spi.device.mode = MI48_SPI_MODE
+    spi.device.max_speed_hz = MI48_SPI_MAX_SPEED_HZ
+    spi.device.bits_per_word = 8
+    spi.device.lsbfirst = False   # seems to be a read-only value;
+                                  # likely reflecting cpu endianness
+    #spi.device.cshigh = MI48_SPI_CSHIGH
+    # in linux kernel 5.x.x+ ioctl module does not handle the SPI CS
+    # any more, since it is thought that it is a devcie property,
+    # not a bus property. We therefore leave the CS to a GPIO handling.
+    # Note that on the uHat board that we have with MI48 and Bobcat,
+    # the CS is on GPIO-7 (J8 connector Pin 26).
+    # spi.device.cshigh = True
+    spi.device.no_cs = True
+    print(f"SPI interface created on bus {RPI_GPIO_SPI_BUS}, device {RPI_GPIO_SPI_CE_MI48}")
+except Exception as e:
+    print(f"Warning: Could not create SPI interface: {e}")
+    print("Running in simulation mode - SPI commands will be mocked")
+    spi = None
+
+# Create CS control pin
 mi48_spi_cs_n = DigitalOutputDevice("BCM7", active_high=False,
                                     initial_value=False)
 
@@ -237,7 +299,18 @@ class MI48_reset:
 # ==============================
 # Create an MI48 interface object
 # ==============================
-mi48 = MI48([i2c, spi], data_ready=mi48_data_ready,
+interfaces = []
+if i2c is not None:
+    interfaces.append(i2c)
+if spi is not None:
+    interfaces.append(spi)
+
+if not interfaces:
+    print("Error: No valid interfaces available. Cannot create MI48 object.")
+    print("This script requires either I2C or SPI hardware to work properly.")
+    sys.exit(1)
+
+mi48 = MI48(interfaces, data_ready=mi48_data_ready,
             reset_handler=MI48_reset(pin=mi48_reset_n))
 
 # print out camera info
