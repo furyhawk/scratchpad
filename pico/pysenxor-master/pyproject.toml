@@ -12,6 +12,7 @@ dependencies = [
     "numpy>=2.0.2",
     "opencv-python>=4.11.0.86",
     "pyserial>=3.5",
+    "rpi-gpio>=0.7.1",
     "smbus>=1.1.post2",
     "spidev>=3.7",
 ]
