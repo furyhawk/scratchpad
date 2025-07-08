@@ -68,9 +68,9 @@ RPI_GPIO_I2C_CHANNEL = 1
 # /dev/spidev0.0  /dev/spidev0.1
 RPI_GPIO_SPI_BUS = 0
 
-# MI48A CS is routed to CE1 of the RPI on the uHAT development board
+# MI48A CS is routed to CE0 of the RPI (changed from CE1 to use available device)
 # adapt that value according to your setup
-RPI_GPIO_SPI_CE_MI48 = 1
+RPI_GPIO_SPI_CE_MI48 = 0
 
 # =======================
 # MI48 I2C Address:
