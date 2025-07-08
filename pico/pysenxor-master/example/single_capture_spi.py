@@ -119,8 +119,8 @@ spi.device.bits_per_word = 8
 spi.device.lsbfirst = False   # seems to be a read-only value;
                               # likely reflecting cpu endianness
 # spi.device.cshigh = MI48_SPI_CSHIGH
-spi.device.cshigh = True
-spi.device.no_cs = True
+# spi.device.cshigh = True  # May cause issues on some systems
+# spi.device.no_cs = True  # Commented out due to OSError on this system
 mi48_spi_cs_n = DigitalOutputDevice("BCM7", active_high=False,
                                     initial_value=False)
 
