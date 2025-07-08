@@ -923,7 +923,7 @@ def format_framestats(data):
     """Format data frame stats to represent in log messages"""
     s = "Min {:6.1f}   Max {:6.1f}  Avg {:5.1f}  Std {:3.1f}".\
             format(data.min(), data.max(), data.mean(),
-                   data.astype(np.float).std())
+                   data.astype(float).std())
     return s
 
     
