@@ -7,8 +7,10 @@ requires-python = ">=3.12"
 dependencies = [
     "ipykernel>=6.30.0",
     "matplotlib>=3.10.3",
+    "ninja>=1.11.1.4",
     "pillow>=11.3.0",
     "transformers>=4.53.3",
+    "types-requests>=2.32.4.20250611",
 ]
 
 
