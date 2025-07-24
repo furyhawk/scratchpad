@@ -10,29 +10,60 @@ warnings.filterwarnings(
     "ignore",
     message="Could not load the custom kernel for multi-scale deformable attention",
 )
+# Suppress the assign parameter warnings for state dict loading
+warnings.filterwarnings(
+    "ignore", 
+    message=".*copying from a non-meta parameter.*assign=True.*",
+    category=UserWarning
+)
 
 # Set environment variables to handle CUDA compilation issues
 os.environ["TORCH_CUDA_ARCH_LIST"] = "8.9"  # Adjust based on your GPU architecture
-os.environ["FORCE_CUDA"] = "0"  # Force CPU-only mode to avoid CUDA issues
+# os.environ["FORCE_CUDA"] = "0"  # Force CPU-only mode to avoid CUDA issues
 
 try:
     url = "http://images.cocodataset.org/val2017/000000039769.jpg"
     image = Image.open(requests.get(url, stream=True).raw)
 
     print("Loading image processor...")
-    image_processor = AutoImageProcessor.from_pretrained("jozhang97/deta-swin-large")
+    # Remove use_fast=True since no fast version is available
+    image_processor = AutoImageProcessor.from_pretrained("nielsr/deta-resnet-50")
 
     print(
         "Loading model (this may take a while and show warnings about CUDA extensions)..."
     )
-    # Load model without device_map to avoid accelerate dependency issues
-    model = DetaForObjectDetection.from_pretrained(
-        "jozhang97/deta-swin-large",
-        torch_dtype=torch.float32,
-        disable_custom_kernels=True,
-    )
+    
+    # Try DETR model first as it's more stable
+    try:
+        print("Loading DETR model...")
+        from transformers import DetrForObjectDetection
+        model = DetrForObjectDetection.from_pretrained(
+            "facebook/detr-resnet-50",
+            torch_dtype=torch.float32,
+        )
+        # Update image processor to match the model
+        image_processor = AutoImageProcessor.from_pretrained("facebook/detr-resnet-50")
+        print("Successfully loaded DETR model")
+    except Exception as detr_error:
+        print(f"DETR model failed: {detr_error}")
+        print("Trying DETA model...")
+        # Fallback to DETA model with proper configuration
+        try:
+            model = DetaForObjectDetection.from_pretrained(
+                "nielsr/deta-resnet-50",
+                torch_dtype=torch.float32,
+                force_download=False,
+                local_files_only=False,
+                # Add ignore_mismatched_sizes to handle backbone conflicts
+                ignore_mismatched_sizes=True,
+            )
+            print("Successfully loaded DETA model as fallback")
+        except Exception as deta_error:
+            print(f"Both models failed. DETA error: {deta_error}")
+            raise Exception("Unable to load any model")
+    
     # Move model to CPU explicitly
-    model = model.to("cpu")
+    # model = model.to("cpu")
 
     print("Processing image...")
     inputs = image_processor(images=image, return_tensors="pt")
