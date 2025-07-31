@@ -136,5 +136,6 @@ node_modules/
 tests/lightning_logs/
 *.ckpt
 *.sav
+*.pt
 .pt_tmp/
 pico/esp32/
