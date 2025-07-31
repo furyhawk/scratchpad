@@ -139,3 +139,4 @@ tests/lightning_logs/
 *.pt
 .pt_tmp/
 pico/esp32/
+__MACOSX/
