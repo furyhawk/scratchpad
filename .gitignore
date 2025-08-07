@@ -140,3 +140,9 @@ tests/lightning_logs/
 .pt_tmp/
 pico/esp32/
 __MACOSX/
+object_detection/poker-cards-4/
+object_detection/rust-1/
+object_detection/rust-finetune/
+object_detection/rt-detr/
+object_detection/poker-cards-finetune/
+object_detection/rt-detr-rust/
