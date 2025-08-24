@@ -12,10 +12,24 @@ from ssd1306 import SSD1306_I2C
 
 # Loading `env.json` at once as default.
 # if `verbose` is true, the loader will print debug messages
-load_env(verbose=True)
+try:
+    load_env(verbose=True)
+except Exception as e:
+    print(f"Failed to load environment: {e}")
+    machine.reset()
 
-ssid = get_env("wifi")
-password = get_env("wifi_pwd")
+# Validate required environment variables
+try:
+    ssid = get_env("wifi")
+    password = get_env("wifi_pwd")
+    MQTT_USER = get_env("mqtt_user")
+    MQTT_PASSWORD = get_env("mqtt_password")
+    
+    if not all([ssid, password, MQTT_USER, MQTT_PASSWORD]):
+        raise ValueError("Missing required environment variables")
+except Exception as e:
+    print(f"Environment configuration error: {e}")
+    machine.reset()
 
 WIDTH = 128  # oled display width
 HEIGHT = 64  # oled display height
@@ -24,124 +38,578 @@ HEIGHT = 64  # oled display height
 MQTT_BROKER = "broker.furyhawk.lol"
 MQTT_PORT = 1883
 CLIENT_ID = ubinascii.hexlify(machine.unique_id())
-MQTT_USER = get_env("mqtt_user")
-MQTT_PASSWORD = get_env("mqtt_password")
 SUBSCRIBE_TOPIC = b"led"
 PUBLISH_TOPIC_TEMP = b"temperature"
 PUBLISH_TOPIC_PRESSURE = b"pressure"
 PUBLISH_TOPIC_HUMIDITY = b"humidity"
 
+# Configuration constants
+WIFI_TIMEOUT = 30  # seconds
+MQTT_KEEPALIVE = 60  # seconds
+PUBLISH_INTERVAL = 180  # seconds
+MAX_RETRIES = 3
+RETRY_DELAY = 5  # seconds
+
+# OLED burn-in prevention settings
+DISPLAY_TIMEOUT = 300  # Turn off display after 5 minutes of inactivity
+SCREENSAVER_INTERVAL = 600  # Show screensaver every 10 minutes
+PIXEL_SHIFT_INTERVAL = 120  # Shift content every 2 minutes
+MAX_PIXEL_SHIFT = 3  # Maximum pixels to shift content
+BRIGHTNESS_CYCLE_INTERVAL = 60  # Cycle brightness every minute
+
+
+def safe_display_operation(func, *args, **kwargs):
+    """Safely execute display operations with error handling"""
+    try:
+        return func(*args, **kwargs)
+    except Exception as e:
+        print(f"Display operation failed: {e}")
+        return None
+
+
+class OLEDBurnInProtection:
+    """Class to manage OLED burn-in prevention strategies"""
+    
+    def __init__(self, oled, width=WIDTH, height=HEIGHT):
+        self.oled = oled
+        self.width = width
+        self.height = height
+        self.last_activity = utime.time()
+        self.last_screensaver = utime.time()
+        self.last_pixel_shift = utime.time()
+        self.last_brightness_cycle = utime.time()
+        self.pixel_shift_x = 0
+        self.pixel_shift_y = 0
+        self.display_on = True
+        self.brightness_level = 0
+        self.screensaver_active = False
+        
+    def update_activity(self):
+        """Update last activity timestamp"""
+        self.last_activity = utime.time()
+        if not self.display_on:
+            self.turn_on_display()
+    
+    def turn_off_display(self):
+        """Turn off display to prevent burn-in"""
+        if self.display_on:
+            safe_display_operation(lambda: self.oled.fill(0) or self.oled.show())
+            self.display_on = False
+            self.screensaver_active = False
+            print("Display turned off for burn-in protection")
+    
+    def turn_on_display(self):
+        """Turn on display"""
+        if not self.display_on:
+            self.display_on = True
+            self.screensaver_active = False
+            print("Display turned on")
+    
+    def show_screensaver(self):
+        """Show animated screensaver pattern"""
+        if not self.display_on:
+            return
+            
+        def _screensaver():
+            self.oled.fill(0)
+            # Simple moving dot screensaver
+            time_offset = int(utime.time()) % 60
+            x = (time_offset * 2) % (self.width - 1)
+            y = (time_offset) % (self.height - 1)
+            self.oled.pixel(x, y, 1)
+            
+            # Add some moving lines
+            for i in range(0, self.width, 20):
+                line_x = (i + time_offset) % self.width
+                self.oled.vline(line_x, 0, self.height, 1)
+            
+            self.oled.show()
+        
+        safe_display_operation(_screensaver)
+        self.screensaver_active = True
+    
+    def update_pixel_shift(self):
+        """Update pixel shift values for content movement"""
+        current_time = utime.time()
+        if current_time - self.last_pixel_shift >= PIXEL_SHIFT_INTERVAL:
+            self.pixel_shift_x = (self.pixel_shift_x + 1) % (MAX_PIXEL_SHIFT * 2 + 1) - MAX_PIXEL_SHIFT
+            self.pixel_shift_y = (self.pixel_shift_y + 1) % (MAX_PIXEL_SHIFT * 2 + 1) - MAX_PIXEL_SHIFT
+            self.last_pixel_shift = current_time
+    
+    def cycle_brightness(self):
+        """Cycle through different brightness levels"""
+        current_time = utime.time()
+        if current_time - self.last_brightness_cycle >= BRIGHTNESS_CYCLE_INTERVAL:
+            # Simple brightness cycling (this is conceptual as SSD1306 has limited brightness control)
+            self.brightness_level = (self.brightness_level + 1) % 3
+            self.last_brightness_cycle = current_time
+    
+    def check_burn_in_protection(self):
+        """Check and apply burn-in protection measures"""
+        current_time = utime.time()
+        
+        # Check if display should be turned off
+        if current_time - self.last_activity >= DISPLAY_TIMEOUT:
+            self.turn_off_display()
+            return False
+        
+        # Check if screensaver should be shown
+        if current_time - self.last_screensaver >= SCREENSAVER_INTERVAL:
+            self.show_screensaver()
+            self.last_screensaver = current_time
+            return False
+        
+        # Update pixel shift and brightness
+        self.update_pixel_shift()
+        self.cycle_brightness()
+        
+        return self.display_on and not self.screensaver_active
+    
+    def get_shift_offset(self):
+        """Get current pixel shift offset"""
+        return self.pixel_shift_x, self.pixel_shift_y
+
+
+# Global burn-in protection instance
+burn_in_protection = None
+
 
 def clear_display(oled):
-    oled.fill(0)
-    oled.show()
+    """Clear the OLED display safely"""
+    global burn_in_protection
+    if burn_in_protection:
+        burn_in_protection.update_activity()
+    return safe_display_operation(lambda: oled.fill(0) or oled.show())
 
 
 def display_text(oled):
-    oled.fill_rect(0, 0, 32, 32, 1)
-    oled.fill_rect(2, 2, 28, 28, 0)
-    oled.vline(9, 8, 22, 1)
-    oled.vline(16, 2, 22, 1)
-    oled.vline(23, 8, 22, 1)
-    oled.fill_rect(26, 24, 2, 4, 1)
-    oled.text("MicroPython", 40, 0, 1)
-    oled.text("SSD1306", 40, 12, 1)
-    oled.text("OLED 128x64", 40, 24, 1)
-    oled.show()
+    """Display default text on OLED safely with burn-in protection"""
+    global burn_in_protection
+    if burn_in_protection:
+        burn_in_protection.update_activity()
+        if not burn_in_protection.check_burn_in_protection():
+            return
+        shift_x, shift_y = burn_in_protection.get_shift_offset()
+    else:
+        shift_x, shift_y = 0, 0
+    
+    def _display():
+        oled.fill_rect(0 + shift_x, 0 + shift_y, 32, 32, 1)
+        oled.fill_rect(2 + shift_x, 2 + shift_y, 28, 28, 0)
+        oled.vline(9 + shift_x, 8 + shift_y, 22, 1)
+        oled.vline(16 + shift_x, 2 + shift_y, 22, 1)
+        oled.vline(23 + shift_x, 8 + shift_y, 22, 1)
+        oled.fill_rect(26 + shift_x, 24 + shift_y, 2, 4, 1)
+        oled.text("MicroPython", 40 + shift_x, 0 + shift_y, 1)
+        oled.text("SSD1306", 40 + shift_x, 12 + shift_y, 1)
+        oled.text("OLED 128x64", 40 + shift_x, 24 + shift_y, 1)
+        oled.show()
+    
+    return safe_display_operation(_display)
 
 
 def update_display(oled):
+    """Update display with default content"""
     clear_display(oled)
     display_text(oled)
     utime.sleep(1)
 
 
+def display_sensor_data(oled, temp, pressure, humidity):
+    """Display sensor data on OLED safely with burn-in protection"""
+    global burn_in_protection
+    if burn_in_protection:
+        burn_in_protection.update_activity()
+        if not burn_in_protection.check_burn_in_protection():
+            return
+        shift_x, shift_y = burn_in_protection.get_shift_offset()
+    else:
+        shift_x, shift_y = 0, 0
+    
+    def _display_sensor():
+        oled.fill(0)
+        oled.text("BME280 3.3V:", 5 + shift_x, 8 + shift_y)
+        oled.text(f"Temp: {temp}", 1 + shift_x, 25 + shift_y)
+        oled.text(f"Pres: {pressure}", 1 + shift_x, 35 + shift_y)
+        oled.text(f"Hum: {humidity}", 1 + shift_x, 45 + shift_y)
+        
+        # Add timestamp to prevent static content
+        timestamp = utime.time() % 100  # Last 2 digits of timestamp
+        oled.text(f"T:{timestamp:02d}", 90 + shift_x, 55 + shift_y)
+        
+        oled.show()
+    
+    return safe_display_operation(_display_sensor)
+
+
+def display_status(oled, status_msg):
+    """Display status message on OLED with burn-in protection"""
+    global burn_in_protection
+    if burn_in_protection:
+        burn_in_protection.update_activity()
+        if not burn_in_protection.check_burn_in_protection():
+            return
+        shift_x, shift_y = burn_in_protection.get_shift_offset()
+    else:
+        shift_x, shift_y = 0, 0
+    
+    def _display_status():
+        oled.fill(0)
+        lines = status_msg.split('\n')
+        for i, line in enumerate(lines[:4]):  # Max 4 lines
+            oled.text(line[:16], 0 + shift_x, i * 12 + shift_y)  # Max 16 chars per line
+        
+        # Add moving indicator to prevent static display
+        indicator_pos = (utime.time() % 8) * 2
+        oled.pixel(int(120 + shift_x), int(indicator_pos + shift_y), 1)
+        
+        oled.show()
+    
+    return safe_display_operation(_display_status)
+
+
+def display_network_info(oled, wifi_ip, mqtt_status):
+    """Display network information with burn-in protection"""
+    global burn_in_protection
+    if burn_in_protection:
+        burn_in_protection.update_activity()
+        if not burn_in_protection.check_burn_in_protection():
+            return
+        shift_x, shift_y = burn_in_protection.get_shift_offset()
+    else:
+        shift_x, shift_y = 0, 0
+    
+    def _display_network():
+        oled.fill(0)
+        oled.text("Network Status:", 0 + shift_x, 0 + shift_y)
+        oled.text(f"IP: {wifi_ip[-12:]}", 0 + shift_x, 12 + shift_y)  # Show last 12 chars of IP
+        oled.text(f"MQTT: {mqtt_status}", 0 + shift_x, 24 + shift_y)
+        
+        # Add animated connection indicator
+        time_mod = utime.time() % 4
+        indicators = ["|", "/", "-", "\\"]
+        oled.text(indicators[time_mod], 110 + shift_x, 36 + shift_y)
+        
+        oled.show()
+    
+    return safe_display_operation(_display_network)
+
+
 # Received messages from subscriptions will be delivered to this callback
 def sub_cb(topic, msg, led):
-    print((topic, msg))
-    if msg.decode() == "ON":
-        led.value(1)
-    else:
-        led.value(0)
+    """MQTT subscription callback with error handling"""
+    try:
+        print((topic, msg))
+        msg_str = msg.decode()
+        if msg_str == "ON":
+            led.value(1)
+        else:
+            led.value(0)
+    except Exception as e:
+        print(f"Callback error: {e}")
 
 
-def reset():
-    print("Resetting...")
-    utime.sleep(5)
+def connect_wifi(max_retries=MAX_RETRIES):
+    """Connect to WiFi with timeout and retry logic"""
+    wlan = network.WLAN(network.STA_IF)
+    
+    for attempt in range(max_retries):
+        try:
+            if wlan.isconnected():
+                print("WiFi already connected")
+                return wlan
+            
+            print(f"WiFi connection attempt {attempt + 1}/{max_retries}")
+            wlan.active(True)
+            wlan.connect(ssid, password)
+            
+            # Wait for connection with timeout
+            timeout = utime.time() + WIFI_TIMEOUT
+            while not wlan.isconnected() and utime.time() < timeout:
+                utime.sleep(1)
+            
+            if wlan.isconnected():
+                status = wlan.ifconfig()
+                print(f"WiFi connected - IP: {status[0]}")
+                return wlan
+            else:
+                print(f"WiFi connection timeout on attempt {attempt + 1}")
+                wlan.active(False)
+                utime.sleep(RETRY_DELAY)
+                
+        except Exception as e:
+            print(f"WiFi connection error on attempt {attempt + 1}: {e}")
+            wlan.active(False)
+            utime.sleep(RETRY_DELAY)
+    
+    raise Exception("Failed to connect to WiFi after all retries")
+
+
+def connect_mqtt(client_id, broker, port, user, password, max_retries=MAX_RETRIES):
+    """Connect to MQTT broker with retry logic"""
+    for attempt in range(max_retries):
+        try:
+            print(f"MQTT connection attempt {attempt + 1}/{max_retries}")
+            client = MQTTClient(client_id, broker, port, user, password, keepalive=MQTT_KEEPALIVE)
+            client.connect()
+            print(f"Connected to MQTT broker: {broker}")
+            return client
+        except Exception as e:
+            print(f"MQTT connection error on attempt {attempt + 1}: {e}")
+            utime.sleep(RETRY_DELAY)
+    
+    raise Exception("Failed to connect to MQTT after all retries")
+
+
+def initialize_hardware():
+    """Initialize all hardware components with error handling"""
+    global burn_in_protection
+    
+    try:
+        # Setup built-in PICO LED
+        led = machine.Pin("LED", machine.Pin.OUT)
+        print("LED initialized")
+        
+        # Initialize I2C
+        i2c = machine.I2C(1, scl=machine.Pin(3), sda=machine.Pin(2))
+        devices = i2c.scan()
+        
+        if not devices:
+            raise Exception("No I2C devices found")
+        
+        print("I2C devices found:")
+        for d in devices:
+            print(f"  {hex(d)}")
+        
+        # Initialize OLED display
+        oled = SSD1306_I2C(WIDTH, HEIGHT, i2c)
+        print("OLED display initialized")
+        
+        # Initialize burn-in protection
+        burn_in_protection = OLEDBurnInProtection(oled)
+        print("OLED burn-in protection enabled")
+        
+        # Initialize BME280 sensor
+        bme = bme280.BME280(i2c=i2c)
+        print("BME280 sensor initialized")
+        
+        # Test sensor reading
+        try:
+            temp, pressure, humidity = bme.values
+            print(f"Sensor test - Temp: {temp}, Pressure: {pressure}, Humidity: {humidity}")
+        except Exception as e:
+            print(f"Sensor test failed: {e}")
+            raise
+        
+        update_display(oled)
+        return led, oled, bme, i2c
+        
+    except Exception as e:
+        print(f"Hardware initialization error: {e}")
+        raise
+
+
+def safe_sensor_reading(bme, max_retries=3):
+    """Read sensor data with retry logic"""
+    for attempt in range(max_retries):
+        try:
+            temp, pressure, humidity = bme.values
+            return temp, pressure, humidity
+        except Exception as e:
+            print(f"Sensor reading error on attempt {attempt + 1}: {e}")
+            if attempt < max_retries - 1:
+                utime.sleep(1)
+            else:
+                raise
+
+
+def mqtt_publish_safe(client, topic, data, max_retries=3):
+    """Safely publish MQTT message with retries"""
+    for attempt in range(max_retries):
+        try:
+            client.publish(topic, str(data).encode())
+            return True
+        except Exception as e:
+            print(f"MQTT publish error on attempt {attempt + 1}: {e}")
+            if attempt < max_retries - 1:
+                utime.sleep(1)
+            else:
+                return False
+
+
+def reset_with_delay(delay=10):
+    """Reset the device with a countdown"""
+    print(f"Resetting in {delay} seconds...")
+    for i in range(delay, 0, -1):
+        print(f"Reset in {i}...")
+        utime.sleep(1)
     machine.reset()
 
 
 def main():
-    # Publish MQTT messages after every set timeout
-    publish_interval = 180
-    last_publish: int = utime.time() - publish_interval
-
-    # connect to wifi
-    wlan = network.WLAN(network.STA_IF)
-    if not wlan.isconnected():
-        print("establishing wifi connection...")
-        wlan.active(True)
-        wlan.connect(ssid, password)
-        while not wlan.isconnected():
-            pass
-        print("wifi connected")
-        status = wlan.ifconfig()
-        print("ip = " + status[0])
-
-    # Setup built in PICO LED as Output
-    led = machine.Pin("LED", machine.Pin.OUT)
-
-    # I2C for the Wemos D1 Mini with ESP8266
-    i2c = machine.I2C(
-        1, scl=machine.Pin(3), sda=machine.Pin(2)
-    )  # Init I2C using pins GP8 & GP9 (default I2C0 pins)
-
-    # Print out any addresses found
-    devices = i2c.scan()
-
-    if devices:
-        for d in devices:
-            print(hex(d))
-
-    oled = SSD1306_I2C(WIDTH, HEIGHT, i2c)  # Init oled display
-    utime.sleep(1)
-    bme = bme280.BME280(i2c=i2c)
-    update_display(oled)
-    print(f"Begin connection with MQTT Broker :: {MQTT_BROKER}")
-    mqttClient = MQTTClient(
-        CLIENT_ID, MQTT_BROKER, MQTT_PORT, MQTT_USER, MQTT_PASSWORD, keepalive=300
-    )
-    mqttClient.set_callback(lambda *args: sub_cb(*args, led=led))
-    mqttClient.connect()
-    print("connected")
-    mqttClient.subscribe(SUBSCRIBE_TOPIC)
-    print(
-        f"Connected to MQTT  Broker :: {MQTT_BROKER}, and waiting for callback function to be called!"
-    )
-    while True:
-        # Non-blocking wait for message
-        mqttClient.check_msg()
-        if (utime.time() - last_publish) >= publish_interval:
-            # Get bme280 readings
-            temp, pressure, humidity = bme.values
-            mqttClient.publish(PUBLISH_TOPIC_TEMP, str(temp).encode())
-            mqttClient.publish(PUBLISH_TOPIC_PRESSURE, str(pressure).encode())
-            mqttClient.publish(PUBLISH_TOPIC_HUMIDITY, str(humidity).encode())
-            last_publish = utime.time()
-            oled.fill(0)
-            oled.text("BME280 3.3V:", 5, 8)
-            oled.text(f"Temp: {temp}", 1, 25)
-            oled.text(f"Pres: {pressure}", 1, 35)
-            oled.text(f"Hum: {humidity}", 1, 45)
-            oled.show()
-
-        utime.sleep(10)
+    """Main application function with comprehensive error handling"""
+    global burn_in_protection
+    mqtt_client = None
+    oled = None
+    
+    try:
+        # Initialize hardware
+        led, oled, bme, i2c = initialize_hardware()
+        display_status(oled, "Hardware\nInitialized")
+        
+        # Connect to WiFi
+        display_status(oled, "Connecting\nWiFi...")
+        wlan = connect_wifi()
+        wifi_ip = wlan.ifconfig()[0]
+        display_status(oled, f"WiFi Connected\n{wifi_ip}")
+        
+        # Connect to MQTT
+        display_status(oled, "Connecting\nMQTT...")
+        mqtt_client = connect_mqtt(CLIENT_ID, MQTT_BROKER, MQTT_PORT, MQTT_USER, MQTT_PASSWORD)
+        mqtt_client.set_callback(lambda *args: sub_cb(*args, led=led))
+        mqtt_client.subscribe(SUBSCRIBE_TOPIC)
+        display_status(oled, "MQTT\nConnected")
+        
+        print(f"Connected to MQTT Broker: {MQTT_BROKER}")
+        print("Waiting for messages and publishing sensor data...")
+        
+        # Main loop variables
+        last_publish = utime.time() - PUBLISH_INTERVAL
+        last_display_update = utime.time()
+        display_rotation_interval = 30  # Rotate display content every 30 seconds
+        display_mode = 0  # 0: sensor data, 1: network info, 2: status
+        
+        while True:
+            current_time = utime.time()
+            
+            # Check WiFi connection
+            if not wlan.isconnected():
+                print("WiFi disconnected, attempting reconnection...")
+                display_status(oled, "WiFi\nReconnecting...")
+                wlan = connect_wifi()
+                wifi_ip = wlan.ifconfig()[0]
+                # Reconnect MQTT after WiFi reconnection
+                if mqtt_client:
+                    try:
+                        mqtt_client.disconnect()
+                    except Exception:
+                        pass
+                mqtt_client = connect_mqtt(CLIENT_ID, MQTT_BROKER, MQTT_PORT, MQTT_USER, MQTT_PASSWORD)
+                mqtt_client.set_callback(lambda *args: sub_cb(*args, led=led))
+                mqtt_client.subscribe(SUBSCRIBE_TOPIC)
+                display_status(oled, "Reconnected")
+            
+            # Check for MQTT messages
+            try:
+                mqtt_client.check_msg()
+            except Exception as e:
+                print(f"MQTT check_msg error: {e}")
+                # Try to reconnect MQTT
+                try:
+                    mqtt_client.disconnect()
+                except Exception:
+                    pass
+                mqtt_client = connect_mqtt(CLIENT_ID, MQTT_BROKER, MQTT_PORT, MQTT_USER, MQTT_PASSWORD)
+                mqtt_client.set_callback(lambda *args: sub_cb(*args, led=led))
+                mqtt_client.subscribe(SUBSCRIBE_TOPIC)
+            
+            # Publish sensor data periodically
+            if (current_time - last_publish) >= PUBLISH_INTERVAL:
+                try:
+                    print("Reading sensors and publishing data...")
+                    temp, pressure, humidity = safe_sensor_reading(bme)
+                    
+                    # Publish data
+                    publish_success = all([
+                        mqtt_publish_safe(mqtt_client, PUBLISH_TOPIC_TEMP, temp),
+                        mqtt_publish_safe(mqtt_client, PUBLISH_TOPIC_PRESSURE, pressure),
+                        mqtt_publish_safe(mqtt_client, PUBLISH_TOPIC_HUMIDITY, humidity)
+                    ])
+                    
+                    if publish_success:
+                        print(f"Published: T={temp}, P={pressure}, H={humidity}")
+                        last_publish = current_time
+                    else:
+                        print("Failed to publish some sensor data")
+                        
+                except Exception as e:
+                    print(f"Sensor reading/publishing error: {e}")
+            
+            # Rotate display content to prevent burn-in
+            if (current_time - last_display_update) >= display_rotation_interval:
+                try:
+                    if burn_in_protection and burn_in_protection.check_burn_in_protection():
+                        if display_mode == 0:  # Sensor data
+                            temp, pressure, humidity = safe_sensor_reading(bme)
+                            display_sensor_data(oled, temp, pressure, humidity)
+                        elif display_mode == 1:  # Network info
+                            mqtt_status = "Connected" if mqtt_client else "Disconnected"
+                            display_network_info(oled, wifi_ip, mqtt_status)
+                        else:  # Status info
+                            uptime = int(current_time) % 86400  # Uptime in seconds (mod 24h)
+                            display_status(oled, f"Uptime: {uptime}s\nMode: {display_mode}")
+                        
+                        display_mode = (display_mode + 1) % 3
+                        last_display_update = current_time
+                        
+                except Exception as e:
+                    print(f"Display update error: {e}")
+            
+            # Apply burn-in protection measures
+            if burn_in_protection:
+                burn_in_protection.check_burn_in_protection()
+            
+            # Free up memory periodically
+            if current_time % 300 == 0:  # Every 5 minutes
+                import gc
+                gc.collect()
+            
+            utime.sleep(10)
+            
+    except KeyboardInterrupt:
+        print("Program interrupted by user")
+        if mqtt_client:
+            try:
+                mqtt_client.disconnect()
+            except Exception:
+                pass
+        if oled and burn_in_protection:
+            display_status(oled, "Stopped")
+            burn_in_protection.turn_off_display()
+        
+    except Exception as e:
+        print(f"Main loop error: {e}")
+        if oled and burn_in_protection:
+            display_status(oled, f"Error:\n{str(e)[:20]}")
+            utime.sleep(3)
+            burn_in_protection.turn_off_display()
+        if mqtt_client:
+            try:
+                mqtt_client.disconnect()
+            except Exception:
+                pass
+        raise
 
 
 if __name__ == "__main__":
-    while True:
+    retry_count = 0
+    max_main_retries = 5
+    
+    while retry_count < max_main_retries:
         try:
             main()
-        except OSError as e:
-            print("Error: " + str(e))
-            reset()
+        except KeyboardInterrupt:
+            print("Program terminated by user")
+            break
+        except Exception as e:
+            retry_count += 1
+            print(f"Main execution error (attempt {retry_count}/{max_main_retries}): {e}")
+            
+            if retry_count < max_main_retries:
+                print(f"Retrying in {RETRY_DELAY * retry_count} seconds...")
+                utime.sleep(RETRY_DELAY * retry_count)  # Exponential backoff
+            else:
+                print("Max retries reached. Resetting device...")
+                reset_with_delay()
+    
+    print("Program ended")
