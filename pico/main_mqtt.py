@@ -34,6 +34,28 @@ except Exception as e:
 WIDTH = 128  # oled display width
 HEIGHT = 64  # oled display height
 
+# I2C/OLED config (can be overridden via env.json on device)
+try:
+    I2C_BUS = int(get_env("i2c_bus") or 1)  # 0 or 1. Default: 1 (GP2=SDA, GP3=SCL)
+except Exception:
+    I2C_BUS = 1
+try:
+    I2C_SDA = int(get_env("i2c_sda") or 2)  # Default GP2 for I2C1
+except Exception:
+    I2C_SDA = 2
+try:
+    I2C_SCL = int(get_env("i2c_scl") or 3)  # Default GP3 for I2C1
+except Exception:
+    I2C_SCL = 3
+try:
+    I2C_FREQ = int(get_env("i2c_freq") or 400000)
+except Exception:
+    I2C_FREQ = 400000
+try:
+    OLED_ADDR = int(get_env("oled_addr"), 0) if get_env("oled_addr") else 0x3C
+except Exception:
+    OLED_ADDR = 0x3C
+
 # Default  MQTT_BROKER to connect to
 MQTT_BROKER = "broker.furyhawk.lol"
 MQTT_PORT = 1883
@@ -86,14 +108,31 @@ class OLEDBurnInProtection:
         
     def update_activity(self):
         """Update last activity timestamp"""
-        self.last_activity = utime.time()
+        now = utime.time()
+        self.last_activity = now
+        # Any user-driven update cancels screensaver and ensures display is on
+        if self.screensaver_active:
+            self.screensaver_active = False
+            # Push out next screensaver a bit to avoid immediate retrigger
+            self.last_screensaver = now
         if not self.display_on:
             self.turn_on_display()
     
     def turn_off_display(self):
         """Turn off display to prevent burn-in"""
         if self.display_on:
-            safe_display_operation(lambda: self.oled.fill(0) or self.oled.show())
+            # Try to actually power off panel (or at least blank it)
+            def _off():
+                try:
+                    if hasattr(self.oled, "poweroff"):
+                        self.oled.poweroff()
+                    elif hasattr(self.oled, "write_cmd"):
+                        self.oled.write_cmd(0xAE)  # DISPLAYOFF
+                except Exception:
+                    pass
+                self.oled.fill(0)
+                self.oled.show()
+            safe_display_operation(_off)
             self.display_on = False
             self.screensaver_active = False
             print("Display turned off for burn-in protection")
@@ -101,6 +140,19 @@ class OLEDBurnInProtection:
     def turn_on_display(self):
         """Turn on display"""
         if not self.display_on:
+            def _on():
+                try:
+                    if hasattr(self.oled, "poweron"):
+                        self.oled.poweron()
+                    elif hasattr(self.oled, "write_cmd"):
+                        self.oled.write_cmd(0xAF)  # DISPLAYON
+                    if hasattr(self.oled, "invert"):
+                        self.oled.invert(0)
+                    if hasattr(self.oled, "contrast"):
+                        self.oled.contrast(255)
+                except Exception:
+                    pass
+            safe_display_operation(_on)
             self.display_on = True
             self.screensaver_active = False
             print("Display turned on")
@@ -361,6 +413,14 @@ def connect_mqtt(client_id, broker, port, user, password, max_retries=MAX_RETRIE
     raise Exception("Failed to connect to MQTT after all retries")
 
 
+def _init_i2c(bus, sda_pin, scl_pin, freq=400000):
+    """Create an I2C instance and scan for devices; returns (i2c, devices)"""
+    i2c = machine.I2C(bus, sda=machine.Pin(sda_pin), scl=machine.Pin(scl_pin), freq=freq)
+    devices = i2c.scan()
+    print(f"I2C(bus={bus}, sda=GP{sda_pin}, scl=GP{scl_pin}, freq={freq}) scan -> {list(map(hex, devices))}")
+    return i2c, devices
+
+
 def initialize_hardware():
     """Initialize all hardware components with error handling"""
     global burn_in_protection
@@ -370,20 +430,58 @@ def initialize_hardware():
         led = machine.Pin("LED", machine.Pin.OUT)
         print("LED initialized")
         
-        # Initialize I2C
-        i2c = machine.I2C(1, scl=machine.Pin(3), sda=machine.Pin(2))
-        devices = i2c.scan()
-        
+        # Initialize I2C (with fallback)
+        i2c, devices = _init_i2c(I2C_BUS, I2C_SDA, I2C_SCL, I2C_FREQ)
         if not devices:
-            raise Exception("No I2C devices found")
+            print("No I2C devices found on primary config; trying fallback I2C0 GP0/GP1...")
+            try:
+                i2c, devices = _init_i2c(0, 0, 1, I2C_FREQ)
+            except Exception as e:
+                print(f"Fallback I2C0 init failed: {e}")
+        if not devices:
+            raise Exception("No I2C devices found on any tried configuration")
         
+        # Log devices
         print("I2C devices found:")
         for d in devices:
             print(f"  {hex(d)}")
         
         # Initialize OLED display
-        oled = SSD1306_I2C(WIDTH, HEIGHT, i2c)
-        print("OLED display initialized")
+        oled = None
+        last_error = None
+        # Try with provided/guessed address first, then a common alternative
+        for addr in [OLED_ADDR, 0x3D]:
+            try:
+                if addr not in devices:
+                    print(f"Warning: OLED address {hex(addr)} not seen in scan; attempting anyway...")
+                oled = SSD1306_I2C(WIDTH, HEIGHT, i2c, addr=addr)
+                # Ensure display is ON and visible
+                try:
+                    if hasattr(oled, "poweron"):
+                        oled.poweron()
+                    # Send DISPLAY ON command if low-level API exists
+                    if hasattr(oled, "write_cmd"):
+                        oled.write_cmd(0xAF)  # DISPLAYON
+                    if hasattr(oled, "contrast"):
+                        oled.contrast(255)
+                    if hasattr(oled, "invert"):
+                        oled.invert(0)
+                except Exception as _:
+                    pass
+                # Basic sanity splash
+                oled.fill(0)
+                oled.text("OLED init", 0, 0)
+                oled.text(f"addr {hex(addr)}", 0, 10)
+                utime.sleep_ms(10)
+                oled.show()
+                print(f"OLED display initialized at {hex(addr)}")
+                break
+            except Exception as e:
+                print(f"OLED init failed at {hex(addr)}: {e}")
+                last_error = e
+                oled = None
+        if oled is None:
+            raise Exception(f"Failed to initialize OLED: {last_error}")
         
         # Initialize burn-in protection
         burn_in_protection = OLEDBurnInProtection(oled)
