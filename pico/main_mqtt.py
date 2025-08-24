@@ -3,6 +3,10 @@ import ubinascii
 from umqtt.simple import MQTTClient
 import machine
 import network
+try:
+    import ntptime  # MicroPython NTP client
+except Exception:
+    ntptime = None
 
 from mpy_env import get_env, load_env
 
@@ -56,6 +60,20 @@ try:
 except Exception:
     OLED_ADDR = 0x3C
 
+# Time/NTP configuration (optional via env.json)
+try:
+    NTP_SERVER = get_env("ntp_server") or "pool.ntp.org"
+except Exception:
+    NTP_SERVER = "pool.ntp.org"
+try:
+    TZ_OFFSET_MINUTES = int(get_env("tz_offset_minutes") or 0)  # e.g., -300 for EST (UTC-5)
+except Exception:
+    TZ_OFFSET_MINUTES = 0
+try:
+    NTP_SYNC_INTERVAL = int(get_env("ntp_sync_interval") or 3600)  # seconds; default 1 hour
+except Exception:
+    NTP_SYNC_INTERVAL = 3600
+
 # Default  MQTT_BROKER to connect to
 MQTT_BROKER = "broker.furyhawk.lol"
 MQTT_PORT = 1883
@@ -64,6 +82,7 @@ SUBSCRIBE_TOPIC = b"led"
 PUBLISH_TOPIC_TEMP = b"temperature"
 PUBLISH_TOPIC_PRESSURE = b"pressure"
 PUBLISH_TOPIC_HUMIDITY = b"humidity"
+PUBLISH_TOPIC_DATETIME = b"datetime"
 
 # Configuration constants
 WIFI_TIMEOUT = 30  # seconds
@@ -563,6 +582,88 @@ def reset_with_delay(delay=10):
     machine.reset()
 
 
+def get_current_datetime():
+    """Get current date and time as formatted string"""
+    try:
+        # Get current time in seconds since epoch (apply timezone offset)
+        offset_sec = TZ_OFFSET_MINUTES * 60
+        current_time = utime.time() + offset_sec
+
+        # Convert to local time tuple (year, month, day, hour, minute, second, weekday, yearday)
+        time_tuple = utime.localtime(current_time)
+
+        # Format as readable string
+        year, month, day, hour, minute, second = time_tuple[:6]
+        weekdays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+        weekday = weekdays[time_tuple[6]]
+
+        date_str = f"{year:04d}-{month:02d}-{day:02d}"
+        time_str = f"{hour:02d}:{minute:02d}:{second:02d}"
+        datetime_str = f"{date_str} {time_str} {weekday}"
+
+        return datetime_str, date_str, time_str
+
+    except Exception as e:
+        print(f"Error getting datetime: {e}")
+        # Return fallback values
+        return "Time Error", "Date Error", "Time Error"
+
+
+def sync_time(max_retries=3, retry_delay=2):
+    """Synchronize RTC via NTP. Returns True on success, False otherwise."""
+    if ntptime is None:
+        print("NTP not available on this firmware")
+        return False
+    try:
+        ntptime.host = NTP_SERVER
+    except Exception:
+        pass
+
+    for attempt in range(max_retries):
+        try:
+            print(f"NTP sync attempt {attempt+1}/{max_retries} using {NTP_SERVER}")
+            ntptime.settime()  # sets RTC to UTC
+            # Basic sanity check: year should be reasonably current
+            y = utime.localtime()[0]
+            if y < 2023:
+                raise Exception(f"RTC year still {y} after NTP set")
+            print("Time synchronized via NTP")
+            return True
+        except Exception as e:
+            print(f"NTP sync error: {e}")
+            utime.sleep(retry_delay)
+    return False
+
+
+def display_datetime(oled):
+    """Display current date and time on OLED with burn-in protection"""
+    global burn_in_protection
+    if burn_in_protection:
+        burn_in_protection.update_activity()
+        if not burn_in_protection.check_burn_in_protection():
+            return
+        shift_x, shift_y = burn_in_protection.get_shift_offset()
+    else:
+        shift_x, shift_y = 0, 0
+    
+    def _display_datetime():
+        datetime_str, date_str, time_str = get_current_datetime()
+        
+        oled.fill(0)
+        oled.text("Date & Time:", 0 + shift_x, 0 + shift_y)
+        oled.text(date_str, 0 + shift_x, 15 + shift_y)
+        oled.text(time_str, 0 + shift_x, 30 + shift_y)
+        
+        # Add seconds indicator for dynamic content
+        seconds = utime.time() % 60
+        indicator = "." * (seconds % 4 + 1)
+        oled.text(indicator, 100 + shift_x, 45 + shift_y)
+        
+        oled.show()
+    
+    return safe_display_operation(_display_datetime)
+
+
 def main():
     """Main application function with comprehensive error handling"""
     global burn_in_protection
@@ -580,6 +681,15 @@ def main():
         wifi_ip = wlan.ifconfig()[0]
         display_status(oled, f"WiFi Connected\n{wifi_ip}")
         
+        # Sync time via NTP (best effort)
+        ntp_ok = sync_time()
+        if ntp_ok:
+            display_status(oled, "Time\nSynchronized")
+        else:
+            display_status(oled, "Time Sync\nSkipped/Failed")
+        
+        last_time_sync = utime.time()
+        
         # Connect to MQTT
         display_status(oled, "Connecting\nMQTT...")
         mqtt_client = connect_mqtt(CLIENT_ID, MQTT_BROKER, MQTT_PORT, MQTT_USER, MQTT_PASSWORD)
@@ -594,7 +704,7 @@ def main():
         last_publish = utime.time() - PUBLISH_INTERVAL
         last_display_update = utime.time()
         display_rotation_interval = 30  # Rotate display content every 30 seconds
-        display_mode = 0  # 0: sensor data, 1: network info, 2: status
+        display_mode = 0  # 0: sensor data, 1: network info, 2: datetime, 3: status
         
         while True:
             current_time = utime.time()
@@ -615,6 +725,13 @@ def main():
                 mqtt_client.set_callback(lambda *args: sub_cb(*args, led=led))
                 mqtt_client.subscribe(SUBSCRIBE_TOPIC)
                 display_status(oled, "Reconnected")
+                # Re-sync time after network recovery
+                try:
+                    if sync_time():
+                        display_status(oled, "Time\nSynchronized")
+                        last_time_sync = utime.time()
+                except Exception as _:
+                    pass
             
             # Check for MQTT messages
             try:
@@ -635,16 +752,18 @@ def main():
                 try:
                     print("Reading sensors and publishing data...")
                     temp, pressure, humidity = safe_sensor_reading(bme)
+                    datetime_str, date_str, time_str = get_current_datetime()
                     
                     # Publish data
                     publish_success = all([
                         mqtt_publish_safe(mqtt_client, PUBLISH_TOPIC_TEMP, temp),
                         mqtt_publish_safe(mqtt_client, PUBLISH_TOPIC_PRESSURE, pressure),
-                        mqtt_publish_safe(mqtt_client, PUBLISH_TOPIC_HUMIDITY, humidity)
+                        mqtt_publish_safe(mqtt_client, PUBLISH_TOPIC_HUMIDITY, humidity),
+                        mqtt_publish_safe(mqtt_client, PUBLISH_TOPIC_DATETIME, datetime_str)
                     ])
                     
                     if publish_success:
-                        print(f"Published: T={temp}, P={pressure}, H={humidity}")
+                        print(f"Published: T={temp}, P={pressure}, H={humidity}, DT={datetime_str}")
                         last_publish = current_time
                     else:
                         print("Failed to publish some sensor data")
@@ -662,11 +781,13 @@ def main():
                         elif display_mode == 1:  # Network info
                             mqtt_status = "Connected" if mqtt_client else "Disconnected"
                             display_network_info(oled, wifi_ip, mqtt_status)
+                        elif display_mode == 2:  # Date and time
+                            display_datetime(oled)
                         else:  # Status info
                             uptime = int(current_time) % 86400  # Uptime in seconds (mod 24h)
                             display_status(oled, f"Uptime: {uptime}s\nMode: {display_mode}")
                         
-                        display_mode = (display_mode + 1) % 3
+                        display_mode = (display_mode + 1) % 4
                         last_display_update = current_time
                         
                 except Exception as e:
@@ -676,6 +797,14 @@ def main():
             if burn_in_protection:
                 burn_in_protection.check_burn_in_protection()
             
+            # Periodic NTP re-sync
+            try:
+                if (current_time - last_time_sync) >= NTP_SYNC_INTERVAL and wlan.isconnected():
+                    if sync_time():
+                        last_time_sync = current_time
+            except Exception as _:
+                pass
+
             # Free up memory periodically
             if current_time % 300 == 0:  # Every 5 minutes
                 import gc
