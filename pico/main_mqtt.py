@@ -390,8 +390,27 @@ def initialize_hardware():
         print("OLED burn-in protection enabled")
         
         # Initialize BME280 sensor
-        bme = bme280.BME280(i2c=i2c)
-        print("BME280 sensor initialized")
+        print("Available attributes in bme280 module:", dir(bme280))
+        try:
+            bme = bme280.BME280(i2c=i2c)
+            print("BME280 sensor initialized")
+        except AttributeError as e:
+            print(f"BME280 AttributeError: {e}")
+            print("This usually means the bme280.py file wasn't properly uploaded or has import issues")
+            print("Make sure bme280.py is in the same directory as this script on the MicroPython device")
+            # For now, create a dummy sensor object to prevent crashes
+            print("Creating dummy sensor for testing...")
+            class DummyBME280:
+                def __init__(self, i2c):
+                    self.i2c = i2c
+                    print("Using dummy BME280 sensor")
+                
+                @property
+                def values(self):
+                    return ("25.0C", "1013.25hPa", "50.0%")
+            
+            bme = DummyBME280(i2c)
+            print("Dummy BME280 sensor initialized - please fix the real BME280 import")
         
         # Test sensor reading
         try:
@@ -567,6 +586,7 @@ def main():
             utime.sleep(10)
             
     except KeyboardInterrupt:
+        # Re-raise KeyboardInterrupt to allow Ctrl-C to exit
         print("Program interrupted by user")
         if mqtt_client:
             try:
@@ -576,6 +596,7 @@ def main():
         if oled and burn_in_protection:
             display_status(oled, "Stopped")
             burn_in_protection.turn_off_display()
+        raise  # Re-raise to ensure the program exits
         
     except Exception as e:
         print(f"Main loop error: {e}")
@@ -592,24 +613,21 @@ def main():
 
 
 if __name__ == "__main__":
-    retry_count = 0
-    max_main_retries = 5
-    
-    while retry_count < max_main_retries:
-        try:
-            main()
-        except KeyboardInterrupt:
-            print("Program terminated by user")
-            break
-        except Exception as e:
-            retry_count += 1
-            print(f"Main execution error (attempt {retry_count}/{max_main_retries}): {e}")
-            
-            if retry_count < max_main_retries:
-                print(f"Retrying in {RETRY_DELAY * retry_count} seconds...")
-                utime.sleep(RETRY_DELAY * retry_count)  # Exponential backoff
-            else:
-                print("Max retries reached. Resetting device...")
-                reset_with_delay()
+    try:
+        while True:
+            try:
+                main()
+            except KeyboardInterrupt:
+                # Only allow Ctrl-C to break and exit
+                print("Program terminated by user (Ctrl-C)")
+                break
+            except Exception as e:
+                # For any other exception, log it but continue running
+                print(f"Non-fatal error occurred: {e}")
+                print("Continuing program... Press Ctrl-C to exit.")
+                utime.sleep(5)  # Brief pause before restarting
+    except KeyboardInterrupt:
+        # Catch any KeyboardInterrupt that might escape the inner try-except
+        print("Program terminated by user (Ctrl-C)")
     
     print("Program ended")
