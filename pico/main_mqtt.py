@@ -12,6 +12,11 @@ from mpy_env import get_env, load_env
 
 # import ahtx0
 import bme280
+try:
+    # Optional direct class import for environments where the module exposes BME280 as a class
+    from bme280 import BME280 as BME280Class  # type: ignore
+except Exception:
+    BME280Class = None  # Fallback to attribute on module
 from ssd1306 import SSD1306_I2C
 
 # Loading `env.json` at once as default.
@@ -56,7 +61,8 @@ try:
 except Exception:
     I2C_FREQ = 400000
 try:
-    OLED_ADDR = int(get_env("oled_addr"), 0) if get_env("oled_addr") else 0x3C
+    _oa = get_env("oled_addr")
+    OLED_ADDR = int(_oa or "0x3C", 0)
 except Exception:
     OLED_ADDR = 0x3C
 
@@ -92,11 +98,12 @@ MAX_RETRIES = 3
 RETRY_DELAY = 5  # seconds
 
 # OLED burn-in prevention settings
-DISPLAY_TIMEOUT = 300  # Turn off display after 5 minutes of inactivity
-SCREENSAVER_INTERVAL = 600  # Show screensaver every 10 minutes
+DISPLAY_TIMEOUT = 25  # Turn off display after 5 minutes of inactivity
+SCREENSAVER_INTERVAL = 20  # Show screensaver every 10 minutes
 PIXEL_SHIFT_INTERVAL = 120  # Shift content every 2 minutes
 MAX_PIXEL_SHIFT = 3  # Maximum pixels to shift content
-BRIGHTNESS_CYCLE_INTERVAL = 60  # Cycle brightness every minute
+BRIGHTNESS_CYCLE_INTERVAL = 30  # Cycle brightness every minute
+SCREENSAVER_FRAME_MS = 150  # Screensaver animation frame interval
 
 
 def safe_display_operation(func, *args, **kwargs):
@@ -124,6 +131,9 @@ class OLEDBurnInProtection:
         self.display_on = True
         self.brightness_level = 0
         self.screensaver_active = False
+        # Animation state
+        self.last_screensaver_frame = utime.ticks_ms()
+        self.screensaver_phase = 0
         
     def update_activity(self):
         """Update last activity timestamp"""
@@ -185,27 +195,65 @@ class OLEDBurnInProtection:
             print("Display turned on")
     
     def show_screensaver(self):
-        """Show animated screensaver pattern"""
+        """Render one animated screensaver frame (call repeatedly while active)."""
         if not self.display_on:
             return
-            
+
+        # Frame throttle
+        now_ms = utime.ticks_ms()
+        if utime.ticks_diff(now_ms, self.last_screensaver_frame) < SCREENSAVER_FRAME_MS:
+            return
+        self.last_screensaver_frame = now_ms
+
         def _screensaver():
+            # advance phase
+            phase = self.screensaver_phase
+
             self.oled.fill(0)
-            # Simple moving dot screensaver
-            time_offset = int(utime.time()) % 60
-            x = (time_offset * 2) % (self.width - 1)
-            y = (time_offset) % (self.height - 1)
-            self.oled.pixel(x, y, 1)
-            
-            # Add some moving lines
-            for i in range(0, self.width, 20):
-                line_x = (i + time_offset) % self.width
-                self.oled.vline(line_x, 0, self.height, 1)
-            
+
+            # Bouncing pixel
+            w1 = self.width - 1
+            h1 = self.height - 1
+            x = abs((phase % (2 * w1)) - w1)
+            y = abs(((phase // 2) % (2 * h1)) - h1)
+            self.oled.pixel(int(x), int(y), 1)
+
+            # Moving vertical bars
+            shift = phase % self.width
+            for i in range(0, self.width, 16):
+                line_x = (i + shift) % self.width
+                self.oled.vline(int(line_x), 0, self.height, 1)
+
+            # Sliding rectangle
+            bx = (phase * 2) % max(1, (self.width - 20))
+            by = (phase * 3) % max(1, (self.height - 10))
+            try:
+                self.oled.rect(int(bx), int(by), 20, 10, 1)
+            except Exception:
+                # Some drivers may not have rect; fall back to outline with hline/vline
+                self.oled.hline(int(bx), int(by), 20, 1)
+                self.oled.hline(int(bx), int(by) + 10, 20, 1)
+                self.oled.vline(int(bx), int(by), 10, 1)
+                self.oled.vline(int(bx) + 20, int(by), 10, 1)
+
+            # Twinkle indicator
+            tx = (phase * 5) % max(1, self.width - 6)
+            ty = (phase * 7) % max(1, self.height - 8)
+            try:
+                self.oled.text("*", int(tx), int(ty), 1)
+            except Exception:
+                # If text not available, draw a small 2x2 block
+                self.oled.pixel(int(tx), int(ty), 1)
+                self.oled.pixel(int(tx) + 1, int(ty), 1)
+                self.oled.pixel(int(tx), int(ty) + 1, 1)
+                self.oled.pixel(int(tx) + 1, int(ty) + 1, 1)
+
             self.oled.show()
-        
+
         safe_display_operation(_screensaver)
         self.screensaver_active = True
+        # keep phase bounded
+        self.screensaver_phase = (self.screensaver_phase + 1) % 10000
     
     def update_pixel_shift(self):
         """Update pixel shift values for content movement"""
@@ -232,12 +280,16 @@ class OLEDBurnInProtection:
             self.turn_off_display()
             return False
         
-        # Check if screensaver should be shown
-        # Consider recent user activity as well; do not trigger screensaver
-        # immediately after update_activity even if last_screensaver is old.
-        if current_time - max(self.last_activity, self.last_screensaver) >= SCREENSAVER_INTERVAL:
-            self.show_screensaver()
+        # Manage screensaver state and frames
+        # Do not trigger immediately after activity
+        if (not self.screensaver_active) and (current_time - max(self.last_activity, self.last_screensaver) >= SCREENSAVER_INTERVAL):
+            self.screensaver_active = True
             self.last_screensaver = current_time
+
+        if self.screensaver_active:
+            if not self.display_on:
+                self.turn_on_display()
+            self.show_screensaver()
             return False
         
         # Update pixel shift and brightness
@@ -550,7 +602,11 @@ def initialize_hardware():
         # Initialize BME280 sensor
         print("Available attributes in bme280 module:", dir(bme280))
         try:
-            bme = bme280.BME280(i2c=i2c)
+            # Try class from module or fallback attribute
+            bme_cls = BME280Class or getattr(bme280, 'BME280', None)
+            if bme_cls is None:
+                raise AttributeError("BME280 class not found in bme280 module")
+            bme = bme_cls(i2c=i2c)
             print("BME280 sensor initialized")
         except AttributeError as e:
             print(f"BME280 AttributeError: {e}")
@@ -588,17 +644,35 @@ def initialize_hardware():
 
 
 def safe_sensor_reading(bme, max_retries=3):
-    """Read sensor data with retry logic"""
+    """Read sensor data with retry logic and return a (temp, pressure, humidity) tuple."""
+    last_err = None
     for attempt in range(max_retries):
         try:
-            temp, pressure, humidity = bme.values
+            vals = getattr(bme, 'values', None)
+            if callable(vals):
+                res = vals()
+            else:
+                res = bme.values  # type: ignore[attr-defined]
+            # Normalize to tuple of 3 strings
+            if isinstance(res, (tuple, list)) and len(res) >= 3:
+                temp, pressure, humidity = res[0], res[1], res[2]
+            else:
+                # Some drivers expose attributes
+                temp = getattr(bme, 'temperature', None) or getattr(bme, 'temp', None)
+                pressure = getattr(bme, 'pressure', None) or getattr(bme, 'pres', None)
+                humidity = getattr(bme, 'humidity', None) or getattr(bme, 'hum', None)
+                if temp is None or pressure is None or humidity is None:
+                    raise ValueError('BME280 values not in expected format')
             return temp, pressure, humidity
         except Exception as e:
+            last_err = e
             print(f"Sensor reading error on attempt {attempt + 1}: {e}")
             if attempt < max_retries - 1:
                 utime.sleep(1)
-            else:
-                raise
+    # If we reach here, raise last error
+    if last_err:
+        raise last_err
+    raise RuntimeError("Unknown sensor read error")
 
 
 def mqtt_publish_safe(client, topic, data, max_retries=3):
@@ -853,8 +927,12 @@ def main():
             if current_time % 300 == 0:  # Every 5 minutes
                 import gc
                 gc.collect()
-            
-            utime.sleep(10)
+
+            # Sleep shorter while screensaver is active so animation is smooth
+            if burn_in_protection and burn_in_protection.screensaver_active:
+                utime.sleep_ms(SCREENSAVER_FRAME_MS)
+            else:
+                utime.sleep(10)
             
     except KeyboardInterrupt:
         # Re-raise KeyboardInterrupt to allow Ctrl-C to exit
