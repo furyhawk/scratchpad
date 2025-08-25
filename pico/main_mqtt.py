@@ -132,8 +132,8 @@ class OLEDBurnInProtection:
         # Any user-driven update cancels screensaver and ensures display is on
         if self.screensaver_active:
             self.screensaver_active = False
-            # Push out next screensaver a bit to avoid immediate retrigger
-            self.last_screensaver = now
+        # Push out next screensaver window on any activity to avoid immediate retrigger
+        self.last_screensaver = now
         if not self.display_on:
             self.turn_on_display()
     
@@ -143,14 +143,17 @@ class OLEDBurnInProtection:
             # Try to actually power off panel (or at least blank it)
             def _off():
                 try:
+                    # Clear the display buffer on-panel before turning it off
+                    # so that when it turns back on, there isn't stale content.
+                    self.oled.fill(0)
+                    self.oled.show()
+                    # Now actually power off / display off
                     if hasattr(self.oled, "poweroff"):
                         self.oled.poweroff()
                     elif hasattr(self.oled, "write_cmd"):
                         self.oled.write_cmd(0xAE)  # DISPLAYOFF
                 except Exception:
                     pass
-                self.oled.fill(0)
-                self.oled.show()
             safe_display_operation(_off)
             self.display_on = False
             self.screensaver_active = False
@@ -169,6 +172,11 @@ class OLEDBurnInProtection:
                         self.oled.invert(0)
                     if hasattr(self.oled, "contrast"):
                         self.oled.contrast(255)
+                    # Ensure current buffer is pushed after waking
+                    try:
+                        self.oled.show()
+                    except Exception:
+                        pass
                 except Exception:
                     pass
             safe_display_operation(_on)
@@ -225,7 +233,9 @@ class OLEDBurnInProtection:
             return False
         
         # Check if screensaver should be shown
-        if current_time - self.last_screensaver >= SCREENSAVER_INTERVAL:
+        # Consider recent user activity as well; do not trigger screensaver
+        # immediately after update_activity even if last_screensaver is old.
+        if current_time - max(self.last_activity, self.last_screensaver) >= SCREENSAVER_INTERVAL:
             self.show_screensaver()
             self.last_screensaver = current_time
             return False
@@ -808,7 +818,7 @@ def main():
             # Rotate display content to prevent burn-in
             if (current_time - last_display_update) >= display_rotation_interval:
                 try:
-                    if burn_in_protection and burn_in_protection.check_burn_in_protection():
+                    if burn_in_protection:
                         if display_mode == 0:  # Sensor data
                             temp, pressure, humidity = safe_sensor_reading(bme)
                             display_sensor_data(oled, temp, pressure, humidity)
