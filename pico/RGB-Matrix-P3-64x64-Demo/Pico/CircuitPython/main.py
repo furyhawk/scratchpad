@@ -110,7 +110,7 @@ class RGB_Api():
         tile_width = BITMAP.width,
         tile_height = BITMAP.height))
 
-        DISPLAY.show(GROUP)
+        DISPLAY.root_group = GROUP
         DISPLAY.refresh()
         while True:
             pass
@@ -131,7 +131,7 @@ class RGB_Api():
             append_flag =1
             GROUP.append(RGB.sroll_image1)
             GROUP.append(RGB.sroll_image2)
-            DISPLAY.show(GROUP)
+            DISPLAY.root_group = GROUP
 
     #@brief:  Display an image from right to left in horizontal mode
     #@param:  self
@@ -149,7 +149,7 @@ class RGB_Api():
             append_flag =1
             GROUP.append(RGB.sroll_image1)
             GROUP.append(RGB.sroll_image2)
-            DISPLAY.show(GROUP)
+            DISPLAY.root_group = GROUP
 
     #@brief:  Display an image from up to down in vertical mode
     #@param:  self
@@ -167,7 +167,7 @@ class RGB_Api():
             append_flag =1
             GROUP.append(RGB.sroll_image1)
             GROUP.append(RGB.sroll_image2)
-            DISPLAY.show(GROUP)
+            DISPLAY.root_group = GROUP
 
     #@brief:  Display an image from down to up in vertical mode
     #@param:  self
@@ -185,7 +185,7 @@ class RGB_Api():
             append_flag =1
             GROUP.append(RGB.sroll_image1)
             GROUP.append(RGB.sroll_image2)
-            DISPLAY.show(GROUP)
+            DISPLAY.root_group = GROUP
 
     #@brief:  Display a text in static mode
     #@param:  self
@@ -202,7 +202,7 @@ class RGB_Api():
         TEXT.y = self.txt_y
         GROUP = displayio.Group()
         GROUP.append(TEXT)
-        DISPLAY.show(GROUP)
+        DISPLAY.root_group = GROUP
         DISPLAY.refresh()
         while True:
             pass
@@ -239,7 +239,7 @@ class RGB_Api():
             append_flag =1
             GROUP.append(self.sroll_text1)
             GROUP.append(self.sroll_text2)
-            DISPLAY.show(GROUP)
+            DISPLAY.root_group = GROUP
 
     #@brief:  Display a text from right to left in sinusoidal scrolling mode
     #@param:  self
@@ -272,7 +272,7 @@ class RGB_Api():
             append_flag =1
             GROUP.append(self.sroll_text1)
             GROUP.append(self.sroll_text2)
-            DISPLAY.show(GROUP)
+            DISPLAY.root_group = GROUP
 
     #@brief:  Display a text from up to down in sinusoidal scrolling mode
     #@param:  self
@@ -305,7 +305,7 @@ class RGB_Api():
             append_flag =1
             GROUP.append(self.sroll_text1)
             GROUP.append(self.sroll_text2)
-            DISPLAY.show(GROUP)
+            DISPLAY.root_group = GROUP
 
     #@brief:  Display a text from down to up in sinusoidal scrolling mode
     #@param:  self
@@ -338,7 +338,7 @@ class RGB_Api():
             append_flag =1
             GROUP.append(self.sroll_text1)
             GROUP.append(self.sroll_text2)
-            DISPLAY.show(GROUP)
+            DISPLAY.root_group = GROUP
 
     #@brief:  Display a text from left to right in horizontal mode
     #@param:  self
@@ -357,7 +357,7 @@ class RGB_Api():
             append_flag =1
             GROUP.append(self.sroll_text1)
             GROUP.append(self.sroll_text2)
-            DISPLAY.show(GROUP)
+            DISPLAY.root_group = GROUP
 
     #@brief:  Display a text from left to right in horizontal mode
     #@param:  self
@@ -376,7 +376,7 @@ class RGB_Api():
             append_flag =1
             GROUP.append(self.sroll_text1)
             GROUP.append(self.sroll_text2)
-            DISPLAY.show(GROUP)
+            DISPLAY.root_group = GROUP
 
     #@brief:  Display a text from up to down in vertical mode
     #@param:  self
@@ -395,7 +395,7 @@ class RGB_Api():
             append_flag =1
             GROUP.append(self.sroll_text1)
             GROUP.append(self.sroll_text2)
-            DISPLAY.show(GROUP)
+            DISPLAY.root_group = GROUP
 
     #@brief:  Display a text from down to up in vertical mode
     #@param:  self
@@ -414,7 +414,7 @@ class RGB_Api():
             append_flag =1
             GROUP.append(self.sroll_text1)
             GROUP.append(self.sroll_text2)
-            DISPLAY.show(GROUP)
+            DISPLAY.root_group = GROUP
 
     #@brief:  Display a text in left and right rebound mode
     #@param:  self
@@ -435,7 +435,7 @@ class RGB_Api():
         if append_flag == 0:
             append_flag =1
             GROUP.append(self.sroll_text1)
-            DISPLAY.show(GROUP)
+            DISPLAY.root_group = GROUP
 
     #@brief:  Display a text in up and down rebound mode
     #@param:  self
@@ -455,7 +455,7 @@ class RGB_Api():
         if append_flag == 0:
             append_flag =1
             GROUP.append(self.sroll_text1)
-            DISPLAY.show(GROUP)
+            DISPLAY.root_group = GROUP
 
     #@brief:  Choose mode
     #@param:  The number of mode
