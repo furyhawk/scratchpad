@@ -14,7 +14,7 @@ bit_depth_value = 3
 unit_width = 64
 unit_height = 64
 chain_width = 1
-chain_height = 2
+chain_height = 1
 serpentine_value = True
 
 width_value = unit_width*chain_width
@@ -653,4 +653,6 @@ if __name__ == '__main__':
 
     # Run the date/time display instead of demo test modes
     run_datetime_display()
+
+
 
