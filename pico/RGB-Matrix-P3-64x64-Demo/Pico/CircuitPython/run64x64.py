@@ -40,8 +40,8 @@ append_flag = 0
 # - Pixel shift: small periodic nudge to avoid static placement
 # - Dimming window: lower brightness during night hours
 # - Screensaver: occasional moving box to exercise pixels
-PIXEL_SHIFT_INTERVAL_S = 20        # seconds between small shifts
-PIXEL_SHIFT_RANGE = 16             # max +/- pixels to shift
+PIXEL_SHIFT_INTERVAL_S = 15        # seconds between small shifts
+PIXEL_SHIFT_RANGE = 24             # max +/- pixels to shift
 NIGHT_DIM_START_HOUR = 18          # local hour to start dimming (18=6pm)
 NIGHT_DIM_END_HOUR = 7             # local hour to stop dimming (7=7am)
 BRIGHTNESS_DAY = 0.3               # normal brightness (0.0-1.0)
