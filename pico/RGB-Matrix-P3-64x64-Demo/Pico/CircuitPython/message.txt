@@ -1,0 +1,3 @@
+Hello, CircuitPython!
+This is a demo message for the RGB Matrix P3 64x64.
+Display your creativity here.

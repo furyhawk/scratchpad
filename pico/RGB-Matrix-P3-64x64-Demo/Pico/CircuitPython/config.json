@@ -1,0 +1,18 @@
+{
+  "default_mode": "auto",
+  "enable_ntp": true,
+  "tz_offset": 8,
+  "brightness_day": 0.30,
+  "brightness_night": 0.10,
+  "dim_start_hour": 18,
+  "dim_end_hour": 7,
+  "pixel_shift_interval": 15,
+  "pixel_shift_range": 24,
+  "screensaver_interval": 300,
+  "screensaver_duration": 30,
+  "marquee_text": null,
+  "marquee_color": "#00FFFF",
+  "marquee_speed": 30,
+  "image_folder": "images",
+  "image_interval": 5
+}

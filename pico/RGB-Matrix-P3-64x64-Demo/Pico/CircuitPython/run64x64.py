@@ -2,7 +2,7 @@ import board
 import displayio
 import framebufferio
 import rgbmatrix
-from digitalio import DigitalInOut,Direction
+from digitalio import DigitalInOut, Direction, Pull
 import adafruit_display_text.label
 import terminalio
 from adafruit_bitmap_font import bitmap_font
@@ -10,6 +10,7 @@ import time
 from math import sin
 import os
 import random
+import json
 
 bit_depth_value = 3
 unit_width = 64
@@ -49,6 +50,14 @@ BRIGHTNESS_NIGHT = 0.1             # dimmed brightness at night
 SCREENSAVER_INTERVAL_S = 600       # run screensaver every 10 minutes
 SCREENSAVER_DURATION_S = 30        # run it for 30 seconds
 
+# Optional buttons (Pico pins likely free with this matrix wiring)
+BUTTON_A_PIN = getattr(board, "GP14", None)  # Next action / screensaver
+BUTTON_B_PIN = getattr(board, "GP15", None)  # Toggle brightness
+
+# Global button objects (lazy-init)
+_BTN_A = None
+_BTN_B = None
+
 def _set_display_brightness(value):
     """Safely set brightness if supported by the Display or matrix."""
     try:
@@ -64,6 +73,103 @@ def _set_display_brightness(value):
     except Exception:
         pass
     return False
+
+def _init_buttons():
+    """Initialize buttons if pins exist and not already set."""
+    global _BTN_A, _BTN_B
+    try:
+        if BUTTON_A_PIN and _BTN_A is None:
+            _BTN_A = DigitalInOut(BUTTON_A_PIN)
+            _BTN_A.direction = Direction.INPUT
+            _BTN_A.pull = Pull.UP
+        if BUTTON_B_PIN and _BTN_B is None:
+            _BTN_B = DigitalInOut(BUTTON_B_PIN)
+            _BTN_B.direction = Direction.INPUT
+            _BTN_B.pull = Pull.UP
+    except Exception:
+        # Buttons are optional; ignore any setup errors
+        _BTN_A = _BTN_B = None
+
+def _buttons_state():
+    """Return tuple (a_pressed, b_pressed) with simple level read (active low)."""
+    a = (getattr(_BTN_A, "value", True) is False)
+    b = (getattr(_BTN_B, "value", True) is False)
+    return a, b
+
+def _read_text_from_file(path="message.txt", max_len=256):
+    try:
+        if not path:
+            return None
+        if path and (path in os.listdir(".")):
+            with open(path, "r") as f:
+                s = f.read(max_len)
+                s = s.strip().replace("\n", " ")
+                return s or None
+    except Exception:
+        return None
+    return None
+
+def _parse_color(value, default=0x00FFFF):
+    """Parse color from int or '#RRGGBB' string."""
+    try:
+        if isinstance(value, int):
+            return max(0, min(0xFFFFFF, value))
+        if isinstance(value, str):
+            s = value.strip()
+            if s.startswith("#"):
+                s = s[1:]
+            return int(s, 16) & 0xFFFFFF
+    except Exception:
+        pass
+    return default
+
+def load_config(path="config.json"):
+    """Load optional config.json from CIRCUITPY root. Returns dict with defaults merged."""
+    cfg = {}
+    try:
+        if path in os.listdir("."):
+            with open(path, "r") as f:
+                cfg = json.load(f) or {}
+    except Exception:
+        cfg = {}
+    # Provide defaults and normalized values
+    defaults = {
+        "tz_offset": 0,
+        "enable_ntp": True,
+        "brightness_day": BRIGHTNESS_DAY,
+        "brightness_night": BRIGHTNESS_NIGHT,
+        "dim_start_hour": NIGHT_DIM_START_HOUR,
+        "dim_end_hour": NIGHT_DIM_END_HOUR,
+        "pixel_shift_interval": PIXEL_SHIFT_INTERVAL_S,
+        "pixel_shift_range": PIXEL_SHIFT_RANGE,
+        "screensaver_interval": SCREENSAVER_INTERVAL_S,
+        "screensaver_duration": SCREENSAVER_DURATION_S,
+        "default_mode": "auto",  # auto -> message.txt else clock
+        "marquee_text": None,
+        "marquee_color": "#00FFFF",
+        "marquee_speed": 30,
+        "image_folder": "images",
+        "image_interval": 5,
+    }
+    out = defaults.copy()
+    out.update({k: cfg.get(k, v) for k, v in defaults.items()})
+    # Normalize some fields
+    out["marquee_color"] = _parse_color(out.get("marquee_color"), defaults["marquee_color"] if isinstance(defaults["marquee_color"], int) else 0x00FFFF)
+    try:
+        out["tz_offset"] = int(float(out["tz_offset"]))
+    except Exception:
+        out["tz_offset"] = 0
+    for k in ("brightness_day", "brightness_night"):
+        try:
+            out[k] = float(out[k])
+        except Exception:
+            out[k] = defaults[k]
+    for k in ("dim_start_hour", "dim_end_hour"):
+        try:
+            out[k] = int(out[k]) % 24
+        except Exception:
+            out[k] = defaults[k]
+    return out
 
 # Wi-Fi helpers (optional): read credentials from environment and connect.
 # To use, create a settings.toml on the CIRCUITPY drive with:
@@ -654,6 +760,13 @@ def run_datetime_display():
         _set_display_brightness(BRIGHTNESS_NIGHT if is_night else BRIGHTNESS_DAY)
     except Exception:
         _set_display_brightness(BRIGHTNESS_DAY)
+
+    # Optional manual brightness cycle via Button B
+    _init_buttons()
+    brightness_cycle = [0.05, 0.1, 0.2, 0.3, 0.5]
+    b_index = 1  # start near night level
+    last_b = False
+    last_a = False
     while True:
         try:
             now = time.monotonic()
@@ -708,11 +821,105 @@ def run_datetime_display():
                 _run_bouncing_box_screensaver(duration_s=SCREENSAVER_DURATION_S)
                 next_saver_at = time.monotonic() + SCREENSAVER_INTERVAL_S
 
+            # Buttons: A -> quick screensaver, B -> toggle brightness
+            a_pressed, b_pressed = _buttons_state()
+            if a_pressed and not last_a:
+                _run_bouncing_box_screensaver(duration_s=10)
+            if b_pressed and not last_b:
+                b_index = (b_index + 1) % len(brightness_cycle)
+                _set_display_brightness(brightness_cycle[b_index])
+            last_a, last_b = a_pressed, b_pressed
+
         except Exception:
             # If time/localtime fails, keep previous display
             pass
 
         time.sleep(0.1)
+
+def run_marquee_text(text=None, color=0x00FFFF, speed_px_per_sec=30):
+    """Simple horizontal scrolling marquee for a single-line message."""
+    message = text or _read_text_from_file() or "Hello from Pico!"
+    group = displayio.Group()
+    label = adafruit_display_text.label.Label(terminalio.FONT, color=color, scale=1, text=message)
+    label.y = DISPLAY.height // 2
+    group.append(label)
+    DISPLAY.root_group = group
+
+    # Start just off the right edge
+    x = DISPLAY.width
+    last = time.monotonic()
+    _init_buttons()
+    brightness_cycle = [0.05, 0.1, 0.2, 0.3, 0.5]
+    b_index = 1
+    while True:
+        now = time.monotonic()
+        dt = max(0.0, min(0.1, now - last))
+        last = now
+        dx = max(1, int(speed_px_per_sec * dt))
+        x -= dx
+        if x < -label.bounding_box[2]:
+            x = DISPLAY.width
+        label.x = x
+        # Quick screensaver on Button A
+        a, b = _buttons_state()
+        if a:
+            _run_bouncing_box_screensaver(8)
+        if b:
+            b_index = (b_index + 1) % len(brightness_cycle)
+            _set_display_brightness(brightness_cycle[b_index])
+        time.sleep(0.02)
+
+def run_image_slideshow(folder="images", interval_s=5):
+    """Cycle through BMP images in a folder. Shows static images centered.
+    The folder should be in the CIRCUITPY root. Non-blocking controls: A -> saver, B -> brighten.
+    """
+    try:
+        files = []
+        if folder and (folder in os.listdir(".")):
+            for name in os.listdir(folder):
+                if name.lower().endswith(".bmp"):
+                    files.append("{}/{}".format(folder, name))
+        files.sort()
+    except Exception:
+        files = []
+
+    if not files:
+        # Nothing to show; fall back to marquee notice
+        run_marquee_text("No BMPs in /{}".format(folder), color=0xFF4040, speed_px_per_sec=20)
+        return
+
+    idx = 0
+    _init_buttons()
+    brightness_cycle = [0.05, 0.1, 0.2, 0.3, 0.5]
+    b_index = 1
+    while True:
+        try:
+            path = files[idx % len(files)]
+            bmp = displayio.OnDiskBitmap(open(path, "rb"))
+            tg = displayio.TileGrid(bmp, pixel_shader=getattr(bmp, 'pixel_shader', displayio.ColorConverter()))
+            grp = displayio.Group()
+            # Center if image smaller than display
+            try:
+                tg.x = max(0, (DISPLAY.width - bmp.width) // 2)
+                tg.y = max(0, (DISPLAY.height - bmp.height) // 2)
+            except Exception:
+                pass
+            grp.append(tg)
+            DISPLAY.root_group = grp
+
+            start = time.monotonic()
+            while time.monotonic() - start < max(1, int(interval_s)):
+                a, b = _buttons_state()
+                if a:
+                    _run_bouncing_box_screensaver(8)
+                if b:
+                    b_index = (b_index + 1) % len(brightness_cycle)
+                    _set_display_brightness(brightness_cycle[b_index])
+                time.sleep(0.05)
+        except Exception:
+            # Skip bad image
+            pass
+        idx += 1
 
 def _run_bouncing_box_screensaver(duration_s=20, box_w=8, box_h=8):
     """Lightweight moving box animation to exercise pixels briefly.
@@ -786,28 +993,47 @@ def _run_bouncing_box_screensaver(duration_s=20, box_w=8, box_h=8):
             pass
 
 if __name__ == '__main__':
+    # Load optional config
+    cfg = load_config("config.json")
+
+    # Override global tunables if provided
+    try:
+        BRIGHTNESS_DAY = float(cfg.get("brightness_day", BRIGHTNESS_DAY))
+        BRIGHTNESS_NIGHT = float(cfg.get("brightness_night", BRIGHTNESS_NIGHT))
+        NIGHT_DIM_START_HOUR = int(cfg.get("dim_start_hour", NIGHT_DIM_START_HOUR)) % 24
+        NIGHT_DIM_END_HOUR = int(cfg.get("dim_end_hour", NIGHT_DIM_END_HOUR)) % 24
+        PIXEL_SHIFT_INTERVAL_S = int(cfg.get("pixel_shift_interval", PIXEL_SHIFT_INTERVAL_S))
+        PIXEL_SHIFT_RANGE = int(cfg.get("pixel_shift_range", PIXEL_SHIFT_RANGE))
+        SCREENSAVER_INTERVAL_S = int(cfg.get("screensaver_interval", SCREENSAVER_INTERVAL_S))
+        SCREENSAVER_DURATION_S = int(cfg.get("screensaver_duration", SCREENSAVER_DURATION_S))
+    except Exception:
+        pass
+
     # Try Wi‑Fi connect once at startup (safe no-op on non‑Wi‑Fi boards)
     ok, info = connect_wifi_from_env()
-    if ok:
-        print("Wi‑Fi connected:", info)
-    else:
-        print("Wi‑Fi not connected:", info)
+    print("Wi‑Fi connected:" if ok else "Wi‑Fi not connected:", info)
 
-    # Attempt to sync RTC from NTP if Wi‑Fi available. Optional TZ offset via env:
-    # CIRCUITPY_TZ_OFFSET or TZ_OFFSET (hours, e.g., -7 for PDT)
+    # Attempt to sync RTC from NTP if enabled
     tz_env = os.getenv("CIRCUITPY_TZ_OFFSET") or os.getenv("TZ_OFFSET")
+    tz_offset = None
     try:
-        tz_offset = float(tz_env) if tz_env is not None else 0.0
+        tz_offset = int(float(tz_env)) if tz_env is not None else int(cfg.get("tz_offset", 0))
     except Exception:
-        tz_offset = 0.0
-    ok_ntp, ntp_info = sync_datetime_via_ntp(tz_offset_hours=int(tz_offset))
-    if ok_ntp:
-        print("RTC synced via NTP:", ntp_info)
-    else:
-        print("RTC not synced:", ntp_info)
+        tz_offset = int(cfg.get("tz_offset", 0))
+    if cfg.get("enable_ntp", True):
+        ok_ntp, ntp_info = sync_datetime_via_ntp(tz_offset_hours=tz_offset)
+        print("RTC synced via NTP:" if ok_ntp else "RTC not synced:", ntp_info)
 
-    # Run the date/time display instead of demo test modes
-    run_datetime_display()
+    # Choose mode based on config and presence of message file
+    default_mode = str(cfg.get("default_mode", "auto")).lower()
+    message_text = cfg.get("marquee_text") or _read_text_from_file()
+    if default_mode == "marquee" or (default_mode == "auto" and message_text):
+        run_marquee_text(text=message_text or "Hello!", color=cfg.get("marquee_color", 0x00FFFF), speed_px_per_sec=int(cfg.get("marquee_speed", 30)))
+    elif default_mode == "slideshow":
+        run_image_slideshow(folder=str(cfg.get("image_folder", "images")), interval_s=int(cfg.get("image_interval", 5)))
+    else:
+        # Fallback to date/time clock
+        run_datetime_display()
 
 
 
