@@ -1,0 +1,7 @@
+CIRCUITPY_WIFI_SSID="your-ssid"
+CIRCUITPY_WIFI_PASSWORD="your-password"
+CIRCUITPY_TZ_OFFSET=8
+# Optional alternative names also supported:
+# WIFI_SSID="your-ssid"
+# WIFI_PASSWORD="your-password"
+# TZ_OFFSET

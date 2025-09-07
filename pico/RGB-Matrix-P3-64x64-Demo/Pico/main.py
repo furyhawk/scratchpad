@@ -11,9 +11,9 @@ from math import sin
 
 bit_depth_value = 6
 unit_width = 64
-unit_height = 64
+unit_height = 32
 chain_width = 1
-chain_height = 1
+chain_height = 2
 serpentine_value = True
 
 width_value = unit_width*chain_width
@@ -518,5 +518,5 @@ if __name__ == '__main__':
 
         #You can select the corresponding function according to the above numbers
         #Example :RGB.test(1) whose function is displaying an image in static mode
-        RGB.test(3)
+        RGB.test(5)
     pass

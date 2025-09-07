@@ -8,6 +8,7 @@ import terminalio
 from adafruit_bitmap_font import bitmap_font
 import time
 from math import sin
+import os
 
 bit_depth_value = 3
 unit_width = 64
@@ -34,8 +35,95 @@ DISPLAY = framebufferio.FramebufferDisplay(matrix, auto_refresh=True,rotation=18
 now = t0 =time.monotonic_ns()
 append_flag = 0
 
+# Wi-Fi helpers (optional): read credentials from environment and connect.
+# To use, create a settings.toml on the CIRCUITPY drive with:
+# CIRCUITPY_WIFI_SSID="your-ssid"
+# CIRCUITPY_WIFI_PASSWORD="your-password"
+# (Fallback env names WIFI_SSID/WIFI_PASSWORD are also supported.)
+def _get_wifi_credentials():
+    ssid = os.getenv("CIRCUITPY_WIFI_SSID") or os.getenv("WIFI_SSID")
+    password = os.getenv("CIRCUITPY_WIFI_PASSWORD") or os.getenv("WIFI_PASSWORD")
+    return ssid, password
+
+def connect_wifi_from_env(timeout=15):
+    try:
+        import wifi  # type: ignore
+    except ImportError:
+        return False, "Wi-Fi module not available on this board"
+
+    ssid, password = _get_wifi_credentials()
+    if not ssid or not password:
+        return False, "Wi-Fi credentials not found in settings.toml"
+
+    # Already connected?
+    try:
+        if getattr(wifi.radio, "connected", False):
+            return True, str(wifi.radio.ipv4_address)
+    except Exception:
+        pass
+
+    start = time.monotonic()
+    last_err = None
+    while time.monotonic() - start < timeout:
+        try:
+            wifi.radio.connect(ssid, password)
+            return True, str(wifi.radio.ipv4_address)
+        except Exception as e:  # retry a few times within timeout
+            last_err = e
+            time.sleep(0.5)
+    return False, repr(last_err) if last_err else "Unknown Wi-Fi error"
+
+# Sync RTC from NTP over Wi‑Fi. Returns (ok: bool, info: str)
+def sync_datetime_via_ntp(tz_offset_hours=0, server="pool.ntp.org", retries=3, timeout=5.0):
+    try:
+        import wifi  # type: ignore
+        import socketpool  # type: ignore
+        import adafruit_ntp  # type: ignore
+        import rtc  # type: ignore
+    except ImportError as e:
+        return False, f"Required module missing for NTP sync: {e}"
+
+    # Ensure Wi‑Fi connected (safe if already connected)
+    if not getattr(wifi.radio, "connected", False):
+        ok, info = connect_wifi_from_env()
+        if not ok:
+            return False, f"Wi‑Fi not connected: {info}"
+
+    pool = socketpool.SocketPool(wifi.radio)
+    try:
+        ntp = adafruit_ntp.NTP(pool, server=server, tz_offset=tz_offset_hours, socket_timeout=timeout)
+    except Exception as e:
+        return False, f"Failed to init NTP: {repr(e)}"
+
+    last_err = None
+    for _ in range(max(1, int(retries))):
+        try:
+            t = ntp.datetime  # struct_time adjusted by tz_offset
+            rtc.RTC().datetime = t
+            y, mo, d, hh, mm, ss = t[0], t[1], t[2], t[3], t[4], t[5]
+            return True, f"{y:04d}-{mo:02d}-{d:02d} {hh:02d}:{mm:02d}:{ss:02d}"
+        except Exception as e:
+            last_err = e
+            time.sleep(0.5)
+    return False, f"NTP sync failed: {repr(last_err)}"
+
+# Utility: get current date/time as a formatted string (YYYY-MM-DD HH:MM:SS).
+# Note: On boards without an RTC or without time sync, the year may be 1970/2000.
+def get_current_datetime():
+    try:
+        tm = time.localtime()
+        # time.localtime() in CircuitPython returns a time.struct_time indexable like a tuple
+        y, mo, d, hh, mm, ss = tm[0], tm[1], tm[2], tm[3], tm[4], tm[5]
+        # If RTC isn't set, many boards report a default epoch year; we still format it.
+        return f"{y:04d}-{mo:02d}-{d:02d} {hh:02d}:{mm:02d}:{ss:02d}"
+    except Exception as e:
+        # Graceful fallback
+        return "0000-00-00 00:00:00"
+
 class RGB_Api():
     def __init__(self):
+        # Instance-level display group to avoid relying on globals
+        self.group = displayio.Group()
 
         #Set image
         self.image = 'CN.bmp'
@@ -128,10 +216,10 @@ class RGB_Api():
         self.sroll_image1.x = x
         self.sroll_image2.x = -(self.sroll_BITMAP.width-self.sroll_image1.x)
         if append_flag == 0:
-            append_flag =1
-            GROUP.append(RGB.sroll_image1)
-            GROUP.append(RGB.sroll_image2)
-            DISPLAY.root_group = GROUP
+            append_flag = 1
+            self.group.append(self.sroll_image1)
+            self.group.append(self.sroll_image2)
+            DISPLAY.root_group = self.group
 
     #@brief:  Display an image from right to left in horizontal mode
     #@param:  self
@@ -146,10 +234,10 @@ class RGB_Api():
         self.sroll_image1.x = x
         self.sroll_image2.x = -(self.sroll_BITMAP.width-self.sroll_image1.x)
         if append_flag == 0:
-            append_flag =1
-            GROUP.append(RGB.sroll_image1)
-            GROUP.append(RGB.sroll_image2)
-            DISPLAY.root_group = GROUP
+            append_flag = 1
+            self.group.append(self.sroll_image1)
+            self.group.append(self.sroll_image2)
+            DISPLAY.root_group = self.group
 
     #@brief:  Display an image from up to down in vertical mode
     #@param:  self
@@ -164,10 +252,10 @@ class RGB_Api():
         self.sroll_image1.y = y
         self.sroll_image2.y = -(self.sroll_BITMAP.height-self.sroll_image1.y)
         if append_flag == 0:
-            append_flag =1
-            GROUP.append(RGB.sroll_image1)
-            GROUP.append(RGB.sroll_image2)
-            DISPLAY.root_group = GROUP
+            append_flag = 1
+            self.group.append(self.sroll_image1)
+            self.group.append(self.sroll_image2)
+            DISPLAY.root_group = self.group
 
     #@brief:  Display an image from down to up in vertical mode
     #@param:  self
@@ -182,10 +270,10 @@ class RGB_Api():
         self.sroll_image1.y = y
         self.sroll_image2.y = -(self.sroll_BITMAP.height-self.sroll_image1.y)
         if append_flag == 0:
-            append_flag =1
-            GROUP.append(RGB.sroll_image1)
-            GROUP.append(RGB.sroll_image2)
-            DISPLAY.root_group = GROUP
+            append_flag = 1
+            self.group.append(self.sroll_image1)
+            self.group.append(self.sroll_image2)
+            DISPLAY.root_group = self.group
 
     #@brief:  Display a text in static mode
     #@param:  self
@@ -236,10 +324,10 @@ class RGB_Api():
             time.sleep((t_max - now) * 1e-9)
         t_max += T
         if append_flag == 0:
-            append_flag =1
-            GROUP.append(self.sroll_text1)
-            GROUP.append(self.sroll_text2)
-            DISPLAY.root_group = GROUP
+            append_flag = 1
+            self.group.append(self.sroll_text1)
+            self.group.append(self.sroll_text2)
+            DISPLAY.root_group = self.group
 
     #@brief:  Display a text from right to left in sinusoidal scrolling mode
     #@param:  self
@@ -269,10 +357,10 @@ class RGB_Api():
             time.sleep((t_max - now) * 1e-9)
         t_max += T
         if append_flag == 0:
-            append_flag =1
-            GROUP.append(self.sroll_text1)
-            GROUP.append(self.sroll_text2)
-            DISPLAY.root_group = GROUP
+            append_flag = 1
+            self.group.append(self.sroll_text1)
+            self.group.append(self.sroll_text2)
+            DISPLAY.root_group = self.group
 
     #@brief:  Display a text from up to down in sinusoidal scrolling mode
     #@param:  self
@@ -302,10 +390,10 @@ class RGB_Api():
             time.sleep((t_max - now) * 1e-9)
         t_max += T
         if append_flag == 0:
-            append_flag =1
-            GROUP.append(self.sroll_text1)
-            GROUP.append(self.sroll_text2)
-            DISPLAY.root_group = GROUP
+            append_flag = 1
+            self.group.append(self.sroll_text1)
+            self.group.append(self.sroll_text2)
+            DISPLAY.root_group = self.group
 
     #@brief:  Display a text from down to up in sinusoidal scrolling mode
     #@param:  self
@@ -335,10 +423,10 @@ class RGB_Api():
             time.sleep((t_max - now) * 1e-9)
         t_max += T
         if append_flag == 0:
-            append_flag =1
-            GROUP.append(self.sroll_text1)
-            GROUP.append(self.sroll_text2)
-            DISPLAY.root_group = GROUP
+            append_flag = 1
+            self.group.append(self.sroll_text1)
+            self.group.append(self.sroll_text2)
+            DISPLAY.root_group = self.group
 
     #@brief:  Display a text from left to right in horizontal mode
     #@param:  self
@@ -354,10 +442,10 @@ class RGB_Api():
         self.sroll_text1.x = x
         self.sroll_text2.x=-(DISPLAY.width-self.sroll_text1.x)
         if append_flag == 0:
-            append_flag =1
-            GROUP.append(self.sroll_text1)
-            GROUP.append(self.sroll_text2)
-            DISPLAY.root_group = GROUP
+            append_flag = 1
+            self.group.append(self.sroll_text1)
+            self.group.append(self.sroll_text2)
+            DISPLAY.root_group = self.group
 
     #@brief:  Display a text from left to right in horizontal mode
     #@param:  self
@@ -373,10 +461,10 @@ class RGB_Api():
         self.sroll_text1.x = x
         self.sroll_text2.x=-(DISPLAY.width-self.sroll_text1.x)
         if append_flag == 0:
-            append_flag =1
-            GROUP.append(self.sroll_text1)
-            GROUP.append(self.sroll_text2)
-            DISPLAY.root_group = GROUP
+            append_flag = 1
+            self.group.append(self.sroll_text1)
+            self.group.append(self.sroll_text2)
+            DISPLAY.root_group = self.group
 
     #@brief:  Display a text from up to down in vertical mode
     #@param:  self
@@ -392,10 +480,10 @@ class RGB_Api():
         self.sroll_text1.y = y
         self.sroll_text2.y=-(DISPLAY.height-self.sroll_text1.y)
         if append_flag == 0:
-            append_flag =1
-            GROUP.append(self.sroll_text1)
-            GROUP.append(self.sroll_text2)
-            DISPLAY.root_group = GROUP
+            append_flag = 1
+            self.group.append(self.sroll_text1)
+            self.group.append(self.sroll_text2)
+            DISPLAY.root_group = self.group
 
     #@brief:  Display a text from down to up in vertical mode
     #@param:  self
@@ -411,10 +499,10 @@ class RGB_Api():
         self.sroll_text1.y = y
         self.sroll_text2.y=-(DISPLAY.height-self.sroll_text1.y)
         if append_flag == 0:
-            append_flag =1
-            GROUP.append(self.sroll_text1)
-            GROUP.append(self.sroll_text2)
-            DISPLAY.root_group = GROUP
+            append_flag = 1
+            self.group.append(self.sroll_text1)
+            self.group.append(self.sroll_text2)
+            DISPLAY.root_group = self.group
 
     #@brief:  Display a text in left and right rebound mode
     #@param:  self
@@ -433,9 +521,9 @@ class RGB_Api():
                 self.rebound_flag = 0
         self.sroll_text1.x = x
         if append_flag == 0:
-            append_flag =1
-            GROUP.append(self.sroll_text1)
-            DISPLAY.root_group = GROUP
+            append_flag = 1
+            self.group.append(self.sroll_text1)
+            DISPLAY.root_group = self.group
 
     #@brief:  Display a text in up and down rebound mode
     #@param:  self
@@ -453,9 +541,9 @@ class RGB_Api():
                 self.rebound_flag = 0
         self.sroll_text1.y = y
         if append_flag == 0:
-            append_flag =1
-            GROUP.append(self.sroll_text1)
-            DISPLAY.root_group = GROUP
+            append_flag = 1
+            self.group.append(self.sroll_text1)
+            DISPLAY.root_group = self.group
 
     #@brief:  Choose mode
     #@param:  The number of mode
@@ -494,30 +582,75 @@ class RGB_Api():
         elif mode == 16:
             self.text_rebound_up_and_down()
 
-if __name__ == '__main__':
-    RGB = RGB_Api()
-    GROUP = displayio.Group()
-    while True:
-        # Number  Function
-        #    1    Display an image in static mode
-        #    2    Display an image from left to right in horizontal mode
-        #    3    Display an image from right to left in horizontal mode
-        #    4    Display an image from up to down in vertical mode
-        #    5    Display an image from down to up in vertical mode
-        #    6    Display a text in static mode
-        #    7    Display a text from left to right in sinusoidal scrolling mode
-        #    8    Display a text from right to left in sinusoidal scrolling mode
-        #    9    Display a text from up to down in sinusoidal scrolling mode
-        #   10    Display a text from down to up in sinusoidal scrolling mode
-        #   11    Display a text from left to right in horizontal mode
-        #   12    Display a text from right to left in horizontal mode
-        #   13    Display a text from up to down in vertical mode
-        #   14    Display a text from down to up in vertical mode
-        #   15    Display a text in left and right rebound mode
-        #   16    Display a text in up and down rebound mode
+def run_datetime_display():
+    """Render current date and time centered on the matrix and update every second."""
+    # Two-line layout: YYYY-MM-DD on first line, HH:MM:SS on second line.
+    group = displayio.Group()
 
-        #You can select the corresponding function according to the above numbers
-        #Example :RGB.test(1) whose function is displaying an image in static mode
-        RGB.test(5)
-    pass
+    date_label = adafruit_display_text.label.Label(
+        terminalio.FONT, color=0x00FF80, scale=1, text="0000-00-00"
+    )
+    time_label = adafruit_display_text.label.Label(
+        terminalio.FONT, color=0x00FFFF, scale=1, text="00:00:00"
+    )
+
+    # Vertical placement around center (y is baseline)
+    date_label.y = DISPLAY.height // 2 - 6
+    time_label.y = DISPLAY.height // 2 + 10
+
+    # Center horizontally based on bounding box width
+    date_label.x = max(0, (DISPLAY.width - date_label.bounding_box[2]) // 2)
+    time_label.x = max(0, (DISPLAY.width - time_label.bounding_box[2]) // 2)
+
+    group.append(date_label)
+    group.append(time_label)
+    DISPLAY.root_group = group
+
+    last_date = None
+    last_sec = None
+    while True:
+        try:
+            tm = time.localtime()
+            y, mo, d, hh, mm, ss = tm[0], tm[1], tm[2], tm[3], tm[4], tm[5]
+
+            date_text = f"{y:04d}-{mo:02d}-{d:02d}"
+            if date_text != last_date:
+                date_label.text = date_text
+                date_label.x = max(0, (DISPLAY.width - date_label.bounding_box[2]) // 2)
+                last_date = date_text
+
+            if ss != last_sec:
+                time_text = f"{hh:02d}:{mm:02d}:{ss:02d}"
+                time_label.text = time_text
+                time_label.x = max(0, (DISPLAY.width - time_label.bounding_box[2]) // 2)
+                last_sec = ss
+        except Exception:
+            # If time/localtime fails, keep previous display
+            pass
+
+        time.sleep(0.1)
+
+if __name__ == '__main__':
+    # Try Wi‑Fi connect once at startup (safe no-op on non‑Wi‑Fi boards)
+    ok, info = connect_wifi_from_env()
+    if ok:
+        print("Wi‑Fi connected:", info)
+    else:
+        print("Wi‑Fi not connected:", info)
+
+    # Attempt to sync RTC from NTP if Wi‑Fi available. Optional TZ offset via env:
+    # CIRCUITPY_TZ_OFFSET or TZ_OFFSET (hours, e.g., -7 for PDT)
+    tz_env = os.getenv("CIRCUITPY_TZ_OFFSET") or os.getenv("TZ_OFFSET")
+    try:
+        tz_offset = float(tz_env) if tz_env is not None else 0.0
+    except Exception:
+        tz_offset = 0.0
+    ok_ntp, ntp_info = sync_datetime_via_ntp(tz_offset_hours=int(tz_offset))
+    if ok_ntp:
+        print("RTC synced via NTP:", ntp_info)
+    else:
+        print("RTC not synced:", ntp_info)
+
+    # Run the date/time display instead of demo test modes
+    run_datetime_display()
 
