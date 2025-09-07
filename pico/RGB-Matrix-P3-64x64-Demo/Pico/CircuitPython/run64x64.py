@@ -9,6 +9,7 @@ from adafruit_bitmap_font import bitmap_font
 import time
 from math import sin
 import os
+import random
 
 bit_depth_value = 3
 unit_width = 64
@@ -34,6 +35,35 @@ DISPLAY = framebufferio.FramebufferDisplay(matrix, auto_refresh=True,rotation=18
 
 now = t0 =time.monotonic_ns()
 append_flag = 0
+
+# Burn-in prevention settings (tunable)
+# - Pixel shift: small periodic nudge to avoid static placement
+# - Dimming window: lower brightness during night hours
+# - Screensaver: occasional moving box to exercise pixels
+PIXEL_SHIFT_INTERVAL_S = 20        # seconds between small shifts
+PIXEL_SHIFT_RANGE = 16             # max +/- pixels to shift
+NIGHT_DIM_START_HOUR = 18          # local hour to start dimming (18=6pm)
+NIGHT_DIM_END_HOUR = 7             # local hour to stop dimming (7=7am)
+BRIGHTNESS_DAY = 0.3               # normal brightness (0.0-1.0)
+BRIGHTNESS_NIGHT = 0.1             # dimmed brightness at night
+SCREENSAVER_INTERVAL_S = 600       # run screensaver every 10 minutes
+SCREENSAVER_DURATION_S = 30        # run it for 30 seconds
+
+def _set_display_brightness(value):
+    """Safely set brightness if supported by the Display or matrix."""
+    try:
+        if hasattr(DISPLAY, "brightness"):
+            DISPLAY.brightness = max(0.0, min(1.0, float(value)))
+            return True
+    except Exception:
+        pass
+    try:
+        if hasattr(matrix, "brightness"):
+            matrix.brightness = max(0.0, min(1.0, float(value)))
+            return True
+    except Exception:
+        pass
+    return False
 
 # Wi-Fi helpers (optional): read credentials from environment and connect.
 # To use, create a settings.toml on the CIRCUITPY drive with:
@@ -595,10 +625,12 @@ def run_datetime_display():
     )
 
     # Vertical placement around center (y is baseline)
-    date_label.y = DISPLAY.height // 2 - 6
-    time_label.y = DISPLAY.height // 2 + 10
+    base_date_y = DISPLAY.height // 2 - 6
+    base_time_y = DISPLAY.height // 2 + 10
+    date_label.y = base_date_y
+    time_label.y = base_time_y
 
-    # Center horizontally based on bounding box width
+    # Center horizontally based on bounding box width (will be recomputed on updates)
     date_label.x = max(0, (DISPLAY.width - date_label.bounding_box[2]) // 2)
     time_label.x = max(0, (DISPLAY.width - time_label.bounding_box[2]) // 2)
 
@@ -608,27 +640,150 @@ def run_datetime_display():
 
     last_date = None
     last_sec = None
+
+    # Burn-in prevention state
+    shift_dx = 0
+    shift_dy = 0
+    last_shift = time.monotonic()
+    next_saver_at = last_shift + SCREENSAVER_INTERVAL_S
+
+    # Apply initial brightness based on time-of-day
+    try:
+        h = time.localtime()[3]
+        is_night = (h >= NIGHT_DIM_START_HOUR) or (h < NIGHT_DIM_END_HOUR)
+        _set_display_brightness(BRIGHTNESS_NIGHT if is_night else BRIGHTNESS_DAY)
+    except Exception:
+        _set_display_brightness(BRIGHTNESS_DAY)
     while True:
         try:
+            now = time.monotonic()
             tm = time.localtime()
             y, mo, d, hh, mm, ss = tm[0], tm[1], tm[2], tm[3], tm[4], tm[5]
+
+            # Night dimming check once per loop (cheap)
+            try:
+                is_night = (hh >= NIGHT_DIM_START_HOUR) or (hh < NIGHT_DIM_END_HOUR)
+                _set_display_brightness(BRIGHTNESS_NIGHT if is_night else BRIGHTNESS_DAY)
+            except Exception:
+                pass
 
             date_text = f"{y:04d}-{mo:02d}-{d:02d}"
             if date_text != last_date:
                 date_label.text = date_text
-                date_label.x = max(0, (DISPLAY.width - date_label.bounding_box[2]) // 2)
                 last_date = date_text
 
             if ss != last_sec:
                 time_text = f"{hh:02d}:{mm:02d}:{ss:02d}"
                 time_label.text = time_text
-                time_label.x = max(0, (DISPLAY.width - time_label.bounding_box[2]) // 2)
                 last_sec = ss
+
+            # Re-center based on current text widths
+            date_center_x = max(0, (DISPLAY.width - date_label.bounding_box[2]) // 2)
+            time_center_x = max(0, (DISPLAY.width - time_label.bounding_box[2]) // 2)
+
+            # Pixel shift update
+            if now - last_shift >= PIXEL_SHIFT_INTERVAL_S:
+                # choose new small offsets, keeping text on-screen
+                shift_dx = random.randint(-PIXEL_SHIFT_RANGE, PIXEL_SHIFT_RANGE)
+                shift_dy = random.randint(-PIXEL_SHIFT_RANGE, PIXEL_SHIFT_RANGE)
+                last_shift = now
+
+            # Clamp X so labels stay fully visible
+            date_w = date_label.bounding_box[2]
+            time_w = time_label.bounding_box[2]
+            date_x = min(max(0, date_center_x + shift_dx), max(0, DISPLAY.width - date_w))
+            time_x = min(max(0, time_center_x + shift_dx), max(0, DISPLAY.width - time_w))
+
+            # Clamp Y for both rows
+            date_y = min(max(0, base_date_y + shift_dy), max(0, DISPLAY.height - 8))
+            time_y = min(max(0, base_time_y + shift_dy), max(0, DISPLAY.height - 8))
+
+            date_label.x = date_x
+            time_label.x = time_x
+            date_label.y = date_y
+            time_label.y = time_y
+
+            # Periodic screensaver to exercise pixels
+            if now >= next_saver_at:
+                _run_bouncing_box_screensaver(duration_s=SCREENSAVER_DURATION_S)
+                next_saver_at = time.monotonic() + SCREENSAVER_INTERVAL_S
+
         except Exception:
             # If time/localtime fails, keep previous display
             pass
 
         time.sleep(0.1)
+
+def _run_bouncing_box_screensaver(duration_s=20, box_w=8, box_h=8):
+    """Lightweight moving box animation to exercise pixels briefly.
+    Swaps the root group temporarily, then restores it.
+    """
+    try:
+        prev_group = DISPLAY.root_group
+
+        # 2-color bitmap (1-bit) for minimal memory use
+        bmp = displayio.Bitmap(DISPLAY.width, DISPLAY.height, 2)
+        pal = displayio.Palette(2)
+        pal[0] = 0x000000
+        pal[1] = 0x202020  # dim gray to avoid harsh full-on
+        tg = displayio.TileGrid(bmp, pixel_shader=pal)
+        saver_group = displayio.Group()
+        saver_group.append(tg)
+
+        DISPLAY.root_group = saver_group
+
+        # Utility to draw/erase a box
+        def draw_box(x, y, w, h, color_index):
+            x0 = max(0, x)
+            y0 = max(0, y)
+            x1 = min(DISPLAY.width, x + w)
+            y1 = min(DISPLAY.height, y + h)
+            for yy in range(y0, y1):
+                for xx in range(x0, x1):
+                    bmp[xx, yy] = color_index
+
+        # Motion state
+        x, y = 0, 0
+        dx, dy = 1, 1
+        end_time = time.monotonic() + max(1, int(duration_s))
+
+        # Temporarily bump brightness a bit to ensure visibility (optional)
+        prev_brightness = getattr(DISPLAY, "brightness", None)
+        try:
+            _set_display_brightness(max(BRIGHTNESS_DAY, BRIGHTNESS_NIGHT))
+        except Exception:
+            pass
+
+        # Animate
+        while time.monotonic() < end_time:
+            # Erase previous
+            draw_box(x, y, box_w, box_h, 0)
+            # Move
+            x += dx
+            y += dy
+            if x <= 0 or x + box_w >= DISPLAY.width:
+                dx = -dx
+                x += dx
+            if y <= 0 or y + box_h >= DISPLAY.height:
+                dy = -dy
+                y += dy
+            # Draw new
+            draw_box(x, y, box_w, box_h, 1)
+            time.sleep(0.02)  # ~50 FPS max, but sleeps to reduce CPU
+
+        # Restore previous group and brightness
+        DISPLAY.root_group = prev_group
+        if prev_brightness is not None:
+            try:
+                DISPLAY.brightness = prev_brightness
+            except Exception:
+                pass
+    except Exception:
+        # On any error, do nothing and return control to main display
+        try:
+            DISPLAY.root_group = prev_group  # type: ignore[name-defined]
+        except Exception:
+            pass
 
 if __name__ == '__main__':
     # Try Wi‑Fi connect once at startup (safe no-op on non‑Wi‑Fi boards)
