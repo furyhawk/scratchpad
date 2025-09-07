@@ -992,6 +992,456 @@ def _run_bouncing_box_screensaver(duration_s=20, box_w=8, box_h=8):
         except Exception:
             pass
 
+def run_mqtt_env_display():
+    """Subscribe to MQTT topics temperature, pressure, humidity and show live values."""
+    # Lazy imports to avoid desktop lint errors and to work on non‑Wi‑Fi boards
+    try:
+        import wifi  # type: ignore
+        import socketpool  # type: ignore
+        import ssl as ssl_module  # type: ignore
+        from adafruit_minimqtt.adafruit_minimqtt import MQTT  # type: ignore[reportMissingImports]
+    except Exception as e:
+        # Fall back if MQTT/Wi‑Fi not available
+        run_marquee_text("MQTT/Wi‑Fi unavailable", color=0xFF4040, speed_px_per_sec=20)
+        return
+
+    # Connect Wi‑Fi (safe if already connected)
+    ok, info = connect_wifi_from_env()
+    print("Wi‑Fi:", info if ok else f"not connected: {info}")
+
+    # Broker config via env with sensible defaults
+    def _getenv_bool(name, default=False):
+        v = os.getenv(name)
+        if v is None:
+            return default
+        return str(v).strip().lower() in ("1", "true", "yes", "on")
+
+    host = os.getenv("MQTT_BROKER") or "test.mosquitto.org"
+    use_tls = _getenv_bool("MQTT_TLS", False)
+    try:
+        port = int(os.getenv("MQTT_PORT") or (8883 if use_tls else 1883))
+    except Exception:
+        port = 8883 if use_tls else 1883
+    user = os.getenv("MQTT_USERNAME")
+    pwd = os.getenv("MQTT_PASSWORD")
+
+    pool = socketpool.SocketPool(wifi.radio)
+    ssl_ctx = None
+    if use_tls:
+        try:
+            ssl_ctx = ssl_module.create_default_context()
+        except Exception:
+            ssl_ctx = None
+
+    # Prepare display with a scrollable group for vertical scrolling
+    container = displayio.Group()
+    scroll_grp = displayio.Group()
+    lbl_t = adafruit_display_text.label.Label(terminalio.FONT, color=0x00FFFF, scale=1, text="T: —")
+    lbl_p = adafruit_display_text.label.Label(terminalio.FONT, color=0x00FF80, scale=1, text="P: —")
+    lbl_h = adafruit_display_text.label.Label(terminalio.FONT, color=0x80C0FF, scale=1, text="H: —")
+    # Base Y positions
+    base_t, base_p, base_h = 16, 32, 48
+    lbl_t.y, lbl_p.y, lbl_h.y = base_t, base_p, base_h
+
+    def _center(lbl):
+        try:
+            lbl.x = max(0, (DISPLAY.width - lbl.bounding_box[2]) // 2)
+        except Exception:
+            lbl.x = 0
+
+    for lbl in (lbl_t, lbl_p, lbl_h):
+        _center(lbl)
+        scroll_grp.append(lbl)
+
+    # Duplicate labels offset by +DISPLAY.height for seamless wrapping
+    lbl_t2 = adafruit_display_text.label.Label(terminalio.FONT, color=0x00FFFF, scale=1, text=lbl_t.text)
+    lbl_p2 = adafruit_display_text.label.Label(terminalio.FONT, color=0x00FF80, scale=1, text=lbl_p.text)
+    lbl_h2 = adafruit_display_text.label.Label(terminalio.FONT, color=0x80C0FF, scale=1, text=lbl_h.text)
+    lbl_t2.y, lbl_p2.y, lbl_h2.y = base_t + DISPLAY.height, base_p + DISPLAY.height, base_h + DISPLAY.height
+    for lbl, lbl2 in ((lbl_t, lbl_t2), (lbl_p, lbl_p2), (lbl_h, lbl_h2)):
+        # Center duplicate based on primary width
+        try:
+            cx = max(0, (DISPLAY.width - lbl.bounding_box[2]) // 2)
+        except Exception:
+            cx = 0
+        lbl2.x = cx
+        scroll_grp.append(lbl2)
+
+    container.append(scroll_grp)
+    DISPLAY.root_group = container
+
+    # State store from callbacks
+    state = {"temperature": None, "pressure": None, "humidity": None}
+
+    def _fmt(v):
+        try:
+            return f"{float(v):g}"
+        except Exception:
+            return str(v)
+
+    # Topic callbacks update labels
+    def _cb(client, topic, message):  # called from MiniMQTT loop
+        try:
+            if isinstance(message, (bytes, bytearray)):
+                s = message.decode("utf-8", errors="ignore").strip()
+            else:
+                s = str(message).strip()
+            if topic == "temperature":
+                state["temperature"] = s
+                lbl_t.text = f"T: {_fmt(s)}"
+                lbl_t2.text = lbl_t.text
+                # Keep both centered horizontally
+                for l in (lbl_t, lbl_t2):
+                    _center(l)
+            elif topic == "pressure":
+                state["pressure"] = s
+                lbl_p.text = f"P: {_fmt(s)}"
+                lbl_p2.text = lbl_p.text
+                for l in (lbl_p, lbl_p2):
+                    _center(l)
+            elif topic == "humidity":
+                state["humidity"] = s
+                lbl_h.text = f"H: {_fmt(s)}"
+                lbl_h2.text = lbl_h.text
+                for l in (lbl_h, lbl_h2):
+                    _center(l)
+        except Exception:
+            pass
+
+    # Create MQTT client and subscribe
+    client = MQTT(
+        broker=host,
+        port=port,
+        username=user,
+        password=pwd,
+        is_ssl=use_tls,
+        socket_pool=pool,
+        ssl_context=ssl_ctx,
+        keep_alive=60,
+        socket_timeout=1,
+        connect_retries=5,
+        user_data={},
+    )
+
+    client.add_topic_callback("temperature", _cb)
+    client.add_topic_callback("pressure", _cb)
+    client.add_topic_callback("humidity", _cb)
+
+    try:
+        client.connect(clean_session=True)
+        client.subscribe([("temperature", 0), ("pressure", 0), ("humidity", 0)])
+    except Exception as e:
+        # Show error briefly then keep trying in loop
+        lbl_t.text = "MQTT connect failed"
+        _center(lbl_t)
+
+    # Controls and burn-in tweaks similar to clock
+    _init_buttons()
+    brightness_cycle = [0.05, 0.1, 0.2, 0.3, 0.5]
+    b_index = 1
+    last_a = last_b = False
+    last_shift = time.monotonic()
+    shift_dx = 0  # only shift X while we vertically scroll
+    next_saver_at = last_shift + SCREENSAVER_INTERVAL_S
+    last_ping = time.monotonic()
+
+    # Vertical scroll state
+    try:
+        scroll_speed = int(os.getenv("MQTT_SCROLL_SPEED") or 12)  # pixels/sec
+    except Exception:
+        scroll_speed = 12
+    scroll_pos = 0.0  # group y position
+    last_time = time.monotonic()
+
+    while True:
+        try:
+            # Service MQTT; keep loop timeout >= socket_timeout (1.0)
+            client.loop(timeout=1.0)
+            now = time.monotonic()
+            if now - last_ping > 30:
+                try:
+                    client.ping()
+                except Exception:
+                    pass
+                last_ping = now
+
+            # Pixel shift periodically (X only; Y handled by scroll)
+            if now - last_shift >= PIXEL_SHIFT_INTERVAL_S:
+                shift_dx = random.randint(-PIXEL_SHIFT_RANGE, PIXEL_SHIFT_RANGE)
+                last_shift = now
+
+            # Re-center X with shift_dx
+            for (l1, l2) in ((lbl_t, lbl_t2), (lbl_p, lbl_p2), (lbl_h, lbl_h2)):
+                try:
+                    base_x = max(0, (DISPLAY.width - l1.bounding_box[2]) // 2)
+                    x = min(max(0, base_x + shift_dx), max(0, DISPLAY.width - l1.bounding_box[2]))
+                except Exception:
+                    x = 0
+                l1.x = l2.x = x
+
+            # Vertical scrolling of the group
+            now2 = time.monotonic()
+            dt = max(0.0, min(0.2, now2 - last_time))
+            last_time = now2
+            scroll_pos -= scroll_speed * dt
+            # wrap
+            if scroll_pos <= -DISPLAY.height:
+                scroll_pos += DISPLAY.height
+            scroll_grp.y = int(scroll_pos)
+
+            # Periodic screensaver
+            if now >= next_saver_at:
+                _run_bouncing_box_screensaver(duration_s=SCREENSAVER_DURATION_S)
+                next_saver_at = time.monotonic() + SCREENSAVER_INTERVAL_S
+
+            # Buttons: A -> quick saver, B -> brightness cycle
+            a_pressed, b_pressed = _buttons_state()
+            if a_pressed and not last_a:
+                _run_bouncing_box_screensaver(8)
+            if b_pressed and not last_b:
+                b_index = (b_index + 1) % len(brightness_cycle)
+                _set_display_brightness(brightness_cycle[b_index])
+            last_a, last_b = a_pressed, b_pressed
+
+        except Exception as e:
+            # Try to reconnect gracefully
+            try:
+                client.reconnect(resub_topics=True)
+            except Exception:
+                time.sleep(1.0)
+
+
+def run_datetime_and_mqtt_display():
+        """Show current date/time plus MQTT environment readings together.
+        Layout (top to bottom):
+          YYYY-MM-DD
+          HH:MM:SS
+          T: <value>
+          P: <value>
+          H: <value>
+        """
+        # Build labels first so we can show time immediately even before MQTT connects
+        grp = displayio.Group()
+
+        date_lbl = adafruit_display_text.label.Label(terminalio.FONT, color=0x00FF80, scale=1, text="0000-00-00")
+        time_lbl = adafruit_display_text.label.Label(terminalio.FONT, color=0x00FFFF, scale=1, text="00:00:00")
+        t_lbl = adafruit_display_text.label.Label(terminalio.FONT, color=0x00FFFF, scale=1, text="T: —")
+        p_lbl = adafruit_display_text.label.Label(terminalio.FONT, color=0x00FF80, scale=1, text="P: —")
+        h_lbl = adafruit_display_text.label.Label(terminalio.FONT, color=0x80C0FF, scale=1, text="H: —")
+
+        # Baseline Y positions (8px-ish font). Keep some spacing.
+        base_date_y = 8
+        base_time_y = 20
+        base_t_y = 34
+        base_p_y = 46
+        base_h_y = 58
+        date_lbl.y = base_date_y
+        time_lbl.y = base_time_y
+        t_lbl.y = base_t_y
+        p_lbl.y = base_p_y
+        h_lbl.y = base_h_y
+
+        def _center(lbl):
+            try:
+                lbl.x = max(0, (DISPLAY.width - lbl.bounding_box[2]) // 2)
+            except Exception:
+                lbl.x = 0
+
+        for lbl in (date_lbl, time_lbl, t_lbl, p_lbl, h_lbl):
+            _center(lbl)
+            grp.append(lbl)
+        DISPLAY.root_group = grp
+
+        # Apply initial day/night brightness
+        try:
+            hh = time.localtime()[3]
+            is_night = (hh >= NIGHT_DIM_START_HOUR) or (hh < NIGHT_DIM_END_HOUR)
+            _set_display_brightness(BRIGHTNESS_NIGHT if is_night else BRIGHTNESS_DAY)
+        except Exception:
+            _set_display_brightness(BRIGHTNESS_DAY)
+
+        # Setup controls and pixel shift
+        _init_buttons()
+        brightness_cycle = [0.05, 0.1, 0.2, 0.3, 0.5]
+        b_index = 1
+        last_a = last_b = False
+        shift_dx = 0
+        shift_dy = 0
+        last_shift = time.monotonic()
+        next_saver_at = last_shift + SCREENSAVER_INTERVAL_S
+
+        # Try to bring up MQTT (optional)
+        mqtt_client = None
+        try:
+            import wifi  # type: ignore
+            import socketpool  # type: ignore
+            import ssl as ssl_module  # type: ignore
+            from adafruit_minimqtt.adafruit_minimqtt import MQTT  # type: ignore
+
+            # Ensure Wi‑Fi up (safe if already connected)
+            connect_wifi_from_env()
+
+            def _getenv_bool(name, default=False):
+                v = os.getenv(name)
+                if v is None:
+                    return default
+                return str(v).strip().lower() in ("1", "true", "yes", "on")
+
+            host = os.getenv("MQTT_BROKER") or "test.mosquitto.org"
+            use_tls = _getenv_bool("MQTT_TLS", False)
+            try:
+                port = int(os.getenv("MQTT_PORT") or (8883 if use_tls else 1883))
+            except Exception:
+                port = 8883 if use_tls else 1883
+            user = os.getenv("MQTT_USERNAME")
+            pwd = os.getenv("MQTT_PASSWORD")
+
+            pool = socketpool.SocketPool(wifi.radio)
+            ssl_ctx = None
+            if use_tls:
+                try:
+                    ssl_ctx = ssl_module.create_default_context()
+                except Exception:
+                    ssl_ctx = None
+
+            state = {"temperature": None, "pressure": None, "humidity": None}
+
+            def _fmt(v):
+                try:
+                    return f"{float(v):g}"
+                except Exception:
+                    return str(v)
+
+            def _cb(client, topic, message):
+                try:
+                    if isinstance(message, (bytes, bytearray)):
+                        s = message.decode("utf-8", errors="ignore").strip()
+                    else:
+                        s = str(message).strip()
+                    if topic == "temperature":
+                        state["temperature"] = s
+                        t_lbl.text = f"T: {_fmt(s)}"
+                        _center(t_lbl)
+                    elif topic == "pressure":
+                        state["pressure"] = s
+                        p_lbl.text = f"P: {_fmt(s)}"
+                        _center(p_lbl)
+                    elif topic == "humidity":
+                        state["humidity"] = s
+                        h_lbl.text = f"H: {_fmt(s)}"
+                        _center(h_lbl)
+                except Exception:
+                    pass
+
+            mqtt_client = MQTT(
+                broker=host,
+                port=port,
+                username=user,
+                password=pwd,
+                is_ssl=use_tls,
+                socket_pool=pool,
+                ssl_context=ssl_ctx,
+                keep_alive=60,
+                socket_timeout=1,
+                connect_retries=5,
+            )
+            mqtt_client.add_topic_callback("temperature", _cb)
+            mqtt_client.add_topic_callback("pressure", _cb)
+            mqtt_client.add_topic_callback("humidity", _cb)
+            try:
+                mqtt_client.connect(clean_session=True)
+                mqtt_client.subscribe([( "temperature", 0 ), ( "pressure", 0 ), ( "humidity", 0 )])
+            except Exception:
+                # Non-fatal; we'll keep the time display and retry in loop
+                pass
+        except Exception:
+            mqtt_client = None
+
+        last_date = None
+        last_sec = None
+        last_ping = time.monotonic()
+
+        while True:
+            try:
+                now = time.monotonic()
+
+                # Update date/time once per second
+                tm = time.localtime()
+                y, mo, d, hh, mm, ss = tm[0], tm[1], tm[2], tm[3], tm[4], tm[5]
+                # Night dimming
+                try:
+                    is_night = (hh >= NIGHT_DIM_START_HOUR) or (hh < NIGHT_DIM_END_HOUR)
+                    _set_display_brightness(BRIGHTNESS_NIGHT if is_night else BRIGHTNESS_DAY)
+                except Exception:
+                    pass
+
+                date_text = f"{y:04d}-{mo:02d}-{d:02d}"
+                if date_text != last_date:
+                    date_lbl.text = date_text
+                    _center(date_lbl)
+                    last_date = date_text
+
+                if ss != last_sec:
+                    time_lbl.text = f"{hh:02d}:{mm:02d}:{ss:02d}"
+                    _center(time_lbl)
+                    last_sec = ss
+
+                # MQTT service
+                if mqtt_client is not None:
+                    try:
+                        mqtt_client.loop(timeout=1.0)
+                        if now - last_ping > 30:
+                            try:
+                                mqtt_client.ping()
+                            except Exception:
+                                pass
+                            last_ping = now
+                    except Exception:
+                        try:
+                            mqtt_client.reconnect(resub_topics=True)
+                        except Exception:
+                            pass
+
+                # Pixel shift update
+                if now - last_shift >= PIXEL_SHIFT_INTERVAL_S:
+                    shift_dx = random.randint(-PIXEL_SHIFT_RANGE, PIXEL_SHIFT_RANGE)
+                    shift_dy = random.randint(-PIXEL_SHIFT_RANGE, PIXEL_SHIFT_RANGE)
+                    last_shift = now
+
+                # Recenter X with shift_dx while clamping to screen; shift Y with clamp
+                for lbl in (date_lbl, time_lbl, t_lbl, p_lbl, h_lbl):
+                    try:
+                        cx = max(0, (DISPLAY.width - lbl.bounding_box[2]) // 2) + shift_dx
+                        lbl.x = min(max(0, cx), max(0, DISPLAY.width - lbl.bounding_box[2]))
+                    except Exception:
+                        pass
+
+                date_lbl.y = min(max(0, base_date_y + shift_dy), max(0, DISPLAY.height - 8))
+                time_lbl.y = min(max(0, base_time_y + shift_dy), max(0, DISPLAY.height - 8))
+                t_lbl.y = min(max(0, base_t_y + shift_dy), max(0, DISPLAY.height - 8))
+                p_lbl.y = min(max(0, base_p_y + shift_dy), max(0, DISPLAY.height - 8))
+                h_lbl.y = min(max(0, base_h_y + shift_dy), max(0, DISPLAY.height - 8))
+
+                # Screensaver cadence
+                if now >= next_saver_at:
+                    _run_bouncing_box_screensaver(duration_s=SCREENSAVER_DURATION_S)
+                    next_saver_at = time.monotonic() + SCREENSAVER_INTERVAL_S
+
+                # Buttons
+                a_pressed, b_pressed = _buttons_state()
+                if a_pressed and not last_a:
+                    _run_bouncing_box_screensaver(8)
+                if b_pressed and not last_b:
+                    b_index = (b_index + 1) % len(brightness_cycle)
+                    _set_display_brightness(brightness_cycle[b_index])
+                last_a, last_b = a_pressed, b_pressed
+
+            except Exception:
+                # Keep running; time display should remain
+                pass
+
+        time.sleep(0.1)
+
 if __name__ == '__main__':
     # Load optional config
     cfg = load_config("config.json")
@@ -1031,6 +1481,10 @@ if __name__ == '__main__':
         run_marquee_text(text=message_text or "Hello!", color=cfg.get("marquee_color", 0x00FFFF), speed_px_per_sec=int(cfg.get("marquee_speed", 30)))
     elif default_mode == "slideshow":
         run_image_slideshow(folder=str(cfg.get("image_folder", "images")), interval_s=int(cfg.get("image_interval", 5)))
+    elif default_mode in ("env", "mqtt", "mqtt_env"):
+        run_mqtt_env_display()
+    elif default_mode in ("clock_env", "datetime_env", "clock_mqtt", "datetime_mqtt", "both"):
+        run_datetime_and_mqtt_display()
     else:
         # Fallback to date/time clock
         run_datetime_display()

@@ -182,7 +182,7 @@ def main():
     while True:
         try:
             # Non-blocking loop; returns list of packet types or None
-            client.loop(timeout=0.5)
+            client.loop(timeout=1.0)
             # Keep-alive ping once in a while (defensive)
             now = time.monotonic()
             if now - last_ping > 30:
