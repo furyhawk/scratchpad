@@ -78,6 +78,21 @@ except ImportError:
 	adafruit_bme280 = None  # type: ignore
 	print("BME280 library not found; sensor disabled.", file=sys.stderr)
 
+# Resolve BME280 class names across versions/layouts
+try:
+	# Most common: single-file module exposes classes at top level
+	from adafruit_bme280 import Adafruit_BME280_I2C as BME280_I2C, Adafruit_BME280_SPI as BME280_SPI  # type: ignore
+except Exception:
+	try:
+		# Newer split-package layouts
+		from adafruit_bme280.advanced import Adafruit_BME280_I2C as BME280_I2C, Adafruit_BME280_SPI as BME280_SPI  # type: ignore
+	except Exception:
+		try:
+			from adafruit_bme280.basic import Adafruit_BME280_I2C as BME280_I2C, Adafruit_BME280_SPI as BME280_SPI  # type: ignore
+		except Exception:
+			BME280_I2C = None  # type: ignore
+			BME280_SPI = None  # type: ignore
+
 
 # --------- Configuration (edit to match your wiring) ---------
 PIN_CS = board.GP17
@@ -231,10 +246,16 @@ def init_bme280():
 
 	Returns a tuple (sensor, bus) where bus is SPI or I2C object; or (None, None).
 	"""
+	if DEBUG_SENSOR:
+		print("BME280: init start (enabled=%s, lib_present=%s)" % (BME280_ENABLED, adafruit_bme280 is not None))
 	if not BME280_ENABLED or adafruit_bme280 is None:
+		if DEBUG_SENSOR:
+			print("BME280: init skipped (disabled or library missing)")
 		return None, None
 
 	if BME280_USE_SPI and BME280_SCK_PIN and BME280_MOSI_PIN and BME280_MISO_PIN and BME280_CS_PIN:
+		if DEBUG_SENSOR:
+			print("BME280: attempting SPI init on SCK=%r MOSI=%r MISO=%r CS=%r" % (BME280_SCK_PIN, BME280_MOSI_PIN, BME280_MISO_PIN, BME280_CS_PIN))
 		try:
 			import busio  # type: ignore
 			spi = busio.SPI(BME280_SCK_PIN, MOSI=BME280_MOSI_PIN, MISO=BME280_MISO_PIN)  # type: ignore
@@ -248,44 +269,98 @@ def init_bme280():
 				finally:
 					spi.unlock()
 			cs = DigitalInOut(BME280_CS_PIN)
-			sensor = adafruit_bme280.Adafruit_BME280_SPI(spi, cs, baudrate=BME280_SPI_BAUDRATE)  # type: ignore
+			if DEBUG_SENSOR:
+				print("BME280: SPI bus ready, creating sensor @ %d Hz" % BME280_SPI_BAUDRATE)
+			if 'BME280_SPI' in globals() and BME280_SPI:
+				sensor = BME280_SPI(spi, cs, baudrate=BME280_SPI_BAUDRATE)  # type: ignore
+			else:
+				raise RuntimeError("BME280_SPI class not available in adafruit_bme280 module")
 			try:
 				sensor.sea_level_pressure = 1013.25
 			except Exception:
 				pass
+			if DEBUG_SENSOR:
+				print("BME280: SPI sensor initialized successfully")
 			return sensor, spi
-		except Exception:
+		except Exception as e:
 			# fall back to I2C if SPI init fails
-			pass
+			if DEBUG_SENSOR:
+				print(f"BME280: SPI init failed -> {e!r}; falling back to I2C")
 
 	# I2C fallback
 	try:
-		# If board provides a default I2C, prefer it
-		i2c = board.I2C()  # uses board.SCL / board.SDA
-	except Exception:
-		try:
-			import busio  # type: ignore
-			# Use configured pins (which default to board.SCL/SDA)
-			i2c = busio.I2C(BME280_I2C_SCL_PIN, BME280_I2C_SDA_PIN, frequency=BME280_I2C_FREQUENCY)  # type: ignore
-		except Exception:
-			return None, None
-	# Try both typical I2C addresses
-	addresses = [BME280_ADDRESS]
-	if 0x76 not in addresses:
-		addresses.append(0x76)
-	if 0x77 not in addresses:
-		addresses.append(0x77)
-	for addr in addresses:
-		try:
-			sensor = adafruit_bme280.Adafruit_BME280_I2C(i2c, address=addr)  # type: ignore
+		import busio  # type: ignore
+		# Build candidate pin pairs to try, in order of preference
+		candidate_pairs = [
+			# User overrides (if provided)
+			(BME280_I2C_SCL_PIN, BME280_I2C_SDA_PIN),
+			# Board defaults (if defined on this build)
+			(getattr(board, "SCL", None), getattr(board, "SDA", None)),
+			# Common Pico defaults
+			(getattr(board, "GP1", None), getattr(board, "GP0", None)),  # I2C0: SCL=GP1, SDA=GP0
+			(getattr(board, "GP3", None), getattr(board, "GP2", None)),  # I2C1: SCL=GP3, SDA=GP2
+		]
+
+		for scl_pin, sda_pin in candidate_pairs:
+			if scl_pin is None or sda_pin is None:
+				continue
+			if DEBUG_SENSOR:
+				print("BME280: attempting I2C init on SCL=%r SDA=%r freq=%d" % (scl_pin, sda_pin, BME280_I2C_FREQUENCY))
 			try:
-				sensor.sea_level_pressure = 1013.25
-			except Exception:
-				pass
-			return sensor, i2c
-		except Exception:
-			continue
-	return None, None
+				i2c = busio.I2C(scl_pin, sda_pin, frequency=BME280_I2C_FREQUENCY)  # type: ignore
+				if DEBUG_SENSOR:
+					print("BME280: I2C bus created")
+				# Optional: scan the bus for visibility
+				try:
+					if hasattr(i2c, "try_lock"):
+						while not i2c.try_lock():
+							pass
+						try:
+							found = getattr(i2c, "scan", lambda: [])()
+							if DEBUG_SENSOR:
+								print("BME280: I2C scan -> %s" % (
+									"[" + ", ".join("0x%02X" % a for a in found) + "]" if found else "[]"
+								))
+						finally:
+							i2c.unlock()
+				except Exception as e_scan:
+					if DEBUG_SENSOR:
+						print(f"BME280: I2C scan failed -> {e_scan!r}")
+
+				# Try typical I2C addresses
+				addresses = [BME280_ADDRESS]
+				if 0x76 not in addresses:
+					addresses.append(0x76)
+				if 0x77 not in addresses:
+					addresses.append(0x77)
+				for addr in addresses:
+					try:
+						if DEBUG_SENSOR:
+							print("BME280: probing I2C addr 0x%02X" % addr)
+						sensor = BME280_I2C(i2c, address=addr)  # type: ignore
+						try:
+							sensor.sea_level_pressure = 1013.25
+						except Exception:
+							pass
+						if DEBUG_SENSOR:
+							print("BME280: I2C sensor initialized successfully at 0x%02X" % addr)
+						return sensor, i2c
+					except Exception as e_probe:
+						if DEBUG_SENSOR:
+							print("BME280: probe failed at 0x%02X -> %r" % (addr, e_probe))
+			except Exception as e_bus:
+				if DEBUG_SENSOR:
+					print(f"BME280: I2C bus creation failed on SCL={scl_pin!r} SDA={sda_pin!r} -> {e_bus!r}")
+				continue
+
+		# If we got here, no pair worked
+		if DEBUG_SENSOR:
+			print("BME280: no sensor found over I2C or SPI")
+		return None, None
+	except Exception as e:
+		if DEBUG_SENSOR:
+			print(f"BME280: unexpected error during I2C init -> {e!r}")
+		return None, None
 
 
 # --------- Static Shapes ---------
