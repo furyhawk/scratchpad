@@ -1,0 +1,13 @@
+CIRCUITPY_WIFI_SSID="your-ssid"
+CIRCUITPY_WIFI_PASSWORD="your-password"
+CIRCUITPY_TZ_OFFSET=8
+MQTT_BROKER="test.mosquitto.org"
+MQTT_PORT="1883"
+MQTT_USERNAME="..."
+MQTT_PASSWORD="..."
+MQTT_TLS="false"
+MQTT_SCROLL_SPEED=2
+# Optional alternative names also supported:
+# WIFI_SSID="your-ssid"
+# WIFI_PASSWORD="your-password"
+# TZ_OFFSET
