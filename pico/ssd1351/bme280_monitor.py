@@ -52,6 +52,7 @@ import os
 import board
 import displayio
 import terminalio
+import digitalio
 
 # FourWire location changed in CP9+
 try:
@@ -152,6 +153,13 @@ WEATHER_UPDATE_INTERVAL_S = 600.0  # 10 minutes
 SG_LAT = 1.3521
 SG_LON = 103.8198
 
+# Weather histogram settings
+WX_HOURLY_ENABLED = True
+WX_HOURLY_HOURS = 24  # number of hours to fetch/plot
+WX_HOURLY_UPDATE_INTERVAL_S = 1800.0  # refresh hourly dataset every 30 minutes
+WX_HIST_COLOR = 0x00FFAA
+WX_HIST_MARGIN = 4
+
 # Debug to USB serial
 DEBUG = True
 
@@ -239,6 +247,28 @@ weather_label = label.Label(
     line_spacing=1.0,
 )
 fg.append(weather_label)
+
+# Histogram group for weather
+hist_group = displayio.Group(x=0, y=0)
+root.append(hist_group)
+
+# Bitmap and palette for histogram drawing (overlay)
+hist_palette = displayio.Palette(2)
+hist_palette[0] = 0x000000  # transparent/black
+hist_palette[1] = WX_HIST_COLOR
+hist_bitmap = displayio.Bitmap(DISPLAY_WIDTH, DISPLAY_HEIGHT, 2)
+hist_tile = displayio.TileGrid(hist_bitmap, pixel_shader=hist_palette)
+hist_group.append(hist_tile)
+
+# Title label for histogram
+hist_title = label.Label(
+    terminalio.FONT,
+    text="WX Temp (24h)",
+    color=0xFFFFFF,
+    x=2,
+    y=10,
+)
+hist_group.append(hist_title)
 
 
 # ----- Wi‑Fi + NTP helpers -----
@@ -479,6 +509,65 @@ def fetch_sg_weather():
         return None
 
 
+def fetch_sg_weather_hourly(hours=WX_HOURLY_HOURS):
+    """Fetch hourly temperature and humidity for Singapore.
+    Returns dict with lists: {"time": [...], "temperature": [...], "humidity": [...]} or None.
+    """
+    if not WEATHER_ENABLED or not WX_HOURLY_ENABLED or WEATHER_PROVIDER != "open-meteo":
+        return None
+    if wifi is None:
+        if DEBUG:
+            print("Weather hourly skipped: wifi module not available")
+        return None
+    sess = _ensure_requests_session()
+    if sess is None:
+        if DEBUG:
+            print("Weather hourly skipped: HTTP session unavailable")
+        return None
+    try:
+        # Request next 24h forecast (or configured hours), timezone Singapore for simplicity
+        # Open-Meteo supports up to 168 hours with forecast_days, but we'll keep it small
+        forecast_days = max(1, (hours + 23) // 24)
+        url = "https://api.open-meteo.com/v1/forecast"
+        url += f"?latitude={SG_LAT:.4f}&longitude={SG_LON:.4f}"
+        url += "&hourly=temperature_2m,relative_humidity_2m"
+        url += f"&forecast_days={forecast_days}"
+        url += "&timezone=Asia%2FSingapore"
+
+        if DEBUG:
+            print("Fetching SG hourly weather...")
+            print("URL:", url)
+        resp = sess.get(url, timeout=10)  # type: ignore[attr-defined]
+        try:
+            data = resp.json()
+        finally:
+            try:
+                resp.close()
+            except Exception:
+                pass
+        if not isinstance(data, dict) or "hourly" not in data:
+            if DEBUG:
+                print("Hourly weather JSON invalid; keys:", list(data.keys()) if isinstance(data, dict) else type(data))
+            return None
+        hourly = data.get("hourly") or {}
+        times = hourly.get("time") or []
+        temps = hourly.get("temperature_2m") or []
+        hums = hourly.get("relative_humidity_2m") or []
+        # Trim to requested count from now
+        n = min(len(times), len(temps), len(hums), hours)
+        if n <= 0:
+            return None
+        return {
+            "time": times[:n],
+            "temperature": temps[:n],
+            "humidity": hums[:n],
+        }
+    except Exception as e:
+        if DEBUG:
+            print(f"Hourly weather fetch failed: {e!r}")
+        return None
+
+
 def parse_tz_offset(val):
     """Parse TZ offset strings like "-7", "+02", "+05:30", "-03:45" to float hours.
     Returns None if parsing fails.
@@ -602,7 +691,139 @@ last_color_change = time.monotonic()
 last_sample = 0.0
 last_time_update = 0.0
 last_weather_update = 0.0
+last_weather_hourly_update = 0.0
 frames = 0
+
+# View state and buttons (GP14 prev, GP15 next)
+VIEW_INFO = 0
+VIEW_WX_HIST = 1
+_VIEW_MAX = 1
+view_mode = VIEW_INFO
+
+# Separate motion for each view group
+fg.x, fg.y = 10, 18
+vx, vy = SPEED_PX_PER_TICK, SPEED_PX_PER_TICK
+hist_group.x, hist_group.y = 10, 18
+hvx, hvy = SPEED_PX_PER_TICK, SPEED_PX_PER_TICK
+
+# Setup buttons with internal pull-ups (active low)
+btn_prev = digitalio.DigitalInOut(getattr(board, "GP14"))
+btn_prev.switch_to_input(pull=digitalio.Pull.UP)
+btn_next = digitalio.DigitalInOut(getattr(board, "GP15"))
+btn_next.switch_to_input(pull=digitalio.Pull.UP)
+_btn_prev_last = True
+_btn_next_last = True
+_btn_last_time = 0.0
+_BTN_DEBOUNCE_S = 0.2
+
+# Hourly weather cache for histogram
+wx_hourly_data = None  # type: ignore[assignment]
+
+
+def _set_group_visible(grp, visible: bool):
+    try:
+        grp.hidden = (not visible)
+    except Exception:
+        # Fallback: add/remove from root as needed
+        try:
+            if visible and (grp not in root):
+                root.append(grp)
+            elif (not visible) and (grp in root):
+                root.remove(grp)
+        except Exception:
+            pass
+
+
+def set_view(mode: int):
+    global view_mode
+    mode = max(0, min(_VIEW_MAX, mode))
+    view_mode = mode
+    # Toggle visibility
+    _set_group_visible(fg, view_mode == VIEW_INFO)
+    _set_group_visible(hist_group, view_mode == VIEW_WX_HIST)
+    # Clamp whichever is active
+    active = hist_group if view_mode == VIEW_WX_HIST else fg
+    clamp_group_within_display(active)
+
+
+def _bitmap_fill(bmp: displayio.Bitmap, idx: int):
+    try:
+        bmp.fill(idx)  # type: ignore[attr-defined]
+        return
+    except Exception:
+        pass
+    # Fallback manual clear
+    w = bmp.width
+    h = bmp.height
+    for y in range(h):
+        for x in range(w):
+            bmp[x, y] = idx
+
+
+def draw_wx_histogram():
+    """Render the WX hourly temperature as a simple vertical bar chart."""
+    # Clear bitmap
+    _bitmap_fill(hist_bitmap, 0)
+    # Pick dataset
+    data = None
+    try:
+        if isinstance(wx_hourly_data, dict):
+            data = wx_hourly_data.get("temperature")
+    except Exception:
+        data = None
+    if not data or len(data) == 0:
+        # Nothing to draw; leave blank and tweak title
+        try:
+            hist_title.text = "WX Temp (no data)"
+        except Exception:
+            pass
+        return
+    try:
+        # Coerce floats
+        vals = []
+        for v in data:
+            try:
+                vals.append(float(v))
+            except Exception:
+                pass
+        if not vals:
+            hist_title.text = "WX Temp (no data)"
+            return
+        vmin = min(vals)
+        vmax = max(vals)
+        if abs(vmax - vmin) < 1e-6:
+            vmax = vmin + 1.0
+        # Plot area
+        left = WX_HIST_MARGIN
+        right = DISPLAY_WIDTH - WX_HIST_MARGIN
+        top = 16
+        bottom = DISPLAY_HEIGHT - WX_HIST_MARGIN
+        width = max(1, right - left)
+        height = max(1, bottom - top)
+        n = len(vals)
+        # Map data to columns across width
+        for cx in range(width):
+            idx = int(cx * n / width)
+            idx = min(n - 1, max(0, idx))
+            val = vals[idx]
+            # Normalize 0..1
+            t = (val - vmin) / (vmax - vmin)
+            bar_h = int(t * height)
+            y0 = bottom - bar_h
+            for y in range(y0, bottom):
+                hist_bitmap[left + cx, y] = 1
+        # Update title
+        try:
+            hist_title.text = "WX Temp ({}h)".format(min(n, WX_HOURLY_HOURS))
+        except Exception:
+            pass
+    except Exception as e:
+        if DEBUG:
+            print(f"draw_wx_histogram error: {e!r}")
+
+
+# Initialize view visibility
+# (moved below, after helper functions are defined to avoid NameError)
 
 
 def label_bounds(lb):
@@ -699,6 +920,9 @@ def relayout_labels(vgap=6):
 # Ensure initial layout starts in-bounds before entering loop
 relayout_labels()
 
+# Initialize view visibility (after helpers are defined)
+set_view(VIEW_INFO)
+
 
 print("Starting BME280 monitor (burn‑in protected)")
 
@@ -772,28 +996,64 @@ while True:
                 print("SG weather unavailable; fetch result:", w)
         last_weather_update = now
 
+    # Update hourly weather dataset occasionally for histogram
+    if WX_HOURLY_ENABLED and (now - last_weather_hourly_update) >= WX_HOURLY_UPDATE_INTERVAL_S:
+        if not wifi_ok and WIFI_ENABLED:
+            wifi_ok = connect_wifi()
+            if wifi_ok and NTP_ENABLED:
+                sync_time_ntp()
+        if wifi_ok:
+            wx = fetch_sg_weather_hourly(WX_HOURLY_HOURS)
+            if isinstance(wx, dict) and wx.get("temperature"):
+                wx_hourly_data = wx
+                if view_mode == VIEW_WX_HIST:
+                    draw_wx_histogram()
+            else:
+                if DEBUG:
+                    print("Hourly weather unavailable; result:", wx)
+        last_weather_hourly_update = now
+
     # Move the foreground group to prevent burn‑in
     if (now - last_move) >= MOVE_INTERVAL_S:
-        w, h = group_bounds(fg)
-        # Compute bounds with margin
-        max_x = DISPLAY_WIDTH - w - MARGIN
-        max_y = DISPLAY_HEIGHT - h - MARGIN
-        # Bounce
-        new_x = fg.x + vx
-        new_y = fg.y + vy
-        if new_x < MARGIN:
-            new_x = MARGIN
-            vx = abs(vx)
-        elif new_x > max_x:
-            new_x = max_x
-            vx = -abs(vx)
-        if new_y < MARGIN:
-            new_y = MARGIN
-            vy = abs(vy)
-        elif new_y > max_y:
-            new_y = max_y
-            vy = -abs(vy)
-        fg.x, fg.y = new_x, new_y
+        # Move the active view's group for burn-in protection
+        if view_mode == VIEW_INFO:
+            w, h = group_bounds(fg)
+            max_x = DISPLAY_WIDTH - w - MARGIN
+            max_y = DISPLAY_HEIGHT - h - MARGIN
+            nx = fg.x + vx
+            ny = fg.y + vy
+            if nx < MARGIN:
+                nx = MARGIN
+                vx = abs(vx)
+            elif nx > max_x:
+                nx = max_x
+                vx = -abs(vx)
+            if ny < MARGIN:
+                ny = MARGIN
+                vy = abs(vy)
+            elif ny > max_y:
+                ny = max_y
+                vy = -abs(vy)
+            fg.x, fg.y = nx, ny
+        else:
+            w, h = group_bounds(hist_group)
+            max_x = DISPLAY_WIDTH - w - MARGIN
+            max_y = DISPLAY_HEIGHT - h - MARGIN
+            nx = hist_group.x + hvx
+            ny = hist_group.y + hvy
+            if nx < MARGIN:
+                nx = MARGIN
+                hvx = abs(hvx)
+            elif nx > max_x:
+                nx = max_x
+                hvx = -abs(hvx)
+            if ny < MARGIN:
+                ny = MARGIN
+                hvy = abs(hvy)
+            elif ny > max_y:
+                ny = max_y
+                hvy = -abs(hvy)
+            hist_group.x, hist_group.y = nx, ny
         last_move = now
 
     # Occasionally change color to vary lit pixels
@@ -803,9 +1063,37 @@ while True:
             sensor_label.color = c
             time_label.color = c
             weather_label.color = c
+            # Update histogram color too
+            hist_palette[1] = c
+            # Redraw histogram to update pixels, though palette change is enough
+            if view_mode == VIEW_WX_HIST:
+                draw_wx_histogram()
         except Exception:
             pass
         last_color_change = now
+
+    # Handle button presses for view switching (debounced, active low)
+    try:
+        if (now - _btn_last_time) >= _BTN_DEBOUNCE_S:
+            cur_prev = btn_prev.value
+            cur_next = btn_next.value
+            # Falling edge detection
+            if _btn_prev_last and (cur_prev is False):
+                set_view(view_mode - 1)
+                # If entering histogram, draw it once
+                if view_mode == VIEW_WX_HIST:
+                    draw_wx_histogram()
+                _btn_last_time = now
+            elif _btn_next_last and (cur_next is False):
+                set_view(view_mode + 1)
+                if view_mode == VIEW_WX_HIST:
+                    draw_wx_histogram()
+                _btn_last_time = now
+            _btn_prev_last = cur_prev
+            _btn_next_last = cur_next
+    except Exception as e:
+        if DEBUG:
+            print(f"Button handling error: {e!r}")
 
     # Tiny sleep to yield USB & reduce refreshes
     time.sleep(1)
