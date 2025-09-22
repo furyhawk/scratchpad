@@ -10,8 +10,15 @@ BAUD="${ESPBAUD:-921600}"
 SIZE=""            # e.g. 4M, 8M, 16M, or bytes. If empty, attempt auto-detect.
 OFFSET="0"         # e.g. 0, 0x0
 OUTPUT=""          # If empty, generate based on date/time
-GZIP="0"
+GZIP="1"
 FORCE="0"
+
+# --- Logging helpers --------------------------------------------------------
+ts() { date '+%Y-%m-%d %H:%M:%S'; }
+STEP=0
+step() { STEP=$(( STEP + 1 )); echo "==> [$(ts)] Step ${STEP}: $*"; }
+info() { echo "    [$(ts)] $*"; }
+warn() { echo "    [$(ts)] WARNING: $*" >&2; }
 
 usage() {
     echo "Usage: $0 [-p PORT] [-b BAUD] [-s SIZE] [-O OFFSET] [-o OUTPUT] [--gzip] [--force]"
@@ -20,11 +27,12 @@ usage() {
     echo "  -s, --size     Flash size to read, e.g. 4M, 8M, 16M, or bytes. If omitted, try detect."
     echo "  -O, --offset   Start offset (default: 0)"
     echo "  -o, --output   Output filename (default: flash_YYYYmmdd_HHMMSS.bin)"
-    echo "      --gzip     Gzip the resulting .bin"
+    echo "      --gzip     Gzip the resulting .bin (default: enabled)"
+    echo "      --no-gzip  Do not gzip the resulting .bin"
     echo "      --force    Overwrite existing output file"
     echo "Examples:"
     echo "  $0 -p /dev/ttyACM0 -s 8M -o backup.bin"
-    echo "  $0 --gzip             (auto-detect port and size, gzip result)"
+    echo "  $0 --no-gzip          (auto-detect port and size, do not gzip)"
     exit 1
 }
 
@@ -81,11 +89,12 @@ autodetect_port() {
 }
 
 detect_flash_size_bytes() {
-    # Try esptool.py flash_id and parse 'Detected flash size: XMB' line
+    # Try esptool flash-id and parse 'Detected flash size: XMB' line
     local tmp
     tmp="$(mktemp)"
-    # no_reset here avoids toggling after detection; the next command will reconnect anyway
-    if "$ESPTOOL" --chip "$CHIP" --port "$PORT" --baud "$BAUD" --before default_reset --after no_reset flash_id | tee "$tmp"; then
+    # no-reset here avoids toggling after detection; the next command will reconnect anyway
+    # Send tool output to stderr so function stdout stays clean for the numeric size
+    if "$ESPTOOL" --chip "$CHIP" --port "$PORT" --baud "$BAUD" --before default-reset --after no-reset flash-id | tee "$tmp" >&2; then
         :
     else
         rm -f "$tmp"
@@ -112,6 +121,7 @@ while [[ $# -gt 0 ]]; do
         -o|--output) OUTPUT="$2"; shift 2 ;;
         --chip) CHIP="$2"; shift 2 ;;
         --gzip) GZIP="1"; shift ;;
+        --no-gzip) GZIP="0"; shift ;;
         --force) FORCE="1"; shift ;;
         -h|--help) usage ;;
         *) echo "Unknown argument: $1" >&2; usage ;;
@@ -120,20 +130,30 @@ done
 
 # Find esptool
 ESPTOOL=""
-if have_cmd esptool.py; then ESPTOOL="esptool.py"
-elif have_cmd esptool; then ESPTOOL="esptool"
-else die "esptool.py not found. Install with: pip install esptool"
+if have_cmd esptool; then ESPTOOL="esptool"
+elif have_cmd esptool.py; then ESPTOOL="esptool.py"
+else die "esptool not found. Install with: pip install esptool"
 fi
+
+step "Checking prerequisites (esptool)"
+info "Using esptool binary: $(command -v "$ESPTOOL")"
+info "esptool version: $($ESPTOOL --version 2>&1 | head -n1 || echo unknown)"
 
 # Port
 if [[ -z "${PORT:-}" ]]; then
+    step "Detecting serial port"
+    info "Looking for /dev/ttyACM* or /dev/ttyUSB* (hold BOOT while plugging in if needed)"
     PORT="$(autodetect_port)"
 fi
+info "Serial port: ${PORT}"
 
 # Offset
+step "Parsing start offset"
 OFFSET_BYTES="$(parse_size "$OFFSET")"
+info "Offset (bytes): ${OFFSET_BYTES}"
 
 # Output
+step "Preparing output filename"
 if [[ -z "${OUTPUT:-}" ]]; then
     ts="$(date +%Y%m%d_%H%M%S)"
     OUTPUT="flash_${CHIP}_${ts}.bin"
@@ -141,21 +161,23 @@ fi
 if [[ -e "$OUTPUT" && "$FORCE" != "1" ]]; then
     die "Output file exists: $OUTPUT (use --force to overwrite)"
 fi
+info "Output path: ${OUTPUT}"
 
 # Size: detect if not provided
 if [[ -z "${SIZE:-}" ]]; then
-    echo "Detecting flash size via esptool.py flash_id..."
+    step "Determining flash size"
+    info "Querying target with: flash-id"
     if SIZE_BYTES="$(detect_flash_size_bytes)"; then
         SIZE="$SIZE_BYTES"
-        echo "Detected flash size: $(bytes_to_h "$SIZE")"
+        info "Detected: $(bytes_to_h "$SIZE")"
     else
-        echo "Could not detect flash size. Defaulting to 8 MiB."
+        warn "Auto-detect failed; defaulting to 8 MiB"
         SIZE="8M"
     fi
 fi
 SIZE_BYTES="$(parse_size "$SIZE")"
 
-echo "Backing up flash:"
+step "Summary"
 echo "  Chip   : $CHIP"
 echo "  Port   : $PORT"
 echo "  Baud   : $BAUD"
@@ -164,26 +186,32 @@ echo "  Size   : $SIZE_BYTES bytes ($(bytes_to_h "$SIZE_BYTES"))"
 echo "  Output : $OUTPUT"
 
 # Read flash
+step "Reading flash contents (this may take a while)"
+SECONDS=0
 set -x
 "$ESPTOOL" --chip "$CHIP" --port "$PORT" --baud "$BAUD" read_flash "$OFFSET_BYTES" "$SIZE_BYTES" "$OUTPUT"
 set +x
+info "Read completed in ${SECONDS}s"
 
 # Verify size
+step "Verifying output size"
 actual_size="$(stat -c%s "$OUTPUT" 2>/dev/null || echo 0)"
 if [[ "$actual_size" -ne "$SIZE_BYTES" ]]; then
-    echo "Warning: Output file size ($actual_size) differs from expected ($SIZE_BYTES)." >&2
+    warn "Output file size ($actual_size) differs from expected ($SIZE_BYTES)."
 fi
 
 # Checksum
 if have_cmd sha256sum; then
-    echo "SHA256: "
+    step "Computing checksum (SHA256)"
     sha256sum "$OUTPUT" || true
 fi
 
 # Optional gzip
 if [[ "$GZIP" == "1" ]]; then
+    step "Compressing output with gzip"
     gzip -f "$OUTPUT"
     echo "Compressed to ${OUTPUT}.gz"
 fi
 
+step "Completed"
 echo "Done."
