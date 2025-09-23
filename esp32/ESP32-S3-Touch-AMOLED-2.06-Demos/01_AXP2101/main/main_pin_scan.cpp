@@ -42,7 +42,7 @@ typedef struct {
 
 static const i2c_pin_config_t i2c_pin_configs[] = {
     {GPIO_NUM_15, GPIO_NUM_14, "Original pins (SDA=15, SCL=14)"},
-    {GPIO_NUM_21, GPIO_NUM_20, "Alternative pins (SDA=21, SCL=20)"},  
+    {GPIO_NUM_21, GPIO_NUM_22, "Standard pins (SDA=21, SCL=22)"},  
     {GPIO_NUM_6, GPIO_NUM_7, "Alternative pins (SDA=6, SCL=7)"},
     {GPIO_NUM_8, GPIO_NUM_9, "Alternative pins (SDA=8, SCL=9)"},
     {GPIO_NUM_10, GPIO_NUM_11, "Alternative pins (SDA=10, SCL=11)"},
@@ -51,10 +51,6 @@ static const i2c_pin_config_t i2c_pin_configs[] = {
     {GPIO_NUM_35, GPIO_NUM_36, "Alternative pins (SDA=35, SCL=36)"},
     {GPIO_NUM_4, GPIO_NUM_5, "Alternative pins (SDA=4, SCL=5)"},
     {GPIO_NUM_1, GPIO_NUM_2, "Alternative pins (SDA=1, SCL=2)"},
-    {GPIO_NUM_19, GPIO_NUM_20, "Alternative pins (SDA=19, SCL=20)"},
-    {GPIO_NUM_16, GPIO_NUM_17, "Alternative pins (SDA=16, SCL=17)"},
-    {GPIO_NUM_41, GPIO_NUM_42, "Alternative pins (SDA=41, SCL=42)"},
-    {GPIO_NUM_47, GPIO_NUM_48, "Alternative pins (SDA=47, SCL=48)"},
 };
 
 #define NUM_PIN_CONFIGS (sizeof(i2c_pin_configs) / sizeof(i2c_pin_configs[0]))
