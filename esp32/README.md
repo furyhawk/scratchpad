@@ -4,8 +4,9 @@ This folder contains helper scripts for working with ESP32/ESP32‑S3 devices:
 
 - `scripts/flash_latest.sh` — Flash your board from the latest compressed/full firmware image.
 - `scripts/dump_flash.sh` — Create a backup of the device external SPI flash.
+- `scripts/flash_tef6686.sh` — Flash TEF6686 radio firmware with bootloader and partitions.
 
-Both scripts use `esptool.py` under the hood and work on Linux.
+All scripts use `esptool.py` under the hood and work on Linux.
 
 ### Prerequisites
 
@@ -114,6 +115,66 @@ Examples:
 # Read a region only
 ./esp32/scripts/dump_flash.sh -O 0x10000 -s 1M -o app_region.bin
 ```
+
+---
+
+## Flash TEF6686 firmware — `scripts/flash_tef6686.sh`
+
+Flashes a complete TEF6686 radio firmware package to an ESP32 device. This script handles flashing the bootloader, partitions, application, and SPIFFS filesystem in a single operation.
+
+Key features:
+
+- Auto-detect available serial ports with interactive selection.
+- Validates all required firmware files are present.
+- Flashes complete firmware package (bootloader + partitions + app + SPIFFS).
+- Colored output for better user experience.
+- Command-line options for automation.
+
+**Required firmware files** (must be in the same directory as the script):
+
+- `bootloader.bin`
+- `partitions.bin`
+- `boot_app0.bin`
+- `TEF6686_ESP32.ino.bin`
+- `TEF6686_ESP32.spiffs.bin`
+
+Usage:
+
+```bash
+./esp32/scripts/flash_tef6686.sh [options]
+```
+
+Options:
+
+- `-p, --port PORT`   Specify serial port (interactive selection if not provided).
+- `-b, --baud RATE`   Set baud rate (default: 921600).
+- `-h, --help`        Show help message.
+
+Examples:
+
+```bash
+# Interactive mode (recommended for first-time users)
+./esp32/scripts/flash_tef6686.sh
+
+# Specify port directly
+./esp32/scripts/flash_tef6686.sh -p /dev/ttyUSB0
+
+# Use different baud rate
+./esp32/scripts/flash_tef6686.sh --baud 115200
+```
+
+**Flash layout:**
+- `0x1000` — Bootloader
+- `0x8000` — Partition table
+- `0xe000` — Boot app0
+- `0x10000` — TEF6686 application
+- `0x310000` — SPIFFS filesystem
+
+Notes:
+
+- This script is designed specifically for TEF6686 radio firmware v2.0.15.
+- Ensure your ESP32 device is in bootloader mode before running.
+- All firmware files must be present in the script directory.
 
 ---
 

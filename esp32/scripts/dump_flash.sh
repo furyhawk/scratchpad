@@ -4,7 +4,7 @@
 
 set -euo pipefail
 
-CHIP="esp32s3"
+CHIP="auto"
 PORT="${ESPPORT:-}"
 BAUD="${ESPBAUD:-921600}"
 SIZE=""            # e.g. 4M, 8M, 16M, or bytes. If empty, attempt auto-detect.
@@ -12,6 +12,7 @@ OFFSET="0"         # e.g. 0, 0x0
 OUTPUT=""          # If empty, generate based on date/time
 GZIP="1"
 FORCE="0"
+QUIET="0"
 
 # --- Logging helpers --------------------------------------------------------
 ts() { date '+%Y-%m-%d %H:%M:%S'; }
@@ -21,18 +22,22 @@ info() { echo "    [$(ts)] $*"; }
 warn() { echo "    [$(ts)] WARNING: $*" >&2; }
 
 usage() {
-    echo "Usage: $0 [-p PORT] [-b BAUD] [-s SIZE] [-O OFFSET] [-o OUTPUT] [--gzip] [--force]"
+    echo "Usage: $0 [-p PORT] [-b BAUD] [-c CHIP] [-s SIZE] [-O OFFSET] [-o OUTPUT] [--gzip] [--force] [--quiet]"
     echo "  -p, --port     Serial port (default: auto-detect from /dev/ttyACM* or /dev/ttyUSB*)"
     echo "  -b, --baud     Baud rate (default: ${BAUD})"
+    echo "  -c, --chip     Chip type (default: auto-detect)"
     echo "  -s, --size     Flash size to read, e.g. 4M, 8M, 16M, or bytes. If omitted, try detect."
     echo "  -O, --offset   Start offset (default: 0)"
     echo "  -o, --output   Output filename (default: flash_YYYYmmdd_HHMMSS.bin)"
     echo "      --gzip     Gzip the resulting .bin (default: enabled)"
     echo "      --no-gzip  Do not gzip the resulting .bin"
     echo "      --force    Overwrite existing output file"
+    echo "  -q, --quiet    Suppress progress output during flash reading"
     echo "Examples:"
     echo "  $0 -p /dev/ttyACM0 -s 8M -o backup.bin"
-    echo "  $0 --no-gzip          (auto-detect port and size, do not gzip)"
+    echo "  $0 --no-gzip          (auto-detect port, chip, and size, do not gzip)"
+    echo "  $0 -c esp32s3         (force specific chip type)"
+    echo "  $0 --quiet            (suppress verbose progress output)"
     exit 1
 }
 
@@ -88,6 +93,24 @@ autodetect_port() {
     fi
 }
 
+detect_chip_type() {
+    # Detect the actual chip type using esptool chip_id
+    local tmp
+    tmp="$(mktemp)"
+    if "$ESPTOOL" --chip auto --port "$PORT" --baud "$BAUD" --before default-reset --after no-reset chip-id 2>&1 | tee "$tmp" >&2; then
+        local detected_chip
+        # Extract chip type from "Detecting chip type... ESP32" line
+        detected_chip="$(grep 'Detecting chip type\.\.\.' "$tmp" | sed -E 's/.*Detecting chip type\.\.\. (ESP32[A-Z0-9-]*).*/\1/' | tr '[:upper:]' '[:lower:]' | sed 's/-//g')"
+        rm -f "$tmp"
+        if [[ -n "${detected_chip:-}" ]]; then
+            echo "$detected_chip"
+            return 0
+        fi
+    fi
+    rm -f "$tmp"
+    return 1
+}
+
 detect_flash_size_bytes() {
     # Try esptool flash-id and parse 'Detected flash size: XMB' line
     local tmp
@@ -116,13 +139,14 @@ while [[ $# -gt 0 ]]; do
     case "$1" in
         -p|--port) PORT="$2"; shift 2 ;;
         -b|--baud) BAUD="$2"; shift 2 ;;
+        -c|--chip) CHIP="$2"; shift 2 ;;
         -s|--size) SIZE="$2"; shift 2 ;;
         -O|--offset) OFFSET="$2"; shift 2 ;;
         -o|--output) OUTPUT="$2"; shift 2 ;;
-        --chip) CHIP="$2"; shift 2 ;;
         --gzip) GZIP="1"; shift ;;
         --no-gzip) GZIP="0"; shift ;;
         --force) FORCE="1"; shift ;;
+        -q|--quiet) QUIET="1"; shift ;;
         -h|--help) usage ;;
         *) echo "Unknown argument: $1" >&2; usage ;;
     esac
@@ -146,6 +170,22 @@ if [[ -z "${PORT:-}" ]]; then
     PORT="$(autodetect_port)"
 fi
 info "Serial port: ${PORT}"
+
+# Chip detection
+if [[ "$CHIP" == "auto" ]]; then
+    step "Detecting chip type"
+    info "Querying target for chip identification"
+    if DETECTED_CHIP="$(detect_chip_type)"; then
+        CHIP="$DETECTED_CHIP"
+        info "Detected: $CHIP"
+    else
+        warn "Auto-detect failed; defaulting to esp32s3"
+        CHIP="esp32s3"
+    fi
+else
+    step "Using specified chip type"
+    info "Chip: $CHIP"
+fi
 
 # Offset
 step "Parsing start offset"
@@ -188,9 +228,35 @@ echo "  Output : $OUTPUT"
 # Read flash
 step "Reading flash contents (this may take a while)"
 SECONDS=0
-set -x
-"$ESPTOOL" --chip "$CHIP" --port "$PORT" --baud "$BAUD" read_flash "$OFFSET_BYTES" "$SIZE_BYTES" "$OUTPUT"
-set +x
+
+if [[ "$QUIET" == "1" ]]; then
+    info "Running in quiet mode - progress will be minimal"
+    "$ESPTOOL" --chip "$CHIP" --port "$PORT" --baud "$BAUD" read-flash "$OFFSET_BYTES" "$SIZE_BYTES" "$OUTPUT" > /dev/null 2>&1 &
+    esptool_pid=$!
+    
+    # Simple progress indicator
+    while kill -0 "$esptool_pid" 2>/dev/null; do
+        if [[ -f "$OUTPUT" ]]; then
+            current_size=$(stat -c%s "$OUTPUT" 2>/dev/null || echo 0)
+            percentage=$(( current_size * 100 / SIZE_BYTES ))
+            printf "\r    [$(ts)] Progress: %d%% (%s / %s)" "$percentage" "$(bytes_to_h "$current_size")" "$(bytes_to_h "$SIZE_BYTES")"
+        fi
+        sleep 2
+    done
+    printf "\n"
+    
+    # Wait for esptool to finish and check exit code
+    wait "$esptool_pid"
+    esptool_exit_code=$?
+    if [[ "$esptool_exit_code" -ne 0 ]]; then
+        die "esptool failed with exit code $esptool_exit_code"
+    fi
+else
+    set -x
+    "$ESPTOOL" --chip "$CHIP" --port "$PORT" --baud "$BAUD" read-flash "$OFFSET_BYTES" "$SIZE_BYTES" "$OUTPUT"
+    set +x
+fi
+
 info "Read completed in ${SECONDS}s"
 
 # Verify size
