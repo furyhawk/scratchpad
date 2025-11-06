@@ -22,6 +22,7 @@ ERASE="0"                # run erase_flash before writing
 YES="0"                  # non-interactive yes to prompts
 KEEP_EXTRACT="0"         # keep decompressed temp file
 FORCE="0"                # force proceed on certain warnings
+FACTORY="0"              # use factory binary
 
 # --- Logging helpers --------------------------------------------------------
 ts() { date '+%Y-%m-%d %H:%M:%S'; }
@@ -42,6 +43,7 @@ Options:
   -b, --baud BAUD      Baud rate for esptool (default: ${BAUD}).
   -O, --offset OFF     Write offset (default: 0). Accepts bytes, 0xHEX, or K/M/G suffix.
       --chip NAME      Chip target (default: ${CHIP}).
+      --factory        Flash factory binary (ESP32-S3-PhotoPainter-factory.bin).
       --erase          Erase entire flash before writing (esptool erase_flash).
       --yes            Assume yes for prompts (non-interactive).
       --keep           Keep extracted .bin (when input is .gz).
@@ -51,6 +53,7 @@ Options:
 Examples:
   $0                        # auto-pick latest flash_*.bin.gz in CWD and flash at 0x0
   $0 -d ../backups          # search another directory
+  $0 --factory              # flash the factory binary
   $0 -i build/app.bin -O 0x10000  # flash an app-only image at 0x10000
   $0 -p /dev/ttyACM0 --erase --yes
 EOF
@@ -140,6 +143,27 @@ pick_latest_image() {
     return 1
 }
 
+find_factory_binary() {
+    # Search for ESP32-S3-PhotoPainter-factory.bin in common locations
+    local script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    local search_paths=(
+        "${script_dir}/ESP32-S3-PhotoPainter-factory.bin"
+        "${script_dir}/../03 Firmware/ESP32-S3-PhotoPainter-factory.bin"
+        "${script_dir}/../Firmware/ESP32-S3-PhotoPainter-factory.bin"
+        "./ESP32-S3-PhotoPainter-factory.bin"
+        "./03 Firmware/ESP32-S3-PhotoPainter-factory.bin"
+        "./Firmware/ESP32-S3-PhotoPainter-factory.bin"
+    )
+    
+    for path in "${search_paths[@]}"; do
+        if [[ -f "$path" ]]; then
+            echo "$path"
+            return 0
+        fi
+    done
+    return 1
+}
+
 # --- Parse args -------------------------------------------------------------
 ARGS=()
 while [[ $# -gt 0 ]]; do
@@ -150,6 +174,7 @@ while [[ $# -gt 0 ]]; do
         -b|--baud) BAUD="$2"; shift 2 ;;
         -O|--offset) OFFSET="$2"; shift 2 ;;
         --chip) CHIP="$2"; shift 2 ;;
+        --factory) FACTORY="1"; shift ;;
         --erase) ERASE="1"; shift ;;
         --yes) YES="1"; shift ;;
         --keep) KEEP_EXTRACT="1"; shift ;;
@@ -192,6 +217,13 @@ BIN_SRC=""
 if [[ -n "${INPUT:-}" ]]; then
     BIN_SRC="$INPUT"
     [[ -f "$BIN_SRC" ]] || die "Input file not found: $BIN_SRC"
+elif [[ "$FACTORY" == "1" ]]; then
+    step "Locating factory binary"
+    if BIN_SRC="$(find_factory_binary)"; then
+        info "Found factory binary: $BIN_SRC"
+    else
+        die "Factory binary (ESP32-S3-PhotoPainter-factory.bin) not found in common locations"
+    fi
 else
     step "Selecting latest firmware image"
     info "Searching in: $SEARCH_DIR"
