@@ -1,0 +1,12 @@
+## IDF Component Manager Manifest File
+dependencies:
+  espressif/esp-brookesia:
+    version: "0.4.*"
+
+  esp_video:
+    version: "0.8.*"
+    public: true
+
+  espressif/esp_h264:
+      version: "==1.0.3"
+      public: true
