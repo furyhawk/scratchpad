@@ -1,0 +1,62 @@
+# == DO NOT EDIT THE FOLLOWING LINES for the Raspberry Pi Pico VS Code Extension to work ==
+if(WIN32)
+    set(USERHOME $ENV{USERPROFILE})
+else()
+    set(USERHOME $ENV{HOME})
+endif()
+set(sdkVersion 2.2.0)
+set(toolchainVersion 14_2_Rel1)
+set(picotoolVersion 2.2.0-a4)
+set(picoVscode ${USERHOME}/.pico-sdk/cmake/pico-vscode.cmake)
+if (EXISTS ${picoVscode})
+    include(${picoVscode})
+endif()
+# ====================================================================================
+set(PICO_BOARD pico2 CACHE STRING "Board type")
+cmake_minimum_required(VERSION 3.27)
+
+# Pull in Raspberry Pi Pico SDK (must be before project)
+include(pico_sdk_import.cmake)
+
+project(main C CXX ASM)
+
+# Initialise the Raspberry Pi Pico SDK
+pico_sdk_init()
+
+# Add executable. Default name is the project name, version 0.1
+
+add_executable(main)
+
+pico_generate_pio_header(main ${CMAKE_CURRENT_LIST_DIR}/lib/WS2812/WS2812.pio
+                        OUTPUT_DIR ${CMAKE_CURRENT_LIST_DIR}/lib/WS2812)
+
+target_sources(main PRIVATE
+    main.c
+)
+
+# Add compilation subdirectory
+add_subdirectory(./lib/Config)
+add_subdirectory(./lib/QMI8658)
+add_subdirectory(./lib/WS2812)
+
+# Add header file directory
+include_directories(./lib/Config)
+include_directories(./lib/QMI8658)
+include_directories(./lib/WS2812)
+
+target_link_libraries(main PRIVATE 
+    Config
+    QMI8658
+    WS2812
+    pico_stdlib 
+    hardware_pio 
+    hardware_gpio
+)
+
+# enable usb output, disable uart output
+pico_enable_stdio_usb(main 1)
+pico_enable_stdio_uart(main 1)
+
+pico_add_extra_outputs(main)
+
+# add url via pico_set_program_url
