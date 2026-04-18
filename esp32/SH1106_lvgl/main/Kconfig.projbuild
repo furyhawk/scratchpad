@@ -1,0 +1,59 @@
+menu "Blink Display Configuration"
+
+    choice BLINK_DISPLAY_CONTROLLER
+        prompt "Display Controller"
+        default BLINK_DISPLAY_SH1106
+        help
+            Select the display controller family used by this app.
+
+        config BLINK_DISPLAY_SH1106
+            bool "SH1106 / SSD1306 (supported)"
+            help
+                Use the existing ssd1306 component driver.
+
+        config BLINK_DISPLAY_SSD1327
+            bool "SSD1327 (config only, driver not linked yet)"
+            help
+                Enables SSD1327-specific app configuration.
+                A dedicated SSD1327 driver component is still required.
+    endchoice
+
+    config BLINK_SSD1327_WIDTH
+        int "SSD1327 width"
+        depends on BLINK_DISPLAY_SSD1327
+        range 16 256
+        default 128
+
+    config BLINK_SSD1327_HEIGHT
+        int "SSD1327 height"
+        depends on BLINK_DISPLAY_SSD1327
+        range 16 256
+        default 128
+
+    choice BLINK_SSD1327_I2C_ADDRESS
+        prompt "SSD1327 I2C Address"
+        depends on BLINK_DISPLAY_SSD1327
+        default BLINK_SSD1327_I2C_ADDR_3D
+        help
+            I2C slave address of the SSD1327 display.
+
+        config BLINK_SSD1327_I2C_ADDR_3C
+            bool "0x3C"
+            help
+                I2C address 0x3C
+
+        config BLINK_SSD1327_I2C_ADDR_3D
+            bool "0x3D"
+            help
+                I2C address 0x3D (default)
+    endchoice
+
+    config BLINK_SSD1327_I2C_PORT
+        int "SSD1327 I2C Port"
+        depends on BLINK_DISPLAY_SSD1327
+        range 0 1
+        default 0
+        help
+            I2C port number (0 or 1).
+
+endmenu

@@ -1,0 +1,26 @@
+dependencies:
+  idf:
+    source:
+      type: idf
+    version: 6.0.0
+  lvgl/lvgl:
+    component_hash: b702d642e03e95928046d5c6726558e6444e112420c77efa5fdb6650b0a13c5d
+    dependencies: []
+    source:
+      registry_url: https://components.espressif.com/
+      type: service
+    version: 9.3.0
+  nopnop2002/ssd1306:
+    component_hash: 189175460628deaf7e0a81b43f1e08d6cc54260a2ec51bf0d6c04c5dd5dc4167
+    dependencies: []
+    source:
+      git: https://github.com/nopnop2002/esp-idf-ssd1306.git
+      path: components/ssd1306/
+      type: git
+    version: 554df45bc986e72a6123c89b3126496f8f9d1ad3
+direct_dependencies:
+- lvgl/lvgl
+- nopnop2002/ssd1306
+manifest_hash: 61860089f3d635155e7057895bacfd301e4a3ea25749f9deaf141ce9c105431c
+target: esp32s3
+version: 3.0.0
