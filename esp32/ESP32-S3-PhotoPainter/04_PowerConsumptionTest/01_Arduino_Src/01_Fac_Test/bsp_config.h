@@ -1,0 +1,24 @@
+#pragma once
+
+#define SDMMC_D0_PIN    GPIO_NUM_40
+#define SDMMC_D1_PIN    GPIO_NUM_1
+#define SDMMC_D2_PIN    GPIO_NUM_2
+#define SDMMC_D3_PIN    GPIO_NUM_38
+#define SDMMC_CLK_PIN   GPIO_NUM_39
+#define SDMMC_CMD_PIN   GPIO_NUM_41
+
+
+#define EPD_DC_PIN    GPIO_NUM_8
+#define EPD_CS_PIN    GPIO_NUM_9
+#define EPD_SCK_PIN   GPIO_NUM_10
+#define EPD_MOSI_PIN  GPIO_NUM_11
+#define EPD_RST_PIN   GPIO_NUM_12
+#define EPD_BUSY_PIN  GPIO_NUM_13
+
+#define LCD_WIDTH  800
+#define LCD_HEIGHT 480
+
+#define LED_PIN_Red   GPIO_NUM_45
+#define LED_PIN_Green GPIO_NUM_42
+
+#define AXP2101_iqr_PIN GPIO_NUM_21
